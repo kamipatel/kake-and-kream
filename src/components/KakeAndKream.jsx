@@ -43,6 +43,7 @@ const RAW = {
 const F = {
   d: "var(--font-display)",
   b: "var(--font-body)",
+  a: "var(--font-accent)",
 };
 
 const FLAVORS = [
@@ -59,14 +60,14 @@ const FLAVORS = [
   { id: "van-straw", label: "Strawberry Bliss", desc: "Strawberry buttercream & strawberry slice", color: C.pink, raw: RAW.pink },
   { id: "van-cara", label: "Caramel Dream", desc: "Caramel buttercream & caramel drizzle", color: C.peach, raw: RAW.peach },
   { id: "van-cotton", label: "Cotton Candy", desc: "Cotton candy bites & sprinkles", color: C.lavender, raw: RAW.lavender },
-  { id: "rv-cc", label: "Red Velvet", desc: "Cream cheese buttercream", color: C.coral, raw: RAW.coral },
+  { id: "rv-cc", label: "Red Velvet", desc: "Cream cheese buttercream · Sprinkles", color: C.coral, raw: RAW.coral },
   { id: "conf-van", label: "Confetti Vanilla", desc: "Vanilla almond cake with sprinkles", color: C.yellow, raw: RAW.yellow },
   { id: "conf-choc", label: "Confetti Chocolate", desc: "Chocolate buttercream · Filling: ganache", color: C.peach, raw: RAW.peach },
   { id: "conf-straw", label: "Confetti Strawberry", desc: "Strawberry buttercream · Filling: strawberry", color: C.pink, raw: RAW.pink },
 ];
 
 const BUNDTS = [
-  { id: "b-van", name: "Vanilla", desc: "Cinnamon walnut streusel & glaze", price: 45, color: C.yellow, raw: RAW.yellow },
+  { id: "b-van", name: "Vanilla", desc: "Cinnamon & toasted walnut streusel, topped with glaze", price: 45, color: C.yellow, raw: RAW.yellow },
   { id: "b-marble", name: "Marble", desc: "Ganache topping", price: 55, color: C.peach, raw: RAW.peach },
   { id: "b-rv", name: "Red Velvet", desc: "Cream cheese glaze", price: 55, color: C.coral, raw: RAW.coral },
   { id: "b-choc", name: "Chocolate", desc: "Ganache topping", price: 55, color: C.coral, raw: RAW.coral },
@@ -525,7 +526,7 @@ export default function KakeAndKream() {
             </h1>
           </Reveal>
           <Reveal d={0.1}>
-            <p style={{ fontFamily: F.d, fontSize: "clamp(18px, 3vw, 22px)", fontWeight: 500, color: C.sub, lineHeight: 1.5, margin: "0 0 32px" }}>
+            <p style={{ fontFamily: F.a, fontSize: "clamp(18px, 3vw, 22px)", fontWeight: 400, color: C.sub, lineHeight: 1.5, margin: "0 0 32px" }}>
               Handcrafted cupcakes, cakes and brownies<br />made fresh to order in Austin, TX
             </p>
           </Reveal>
@@ -554,7 +555,7 @@ export default function KakeAndKream() {
         <Reveal>
           <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 800, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>Our Menu</p>
           <h2 style={{ fontFamily: F.d, fontSize: "clamp(30px, 7vw, 44px)", fontWeight: 800, textAlign: "center", margin: "0 0 12px" }}>What are you craving?</h2>
-          <p style={{ fontFamily: F.b, fontSize: 18, color: C.sub, textAlign: "center", marginBottom: 40, fontWeight: 600 }}>Tap to see flavors and add to cart</p>
+          <p style={{ fontFamily: F.a, fontSize: 18, color: C.sub, textAlign: "center", marginBottom: 40, fontWeight: 400 }}>Tap to see flavors and add to cart</p>
         </Reveal>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 16, alignItems: "stretch" }}>
@@ -640,7 +641,7 @@ export default function KakeAndKream() {
             </div>
           </Reveal>
           <Reveal d={0.1}>
-            <p style={{ fontFamily: F.b, fontSize: 18, color: C.sub, lineHeight: 1.7, fontWeight: 600 }}>
+            <p style={{ fontFamily: F.a, fontSize: 18, color: C.sub, lineHeight: 1.7, fontWeight: 400 }}>
               Hi, I'm Kalyani! I've been baking for family and friends for years and I'm so excited to share my treats with Austin. Every item is baked fresh to order with love.
             </p>
             <p style={{ fontSize: 14, color: C.muted, marginTop: 12, fontWeight: 700 }}>Kalyani's words and photo coming soon!</p>
@@ -692,7 +693,7 @@ export default function KakeAndKream() {
       {/* Footer */}
       <footer style={{ padding: "48px 24px 32px", textAlign: "center", background: C.warm }}>
         <div style={{ fontFamily: F.d, fontSize: 26, fontWeight: 800, marginBottom: 8 }}>Kake <span style={{ color: C.pink }}>N</span> Kream</div>
-        <p style={{ fontFamily: F.b, fontSize: 16, color: C.sub, margin: "0 0 12px", fontWeight: 600 }}>Handcrafted baked goods · Austin, TX</p>
+        <p style={{ fontFamily: F.a, fontSize: 16, color: C.sub, margin: "0 0 12px", fontWeight: 400 }}>Handcrafted baked goods · Austin, TX</p>
         <div style={{ fontSize: 13, color: C.muted, fontWeight: 700 }}>&copy; {new Date().getFullYear()} Kake N Kream</div>
         <div style={{ fontSize: 12, color: C.muted, marginTop: 10, fontWeight: 600, opacity: 0.6 }}>Built by <a href="https://foundry-red.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: C.pink, textDecoration: "none" }}>Foundry</a></div>
       </footer>
