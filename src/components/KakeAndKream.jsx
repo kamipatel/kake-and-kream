@@ -17,9 +17,9 @@ const C = {
   sky: "#A0C4E8",
   lavender: "#C4B5E0",
   ink: "#2A2230",
-  sub: "#5A505E",
-  muted: "#7B7082",
-  border: "#EDEBF0",
+  sub: "#3A343D",
+  muted: "#5A525F",
+  border: "#DEDCE0",
   card: "#FFFFFF",
 };
 
@@ -64,7 +64,7 @@ const PRODUCTS = [
   { id: "brownies", name: "Brownies", emoji: "🍫", price: "$3 each", note: "Fudgy chocolate · Min 1 dozen", color: C.mint, min: 12, step: 12 },
 ];
 
-function Reveal({ children, d = 0 }) {
+function Reveal({ children, d = 0, style = {} }) {
   const r = useRef(null);
   const [v, setV] = useState(false);
   useEffect(() => {
@@ -72,7 +72,7 @@ function Reveal({ children, d = 0 }) {
     const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setV(true); o.disconnect(); } }, { threshold: 0.1 });
     o.observe(el); return () => o.disconnect();
   }, []);
-  return <div ref={r} style={{ opacity: v ? 1 : 0, transform: v ? "none" : "translateY(16px)", transition: `all 0.5s ease ${d}s` }}>{children}</div>;
+  return <div ref={r} style={{ opacity: v ? 1 : 0, transform: v ? "none" : "translateY(16px)", transition: `all 0.5s ease ${d}s`, ...style }}>{children}</div>;
 }
 
 function Qty({ value, onChange, min, step }) {
@@ -80,10 +80,10 @@ function Qty({ value, onChange, min, step }) {
   const displayVal = isDoz ? `${value / 12} Dozen${value / 12 > 1 ? "s" : ""}` : value;
   
   return (
-    <div style={{ display: "inline-flex", alignItems: "center", borderRadius: 12, border: `2px solid ${C.border}`, background: C.white }}>
-      <button onClick={() => onChange(Math.max(min, value - step))} style={{ width: 44, height: 44, border: "none", background: "none", fontSize: 18, fontWeight: 700, cursor: "pointer", color: value <= min ? C.muted : C.ink }}>−</button>
-      <span style={{ minWidth: 100, padding: "0 8px", textAlign: "center", fontFamily: F.b, fontSize: 16, fontWeight: 700 }}>{displayVal}</span>
-      <button onClick={() => onChange(value + step)} style={{ width: 44, height: 44, border: "none", background: "none", fontSize: 18, fontWeight: 700, cursor: "pointer", color: C.ink }}>+</button>
+    <div style={{ display: "inline-flex", alignItems: "center", borderRadius: 16, border: `3px solid ${C.ink}`, background: C.white, overflow: "hidden" }}>
+      <button onClick={() => onChange(Math.max(min, value - step))} style={{ width: 56, height: 56, border: "none", background: "none", fontSize: 24, fontWeight: 800, cursor: "pointer", color: value <= min ? C.muted : C.ink }}>−</button>
+      <span style={{ minWidth: 120, padding: "0 12px", textAlign: "center", fontFamily: F.b, fontSize: 20, fontWeight: 800, color: C.ink }}>{displayVal}</span>
+      <button onClick={() => onChange(value + step)} style={{ width: 56, height: 56, border: "none", background: "none", fontSize: 24, fontWeight: 800, cursor: "pointer", color: C.ink }}>+</button>
     </div>
   );
 }
@@ -100,6 +100,7 @@ export default function KakeAndKream() {
   const [sheetNote, setSheetNote] = useState("");
   const [cust, setCust] = useState({ fn: "", ln: "", email: "", phone: "", date: "", allergy: "", notes: "" });
   const [openFaq, setOpenFaq] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => { const fn = () => setScrolled(window.scrollY > 40); window.addEventListener("scroll", fn); return () => window.removeEventListener("scroll", fn); }, []);
   useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, [view]);
@@ -116,7 +117,7 @@ export default function KakeAndKream() {
   const pid = view.startsWith("p:") ? view.slice(2) : null;
   const prod = pid ? PRODUCTS.find(p => p.id === pid) : null;
 
-  const inp = { width: "100%", padding: "12px 16px", borderRadius: 10, border: `2px solid ${C.border}`, fontFamily: F.b, fontSize: 16, outline: "none", background: C.white, boxSizing: "border-box" };
+  const inp = { width: "100%", padding: "16px 20px", borderRadius: 12, border: `3px solid ${C.border}`, fontFamily: F.b, fontSize: 20, outline: "none", background: C.white, boxSizing: "border-box", fontWeight: 600, color: C.ink };
   const faqs = [
     { q: "Do you deliver?", a: "Pickup only — Fridays from our home in the Austin area." },
     { q: "Minimum orders?", a: "Cupcakes & brownies: 1 dozen. Mini cakes: 2 dozen. Bundt & sheet: individual." },
@@ -135,46 +136,59 @@ export default function KakeAndKream() {
         <div onClick={() => setDrawer(false)} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.25)" }} />
         <div style={{ position: "relative", width: "min(420px, 94vw)", height: "100%", background: C.bg, boxShadow: "-2px 0 20px rgba(0,0,0,0.08)", display: "flex", flexDirection: "column", animation: "si .2s ease" }}>
           <style>{`@keyframes si{from{transform:translateX(100%)}to{transform:translateX(0)}}`}</style>
-          <div style={{ padding: "16px 20px", borderBottom: `1px solid ${C.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <h3 style={{ fontFamily: F.d, fontSize: 22, fontWeight: 600, margin: 0 }}>Cart ({cart.length})</h3>
-            <button onClick={() => setDrawer(false)} style={{ background: "none", border: "none", fontSize: 24, cursor: "pointer", color: C.muted }}>✕</button>
+          <div style={{ padding: "20px 24px", borderBottom: `2px solid ${C.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <h3 style={{ fontFamily: F.d, fontSize: 28, fontWeight: 700, margin: 0 }}>My Cart ({cart.length})</h3>
+            <button onClick={() => setDrawer(false)} style={{ background: C.border, border: "none", width: 44, height: 44, borderRadius: "50%", fontSize: 24, cursor: "pointer", color: C.ink, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800 }}>✕</button>
           </div>
-          <div style={{ flex: 1, overflowY: "auto", padding: "12px 20px" }}>
+          <div style={{ flex: 1, overflowY: "auto", padding: "16px 24px" }}>
             {cart.length === 0 ? (
-              <p style={{ textAlign: "center", padding: "40px 0", color: C.muted, fontSize: 16 }}>Your cart is empty</p>
+              <p style={{ textAlign: "center", padding: "60px 0", color: C.sub, fontSize: 20, fontWeight: 600 }}>Your cart is empty</p>
             ) : (
               <>
                 {cart.map((item, i) => (
-                  <div key={item._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 0", borderBottom: i < cart.length - 1 ? `1px solid ${C.border}` : "none" }}>
+                  <div key={item._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0", borderBottom: i < cart.length - 1 ? `2px solid ${C.border}` : "none" }}>
                     <div>
-                      <div style={{ fontWeight: 700, fontSize: 16 }}>{item.type}</div>
-                      <div style={{ fontSize: 14, color: C.sub }}>{item.flavor} × {item.qty}{item.filling ? " + filling" : ""}</div>
-                      {item.notes && <div style={{ fontSize: 13, color: C.muted, fontStyle: "italic" }}>{item.notes}</div>}
+                      <div style={{ fontWeight: 800, fontSize: 20 }}>{item.type}</div>
+                      <div style={{ fontSize: 18, color: C.sub, fontWeight: 600 }}>{item.flavor} × {item.qty}{item.filling ? " + filling" : ""}</div>
+                      {item.notes && <div style={{ fontSize: 16, color: C.muted, fontStyle: "italic", fontWeight: 500 }}>{item.notes}</div>}
                     </div>
-                    <button onClick={() => rm(item._id)} style={{ width: 28, height: 28, borderRadius: 6, border: `1px solid ${C.border}`, background: C.white, cursor: "pointer", fontSize: 14, color: C.coral }}>✕</button>
+                    <button onClick={() => rm(item._id)} style={{ width: 40, height: 40, borderRadius: 10, border: `2px solid ${C.coral}`, background: C.white, cursor: "pointer", fontSize: 20, color: C.coral, fontWeight: 800 }}>✕</button>
                   </div>
                 ))}
-                <div style={{ marginTop: 16, paddingTop: 16, borderTop: `2px solid ${C.border}`, display: "flex", flexDirection: "column", gap: 10 }}>
-                  <p style={{ fontFamily: F.d, fontSize: 18, fontWeight: 600, margin: 0 }}>Your Info</p>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                <div style={{ marginTop: 20, paddingTop: 20, borderTop: `4px solid ${C.border}`, display: "flex", flexDirection: "column", gap: 16 }}>
+                  <p style={{ fontFamily: F.d, fontSize: 24, fontWeight: 800, margin: 0 }}>Your Pickup Info</p>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                     <input value={cust.fn} onChange={e => setCust(p => ({ ...p, fn: e.target.value }))} style={inp} placeholder="First name *" />
                     <input value={cust.ln} onChange={e => setCust(p => ({ ...p, ln: e.target.value }))} style={inp} placeholder="Last name *" />
                   </div>
                   <input type="email" value={cust.email} onChange={e => setCust(p => ({ ...p, email: e.target.value }))} style={inp} placeholder="Email *" />
-                  <input value={cust.phone} onChange={e => setCust(p => ({ ...p, phone: e.target.value }))} style={inp} placeholder="Phone" />
+                  <input value={cust.phone} onChange={e => setCust(p => ({ ...p, phone: e.target.value }))} style={inp} placeholder="Phone number" />
                   <div>
-                    <label style={{ fontSize: 13, fontWeight: 800, color: C.ink, display: "block", marginBottom: 3 }}>Pickup Friday (Min 1 week notice) *</label>
-                    <input type="date" value={cust.date} onChange={e => setCust(p => ({ ...p, date: e.target.value }))} style={inp} />
+                    <label style={{ fontSize: 18, fontWeight: 800, color: C.ink, display: "block", marginBottom: 6 }}>Pickup Friday (Min 1 week notice) *</label>
+                    <input type="date" value={cust.date} onChange={e => setCust(p => ({ ...p, date: e.target.value }))} style={{ ...inp, height: 60 }} />
                   </div>
-                  <input value={cust.allergy} onChange={e => setCust(p => ({ ...p, allergy: e.target.value }))} style={inp} placeholder="Food allergies" />
-                  <textarea rows={2} value={cust.notes} onChange={e => setCust(p => ({ ...p, notes: e.target.value }))} style={{ ...inp, resize: "vertical" }} placeholder="Additional notes" />
-                  <div style={{ padding: "10px 12px", borderRadius: 10, background: C.yellow + "25", fontSize: 13, color: C.sub, lineHeight: 1.5 }}>
-                    ⚠️ Our kitchen is not allergy-free. Submitting does not book your order — it's booked when the 50% retainer is paid.
+                  <input value={cust.allergy} onChange={e => setCust(p => ({ ...p, allergy: e.target.value }))} style={inp} placeholder="Any food allergies?" />
+                  <textarea rows={2} value={cust.notes} onChange={e => setCust(p => ({ ...p, notes: e.target.value }))} style={{ ...inp, resize: "vertical" }} placeholder="Additional notes for Kalyani" />
+                  <div style={{ padding: "16px", borderRadius: 14, background: C.yellow + "35", fontSize: 16, color: C.ink, lineHeight: 1.5, border: `2px solid ${C.yellow}`, fontWeight: 700 }}>
+                    ⚠️ ATTENTION: Our kitchen is NOT allergy-free. Submitting this form does not book your order — it is only booked when the 50% deposit is paid.
                   </div>
-                  <button onClick={() => { setDrawer(false); setView("done"); }} style={{ width: "100%", padding: "16px", borderRadius: 12, border: "none", background: C.pink, color: C.white, fontFamily: F.d, fontSize: 18, fontWeight: 600, cursor: "pointer" }}>
-                    Submit Order Request
+                  <button disabled={submitting} onClick={async () => {
+                    if (!cust.fn || !cust.ln || !cust.email || !cust.date) { alert("Please fill in all required fields."); return; }
+                    const order = cart.map((item, i) => `${i + 1}. ${item.type} — ${item.flavor} × ${item.qty}${item.filling ? " (+ filling)" : ""}${item.notes ? ` [${item.notes}]` : ""}`).join("\n");
+                    setSubmitting(true);
+                    try {
+                      const res = await fetch("https://formspree.io/f/mgopbwvv", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json", Accept: "application/json" },
+                        body: JSON.stringify({ firstName: cust.fn, lastName: cust.ln, email: cust.email, _replyto: cust.email, phone: cust.phone, pickupDate: cust.date, allergies: cust.allergy, notes: cust.notes, order }),
+                      });
+                      if (!res.ok) throw new Error("Submission failed");
+                      setDrawer(false); setView("done");
+                    } catch { alert("Something went wrong — please try again."); } finally { setSubmitting(false); }
+                  }} style={{ width: "100%", padding: "20px", borderRadius: 16, border: "none", background: submitting ? C.muted : C.pink, color: C.white, fontFamily: F.d, fontSize: 22, fontWeight: 800, cursor: submitting ? "not-allowed" : "pointer", boxShadow: `0 8px 24px ${C.pink}44` }}>
+                    {submitting ? "Sending…" : "Submit Order Request"}
                   </button>
-                  <p style={{ fontSize: 14, color: C.muted, textAlign: "center", fontWeight: 700 }}>We'll email within 24 hours to confirm.</p>
+                  <p style={{ fontSize: 18, color: C.sub, textAlign: "center", fontWeight: 800 }}>We'll email you within 24 hours.</p>
                 </div>
               </>
             )}
@@ -219,8 +233,8 @@ export default function KakeAndKream() {
 
         {/* Top bar */}
         <div style={{ position: "sticky", top: 0, zIndex: 50, background: C.bg + "ee", backdropFilter: "blur(10px)", borderBottom: `1px solid ${C.border}`, padding: "0 20px" }}>
-          <div style={{ maxWidth: 680, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 52 }}>
-            <button onClick={() => setView("home")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: F.b, fontSize: 15, fontWeight: 600, color: C.sub }}>← Menu</button>
+          <div style={{ maxWidth: 680, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
+            <button onClick={() => setView("home")} style={{ padding: "8px 16px", borderRadius: 10, border: `2px solid ${C.ink}`, background: C.white, cursor: "pointer", fontFamily: F.b, fontSize: 18, fontWeight: 800, color: C.ink }}>← Back to Menu</button>
             <CartBtn />
           </div>
         </div>
@@ -228,12 +242,12 @@ export default function KakeAndKream() {
         <div style={{ maxWidth: 680, margin: "0 auto", padding: "28px 20px 80px" }}>
           {/* Header */}
           <div style={{ marginBottom: 28 }}>
-            <div style={{ display: "inline-block", padding: "6px 14px", borderRadius: 8, background: prod.color + "22", fontSize: 14, fontWeight: 700, color: C.ink, marginBottom: 10 }}>
+            <div style={{ display: "inline-block", padding: "8px 18px", borderRadius: 10, background: prod.color + "22", fontSize: 20, fontWeight: 800, color: C.ink, marginBottom: 14 }}>
               {prod.emoji} {prod.name}
             </div>
-            <h1 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 700, margin: "0 0 4px" }}>{prod.name}</h1>
-            <p style={{ fontSize: 22, fontWeight: 700, color: prod.color, margin: "0 0 4px", fontFamily: F.d }}>{prod.price}</p>
-            <p style={{ fontSize: 15, color: C.sub }}>{prod.note}</p>
+            <h1 style={{ fontFamily: F.d, fontSize: 40, fontWeight: 800, margin: "0 0 6px" }}>{prod.name}</h1>
+            <p style={{ fontSize: 28, fontWeight: 800, color: C.ink, margin: "0 0 10px", fontFamily: F.d }}>{prod.price}</p>
+            <p style={{ fontSize: 18, color: C.sub, fontWeight: 700 }}>{prod.note}</p>
           </div>
 
           {/* Flavors */}
@@ -255,14 +269,14 @@ export default function KakeAndKream() {
                         <span style={{ fontWeight: 800, fontSize: 16, flex: 1 }}>{fl.label}</span>
                         {active && <span style={{ color: prod.color, fontSize: 16, fontWeight: 700 }}>✓</span>}
                       </div>
-                      <div style={{ fontSize: 14, color: C.sub, fontWeight: 500 }}>{fl.desc}</div>
+                      <div style={{ fontSize: 18, color: C.sub, fontWeight: 600 }}>{fl.desc}</div>
                     </button>
                   );
                 })}
               </div>
               {pid === "cupcakes" && (
-                <label style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 12, fontSize: 15, fontWeight: 600, cursor: "pointer" }}>
-                  <input type="checkbox" checked={filling} onChange={e => setFilling(e.target.checked)} style={{ accentColor: C.yellow, width: 18, height: 18 }} />
+                <label style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 16, fontSize: 18, fontWeight: 700, cursor: "pointer" }}>
+                  <input type="checkbox" checked={filling} onChange={e => setFilling(e.target.checked)} style={{ accentColor: C.yellow, width: 22, height: 22 }} />
                   Add filling (+$0.50 each)
                 </label>
               )}
@@ -283,7 +297,7 @@ export default function KakeAndKream() {
                       transition: "all 0.15s", outline: "none",
                     }}>
                       <div style={{ fontFamily: F.d, fontSize: 17, fontWeight: 700 }}>{b.name}</div>
-                      <div style={{ fontSize: 13, color: C.sub, margin: "3px 0 6px" }}>{b.desc}</div>
+                      <div style={{ fontSize: 18, color: C.sub, margin: "6px 0 10px", fontWeight: 600 }}>{b.desc}</div>
                       <div style={{ fontFamily: F.d, fontSize: 22, fontWeight: 700, color: b.color }}>${b.price}</div>
                     </button>
                   );
@@ -295,24 +309,24 @@ export default function KakeAndKream() {
           {/* Sheet */}
           {isSheet && (
             <div style={{ marginBottom: 24 }}>
-              <p style={{ fontFamily: F.d, fontSize: 18, fontWeight: 600, marginBottom: 8 }}>Describe your order</p>
-              <p style={{ fontSize: 14, color: C.sub, marginBottom: 8 }}>Flavor, occasion, colors — we'll confirm pricing.</p>
-              <textarea value={sheetNote} onChange={e => setSheetNote(e.target.value)} rows={3} placeholder="e.g. Chocolate with vanilla buttercream, birthday party..." style={{ ...inp, resize: "vertical" }} />
+              <p style={{ fontFamily: F.d, fontSize: 24, fontWeight: 800, marginBottom: 12 }}>Describe your order</p>
+              <p style={{ fontSize: 18, color: C.ink, marginBottom: 12, fontWeight: 600 }}>Flavor, occasion, colors — we'll confirm details.</p>
+              <textarea value={sheetNote} onChange={e => setSheetNote(e.target.value)} rows={3} placeholder="e.g. Chocolate with vanilla buttercream..." style={{ ...inp, resize: "vertical", fontSize: 22 }} />
             </div>
           )}
 
           {/* Brownies */}
           {isBrown && (
-            <div style={{ padding: "16px", borderRadius: 12, background: prod.color + "15", marginBottom: 24, textAlign: "center" }}>
-              <span style={{ fontFamily: F.d, fontSize: 16, fontWeight: 700 }}>Fudgy Chocolate Brownies</span>
-              <span style={{ fontSize: 15, color: prod.color, fontWeight: 700, marginLeft: 8 }}>$3 each</span>
+            <div style={{ padding: "20px", borderRadius: 14, background: prod.color + "15", marginBottom: 28, textAlign: "center", border: `2px solid ${prod.color}` }}>
+              <span style={{ fontFamily: F.d, fontSize: 22, fontWeight: 800 }}>Fudgy Chocolate Brownies</span>
+              <span style={{ fontSize: 20, color: prod.color, fontWeight: 800, marginLeft: 12 }}>$3 each</span>
             </div>
           )}
 
           {/* Quantity */}
           {!isSheet && (
-            <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24, padding: "16px", borderRadius: 12, background: C.white, border: `1px solid ${C.border}` }}>
-              <span style={{ fontSize: 15, fontWeight: 800, color: C.ink }}>Quantity</span>
+            <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 24, padding: "20px", borderRadius: 14, background: C.white, border: `3px solid ${C.border}` }}>
+              <span style={{ fontSize: 22, fontWeight: 800, color: C.ink }}>Quantity</span>
               <Qty value={qty} onChange={setQtyVal} min={prod.min} step={prod.step} />
             </div>
           )}
@@ -332,9 +346,9 @@ export default function KakeAndKream() {
           </button>
 
           {cart.length > 0 && (
-            <div style={{ marginTop: 12, padding: "10px 14px", borderRadius: 10, background: C.mint + "20", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <span style={{ fontSize: 15, fontWeight: 600, color: C.ink }}>✓ {cart.length} item{cart.length !== 1 ? "s" : ""} in cart</span>
-              <button onClick={() => setDrawer(true)} style={{ background: C.mint, color: C.white, border: "none", padding: "8px 16px", borderRadius: 8, fontFamily: F.b, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>View Cart →</button>
+            <div style={{ marginTop: 20, padding: "16px 20px", borderRadius: 14, background: C.pink + "15", border: `2px solid ${C.pink}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <span style={{ fontSize: 18, fontWeight: 800, color: C.ink }}>✓ {cart.length} item{cart.length !== 1 ? "s" : ""} in cart</span>
+              <button onClick={() => setDrawer(true)} style={{ background: C.pink, color: C.white, border: "none", padding: "10px 20px", borderRadius: 10, fontFamily: F.b, fontSize: 16, fontWeight: 800, cursor: "pointer" }}>Check Out →</button>
             </div>
           )}
         </div>
@@ -348,9 +362,10 @@ export default function KakeAndKream() {
     return (
       <button onClick={() => setDrawer(true)} style={{
         position: "relative", background: C.pink, color: C.white, border: "none",
-        padding: "8px 16px", borderRadius: 8, fontFamily: F.b, fontSize: 14, fontWeight: 700, cursor: "pointer",
+        padding: "10px 20px", borderRadius: 10, fontFamily: F.b, fontSize: 18, fontWeight: 800, cursor: "pointer",
+        boxShadow: `0 4px 12px ${C.pink}44`
       }}>
-        Cart {cart.length > 0 && <span style={{ background: C.yellow, color: C.ink, borderRadius: 6, padding: "2px 8px", fontSize: 11, fontWeight: 800, marginLeft: 4 }}>{cart.length}</span>}
+        Cart {cart.length > 0 && <span style={{ background: C.white, color: C.ink, borderRadius: "50%", padding: "4px 10px", fontSize: 14, fontWeight: 900, marginLeft: 6 }}>{cart.length}</span>}
       </button>
     );
   }
@@ -363,12 +378,12 @@ export default function KakeAndKream() {
       {/* Nav */}
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: scrolled ? C.bg + "ee" : "transparent", backdropFilter: scrolled ? "blur(10px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 0.25s", padding: "0 20px" }}>
         <div style={{ maxWidth: 900, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 54 }}>
-          <span style={{ fontFamily: F.d, fontSize: 22, fontWeight: 700, color: C.ink }}>
+          <span style={{ fontFamily: F.d, fontSize: 28, fontWeight: 800, color: C.ink }}>
             Kake <span style={{ color: C.pink }}>N</span> Kream
           </span>
           <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
             {[["Menu", "#menu"], ["About", "#about"], ["FAQ", "#faq"]].map(([l, h]) => (
-              <a key={l} href={h} style={{ fontSize: 15, fontWeight: 700, color: C.ink, textDecoration: "none", transition: "color 0.2s" }}
+              <a key={l} href={h} style={{ fontSize: 20, fontWeight: 800, color: C.ink, textDecoration: "none", transition: "color 0.2s" }}
                 onMouseEnter={e => e.currentTarget.style.color = C.pink}
                 onMouseLeave={e => e.currentTarget.style.color = C.ink}
               >{l}</a>
@@ -388,7 +403,7 @@ export default function KakeAndKream() {
             </h1>
           </Reveal>
           <Reveal d={0.1}>
-            <p style={{ fontFamily: F.a, fontSize: "clamp(18px, 3vw, 22px)", color: C.sub, lineHeight: 1.5, margin: "0 0 28px", fontWeight: 500 }}>
+            <p style={{ fontFamily: F.a, fontSize: "clamp(20px, 3.5vw, 26px)", color: C.ink, lineHeight: 1.4, margin: "0 0 32px", fontWeight: 700 }}>
               Handcrafted cupcakes, cakes and brownies<br />made fresh to order in Austin, TX
             </p>
           </Reveal>
@@ -398,11 +413,11 @@ export default function KakeAndKream() {
             </a>
           </Reveal>
           <Reveal d={0.2}>
-            <div style={{ marginTop: 28, display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
+            <div style={{ marginTop: 40, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
               {[
                 ["Pickup Only", C.pink], ["Fridays", C.coral], ["Venmo / Zelle", C.yellow], ["Made Fresh", C.mint],
               ].map(([t, c], i) => (
-                <span key={i} style={{ padding: "6px 14px", borderRadius: 6, background: c + "20", color: C.ink, fontSize: 13, fontWeight: 600 }}>{t}</span>
+                <span key={i} style={{ padding: "10px 22px", borderRadius: 12, background: c + "25", color: C.ink, fontSize: 22, fontWeight: 800, border: `2px solid ${c}` }}>{t}</span>
               ))}
             </div>
           </Reveal>
@@ -415,31 +430,35 @@ export default function KakeAndKream() {
       {/* Menu */}
       <section id="menu" style={{ padding: "64px 24px", maxWidth: 900, margin: "0 auto" }}>
         <Reveal>
-          <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 700, color: C.pink, letterSpacing: 1.5, textTransform: "uppercase", textAlign: "center", marginBottom: 6 }}>Our Menu</p>
-          <h2 style={{ fontFamily: F.d, fontSize: "clamp(28px, 6vw, 42px)", fontWeight: 700, textAlign: "center", margin: "0 0 6px" }}>What are you craving?</h2>
-          <p style={{ fontFamily: F.a, fontSize: 18, color: C.sub, textAlign: "center", marginBottom: 36, fontWeight: 500 }}>Tap to see flavors and add to cart</p>
+          <p style={{ fontFamily: F.d, fontSize: 18, fontWeight: 800, color: C.pink, letterSpacing: 1.5, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>Our Menu</p>
+          <h2 style={{ fontFamily: F.d, fontSize: "clamp(32px, 7vw, 48px)", fontWeight: 800, textAlign: "center", margin: "0 0 12px" }}>What are you craving?</h2>
+          <p style={{ fontFamily: F.a, fontSize: 22, color: C.ink, textAlign: "center", marginBottom: 40, fontWeight: 700 }}>Tap to see flavors and add to cart</p>
         </Reveal>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 12, alignItems: "stretch" }}>
           {PRODUCTS.map((p, i) => (
-            <Reveal key={p.id} d={i * 0.04}>
+            <Reveal key={p.id} d={i * 0.04} style={{ display: "flex" }}>
               <button onClick={() => openProd(p.id)} style={{
                 width: "100%", padding: "24px 20px", borderRadius: 16,
                 border: `2px solid ${C.border}`, background: C.white, cursor: "pointer",
                 textAlign: "left", transition: "all 0.2s", outline: "none",
+                display: "flex", flexDirection: "column"
               }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = p.color; e.currentTarget.style.transform = "translateY(-2px)"; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.transform = "none"; }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 12, background: p.color + "18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28 }}>{p.emoji}</div>
+                <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
+                  <div style={{ width: 56, height: 56, borderRadius: 14, background: p.color + "22", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32 }}>{p.emoji}</div>
                   <div>
-                    <div style={{ fontFamily: F.d, fontSize: 18, fontWeight: 700 }}>{p.name}</div>
-                    <div style={{ fontSize: 16, fontWeight: 700, color: p.color }}>{p.price}</div>
+                    <div style={{ fontFamily: F.d, fontSize: 24, fontWeight: 800 }}>{p.name}</div>
+                    <div style={{ fontSize: 20, fontWeight: 800, color: p.color }}>{p.price}</div>
                   </div>
                 </div>
-                <p style={{ fontSize: 14, color: C.sub, margin: "0 0 8px", lineHeight: 1.4 }}>{p.note}</p>
-                <span style={{ fontSize: 14, fontWeight: 700, color: p.color }}>View options →</span>
+                <p style={{ fontSize: 18, color: C.sub, margin: "0 0 12px", lineHeight: 1.4, fontWeight: 700 }}>{p.note}</p>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto" }}>
+                  <span style={{ fontSize: 18, fontWeight: 800, color: p.color }}>Options →</span>
+                  <div style={{ width: 12, height: 12, borderRadius: "50%", background: p.color }} />
+                </div>
               </button>
             </Reveal>
           ))}
@@ -450,7 +469,7 @@ export default function KakeAndKream() {
       <section style={{ padding: "64px 24px", background: C.white }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           <Reveal>
-            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 700, color: C.mint, letterSpacing: 1.5, textTransform: "uppercase", textAlign: "center", marginBottom: 6 }}>How It Works</p>
+            <p style={{ fontFamily: F.d, fontSize: 22, fontWeight: 800, color: C.mint, letterSpacing: 1.5, textTransform: "uppercase", textAlign: "center", marginBottom: 12 }}>How It Works</p>
             <h2 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 700, textAlign: "center", margin: "0 0 32px" }}>Easy as 1, 2, 3</h2>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
@@ -460,11 +479,11 @@ export default function KakeAndKream() {
               { n: "3", t: "Pickup Friday", d: "Pick up fresh. Pay remaining 50%.", i: "🎉", c: C.mint },
             ].map((s, i) => (
               <Reveal key={i} d={i * 0.05}>
-                <div style={{ padding: "24px 18px", borderRadius: 14, border: `1px solid ${C.border}`, textAlign: "center" }}>
-                  <div style={{ width: 48, height: 48, borderRadius: 10, background: s.c + "18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, margin: "0 auto 8px" }}>{s.i}</div>
-                  <div style={{ fontFamily: F.d, fontSize: 28, fontWeight: 700, color: s.c }}>{s.n}</div>
-                  <h3 style={{ fontFamily: F.d, fontSize: 18, fontWeight: 700, margin: "2px 0 4px" }}>{s.t}</h3>
-                  <p style={{ fontSize: 14, color: C.sub, margin: 0, lineHeight: 1.5 }}>{s.d}</p>
+                <div style={{ padding: "32px 24px", borderRadius: 18, border: `2px solid ${C.border}`, textAlign: "center", background: C.white }}>
+                  <div style={{ width: 64, height: 64, borderRadius: 14, background: s.c + "18", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32, margin: "0 auto 12px" }}>{s.i}</div>
+                  <div style={{ fontFamily: F.d, fontSize: 42, fontWeight: 900, color: s.c, marginBottom: 4 }}>{s.n}</div>
+                  <h3 style={{ fontFamily: F.d, fontSize: 24, fontWeight: 800, margin: "0 0 8px" }}>{s.t}</h3>
+                  <p style={{ fontSize: 19, color: C.sub, margin: 0, lineHeight: 1.4, fontWeight: 700 }}>{s.d}</p>
                 </div>
               </Reveal>
             ))}
@@ -476,17 +495,17 @@ export default function KakeAndKream() {
       <section id="about" style={{ padding: "64px 24px" }}>
         <div style={{ maxWidth: 460, margin: "0 auto", textAlign: "center" }}>
           <Reveal>
-            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 700, color: C.lavender, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 6 }}>About</p>
+            <p style={{ fontFamily: F.d, fontSize: 22, fontWeight: 800, color: C.lavender, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>About</p>
             <h2 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 700, margin: "0 0 16px" }}>Meet the Baker</h2>
           </Reveal>
           <Reveal d={0.05}>
             <div style={{ width: 72, height: 72, borderRadius: "50%", margin: "0 auto 14px", background: C.peach, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 34 }}>👩‍🍳</div>
           </Reveal>
           <Reveal d={0.1}>
-            <p style={{ fontFamily: F.a, fontSize: 18, color: C.ink, lineHeight: 1.7, fontWeight: 500 }}>
+            <p style={{ fontFamily: F.a, fontSize: 22, color: C.ink, lineHeight: 1.6, fontWeight: 700 }}>
               Hi, I'm Kalyani! I've been baking for family and friends for years and I'm so excited to share my treats with Austin. Every item is baked fresh to order with love.
             </p>
-            <p style={{ fontSize: 13, color: C.muted, marginTop: 10, fontWeight: 600 }}>Placeholder — will be updated with Kalyani's words and photo.</p>
+            <p style={{ fontSize: 16, color: C.ink, marginTop: 12, fontWeight: 800, textDecoration: "underline" }}>Kalyani's words and photo coming soon!</p>
           </Reveal>
         </div>
       </section>
@@ -495,23 +514,23 @@ export default function KakeAndKream() {
       <section id="faq" style={{ padding: "64px 24px", background: C.white }}>
         <div style={{ maxWidth: 520, margin: "0 auto" }}>
           <Reveal>
-            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 700, color: C.sky, letterSpacing: 1.5, textTransform: "uppercase", textAlign: "center", marginBottom: 6 }}>FAQ</p>
-            <h2 style={{ fontFamily: F.d, fontSize: 28, fontWeight: 700, textAlign: "center", margin: "0 0 24px" }}>Questions?</h2>
+            <p style={{ fontFamily: F.d, fontSize: 20, fontWeight: 800, color: C.sky, letterSpacing: 1.5, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>FAQ</p>
+            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 800, textAlign: "center", margin: "0 0 32px" }}>Questions?</h2>
           </Reveal>
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {faqs.map((f, i) => (
               <Reveal key={i} d={i * 0.02}>
                 <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, overflow: "hidden" }}>
                   <button onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{
-                    width: "100%", padding: "14px 18px", background: "none", border: "none",
+                    width: "100%", padding: "18px 24px", background: "none", border: "none",
                     cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between",
-                    alignItems: "center", fontFamily: F.b, fontSize: 16, fontWeight: 700, color: C.ink,
+                    alignItems: "center", fontFamily: F.b, fontSize: 22, fontWeight: 800, color: C.ink,
                   }}>
                     {f.q}
-                    <span style={{ fontSize: 18, color: C.muted, transition: "transform 0.2s", transform: openFaq === i ? "rotate(45deg)" : "none" }}>+</span>
+                    <span style={{ fontSize: 24, color: C.muted, transition: "transform 0.2s", transform: openFaq === i ? "rotate(45deg)" : "none" }}>+</span>
                   </button>
-                  <div style={{ maxHeight: openFaq === i ? 150 : 0, overflow: "hidden", transition: "max-height 0.25s ease" }}>
-                    <p style={{ padding: "0 18px 14px", fontSize: 15, color: C.sub, lineHeight: 1.5, margin: 0 }}>{f.a}</p>
+                  <div style={{ maxHeight: openFaq === i ? 200 : 0, overflow: "hidden", transition: "max-height 0.25s ease" }}>
+                    <p style={{ padding: "0 24px 20px", fontSize: 20, color: C.ink, lineHeight: 1.5, margin: 0, fontWeight: 600 }}>{f.a}</p>
                   </div>
                 </div>
               </Reveal>
@@ -521,23 +540,23 @@ export default function KakeAndKream() {
       </section>
 
       {/* Disclaimer */}
-      <div style={{ background: C.pink, padding: "16px 24px", textAlign: "center" }}>
-        <p style={{ fontSize: 13, color: C.white, lineHeight: 1.5, maxWidth: 650, margin: "0 auto", fontWeight: 600 }}>
+      <div style={{ background: C.pink, padding: "24px", textAlign: "center" }}>
+        <p style={{ fontSize: 16, color: C.white, lineHeight: 1.4, maxWidth: 750, margin: "0 auto", fontWeight: 800 }}>
           ⚠️ This food is made in a home kitchen and is not inspected by the Department of State Health Services or a local health department.
         </p>
       </div>
 
       {/* Footer */}
-      <footer style={{ padding: "32px 24px 20px", textAlign: "center" }}>
-        <div style={{ fontFamily: F.d, fontSize: 22, fontWeight: 700, marginBottom: 4 }}>Kake <span style={{ color: C.pink }}>N</span> Kream</div>
-        <p style={{ fontFamily: F.a, fontSize: 15, color: C.sub, margin: "0 0 8px", fontWeight: 500 }}>Handcrafted baked goods · Austin, TX</p>
-        <div style={{ fontSize: 11, color: C.muted, fontWeight: 600 }}>© {new Date().getFullYear()} Kake N Kream</div>
-        <div style={{ fontSize: 10, color: C.muted + "55", marginTop: 6, fontWeight: 500 }}>Built by <a href="https://foundry-red.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: C.pink + "55", textDecoration: "none" }}>Foundry</a></div>
+      <footer style={{ padding: "48px 24px 32px", textAlign: "center" }}>
+        <div style={{ fontFamily: F.d, fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Kake <span style={{ color: C.pink }}>N</span> Kream</div>
+        <p style={{ fontFamily: F.a, fontSize: 20, color: C.ink, margin: "0 0 12px", fontWeight: 700 }}>Handcrafted baked goods · Austin, TX</p>
+        <div style={{ fontSize: 14, color: C.muted, fontWeight: 800 }}>© {new Date().getFullYear()} Kake N Kream</div>
+        <div style={{ fontSize: 12, color: C.muted + "88", marginTop: 10, fontWeight: 700 }}>Built by <a href="https://foundry-red.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: C.pink + "88", textDecoration: "none" }}>Foundry</a></div>
       </footer>
 
       {/* Floating cart */}
       {scrolled && cart.length > 0 && (
-        <button onClick={() => setDrawer(true)} style={{ position: "fixed", bottom: 20, right: 20, zIndex: 90, background: C.pink, color: C.white, padding: "14px 20px", borderRadius: 12, fontFamily: F.d, fontSize: 15, fontWeight: 700, border: "none", cursor: "pointer", boxShadow: "0 4px 16px rgba(0,0,0,0.12)" }}>
+        <button onClick={() => setDrawer(true)} style={{ position: "fixed", bottom: 20, right: 20, zIndex: 90, background: C.pink, color: C.white, padding: "16px 24px", borderRadius: 14, fontFamily: F.d, fontSize: 20, fontWeight: 800, border: "none", cursor: "pointer", boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }}>
           🛒 Cart ({cart.length})
         </button>
       )}
