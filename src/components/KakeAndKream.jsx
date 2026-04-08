@@ -175,13 +175,22 @@ export default function KakeAndKream() {
                   <button disabled={submitting} onClick={async () => {
                     if (!cust.fn || !cust.ln || !cust.email || !cust.date) { alert("Please fill in all required fields."); return; }
                     const order = cart.map((item, i) => `${i + 1}. ${item.type} — ${item.flavor} × ${item.qty}${item.filling ? " (+ filling)" : ""}${item.notes ? ` [${item.notes}]` : ""}`).join("\n");
+                    const payload = { firstName: cust.fn, lastName: cust.ln, email: cust.email, _replyto: cust.email, phone: cust.phone, pickupDate: cust.date, allergies: cust.allergy, notes: cust.notes, order };
                     setSubmitting(true);
                     try {
-                      const res = await fetch("https://formspree.io/f/mgopbwvv", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json", Accept: "application/json" },
-                        body: JSON.stringify({ firstName: cust.fn, lastName: cust.ln, email: cust.email, _replyto: cust.email, phone: cust.phone, pickupDate: cust.date, allergies: cust.allergy, notes: cust.notes, order }),
-                      });
+                      const [res] = await Promise.all([
+                        fetch("https://formspree.io/f/mgopbwvv", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json", Accept: "application/json" },
+                          body: JSON.stringify(payload),
+                        }),
+                        fetch("https://script.google.com/macros/s/AKfycbwoZyte94gO6UxjRGkOaTkuCD_AbrKD7lZjh3_OkfahLBG0cjFX36lTQ6TzFsLB5azM/exec", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify(payload),
+                          mode: "no-cors",
+                        }),
+                      ]);
                       if (!res.ok) throw new Error("Submission failed");
                       setDrawer(false); setView("done");
                     } catch { alert("Something went wrong — please try again."); } finally { setSubmitting(false); }
