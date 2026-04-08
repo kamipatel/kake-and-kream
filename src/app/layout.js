@@ -1,10 +1,10 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Kake and Kream — Handcrafted Baked Goods · Austin, TX",
+  title: "Kake N Kream — Handcrafted Baked Goods · Austin, TX",
   description: "Handcrafted cupcakes, mini cakes, bundt cakes, sheet cakes & brownies made fresh to order in Austin, TX. Pickup Fridays.",
   openGraph: {
-    title: "Kake and Kream — Handcrafted Baked Goods",
+    title: "Kake N Kream — Handcrafted Baked Goods",
     description: "Cupcakes, cakes & brownies baked fresh to order in Austin, TX.",
     type: "website",
   },
