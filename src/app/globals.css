@@ -1,42 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
 :root {
-  /* Brand — bold, saturated */
-  --color-primary: #E8578A;
-  --color-primary-hover: #D44A7C;
-  --color-secondary: #9A3412;
+  /* Brand — soft pastels */
+  --color-primary: #FFB6C1;
+  --color-primary-hover: #F5A0AD;
+  --color-secondary: #8B6F5E;
 
   /* Surface */
-  --color-bg: #FEFAF8;
+  --color-bg: #FFFFFF;
   --color-surface: #FFFFFF;
-  --color-surface-warm: #FEF0C7;
-  --color-surface-rose: #FFF0F3;
-  --color-surface-mint: #F0FBF6;
-  --color-surface-lavender: #F5F0FB;
+  --color-surface-warm: #FFF9F9;
+  --color-surface-rose: #FFF9F9;
+  --color-surface-mint: #F5FAFF;
+  --color-surface-lavender: #FFFEF5;
 
-  /* Text — tuned for 4.5:1+ contrast on --color-bg */
-  --color-ink: #0F0D0C;
-  --color-sub: #33302E;
-  --color-muted: #5C5652;
+  /* Text — dark brown for warmth */
+  --color-ink: #2A1810;
+  --color-sub: #5C4A3E;
+  --color-muted: #8B7D75;
 
-  /* Accent palette — saturated */
-  --color-coral: #EF6F64;
-  --color-peach: #F5A87A;
-  --color-yellow: #F2C45E;
-  --color-mint: #6DCCA8;
-  --color-sky: #6EA8D8;
-  --color-lavender: #A48FCC;
+  /* Accent palette — soft pastels */
+  --color-coral: #FECDD3;
+  --color-peach: #FFD8C4;
+  --color-yellow: #FFF9C4;
+  --color-mint: #C5E8D5;
+  --color-sky: #A8D8EA;
+  --color-lavender: #DDD0F0;
 
   /* Border */
-  --color-border: #D6D3D1;
+  --color-border: #F5E0E4;
 
   /* Typography */
-  --font-display: 'Fredoka', sans-serif;
-  --font-body: 'Nunito', sans-serif;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Outfit', sans-serif;
   --font-accent: 'Playfair Display', serif;
 
   /* Focus */
-  --focus-ring: 0 0 0 3px rgba(232, 87, 138, 0.5);
+  --focus-ring: 0 0 0 3px rgba(255, 182, 193, 0.5);
 }
 
 * {
@@ -62,7 +62,7 @@ body {
 }
 
 ::selection {
-  background: rgba(242, 160, 181, 0.13);
+  background: rgba(255, 182, 193, 0.13);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -34,13 +34,13 @@ const C = {
 
 /* Raw hex values — only used where CSS var + alpha concatenation is needed */
 const RAW = {
-  pink: "#E8578A",
-  coral: "#EF6F64",
-  peach: "#F5A87A",
-  yellow: "#F2C45E",
-  mint: "#6DCCA8",
-  sky: "#6EA8D8",
-  lavender: "#A48FCC",
+  pink: "#FFB6C1",
+  coral: "#FECDD3",
+  peach: "#FFD8C4",
+  yellow: "#FFF9C4",
+  mint: "#C5E8D5",
+  sky: "#A8D8EA",
+  lavender: "#DDD0F0",
 };
 
 const F = {
@@ -108,19 +108,19 @@ function Qty({ value, onChange, min, step }) {
   const displayVal = isDoz ? `${value / 12} Dozen${value / 12 > 1 ? "s" : ""}` : value;
 
   return (
-    <div style={{ display: "inline-flex", alignItems: "center", borderRadius: 16, border: `3px solid ${C.ink}`, background: C.white, overflow: "hidden" }}>
+    <div style={{ display: "inline-flex", alignItems: "center", borderRadius: 16, border: `2px solid ${C.pink}`, background: C.white, overflow: "hidden" }}>
       <button
         aria-label="Decrease quantity"
         onClick={() => onChange(Math.max(min, value - step))}
-        style={{ width: 56, height: 56, border: "none", background: "none", fontSize: 24, fontWeight: 800, cursor: "pointer", color: value <= min ? C.muted : C.ink, display: "flex", alignItems: "center", justifyContent: "center" }}
+        style={{ width: 56, height: 56, border: "none", background: "none", fontSize: 24, fontWeight: 500, cursor: "pointer", color: value <= min ? C.muted : C.ink, display: "flex", alignItems: "center", justifyContent: "center" }}
       >
         <Minus size={20} strokeWidth={3} />
       </button>
-      <span style={{ minWidth: 120, padding: "0 12px", textAlign: "center", fontFamily: F.b, fontSize: 18, fontWeight: 800, color: C.ink }}>{displayVal}</span>
+      <span style={{ minWidth: 120, padding: "0 12px", textAlign: "center", fontFamily: F.b, fontSize: 18, fontWeight: 500, color: C.ink }}>{displayVal}</span>
       <button
         aria-label="Increase quantity"
         onClick={() => onChange(value + step)}
-        style={{ width: 56, height: 56, border: "none", background: "none", fontSize: 24, fontWeight: 800, cursor: "pointer", color: C.ink, display: "flex", alignItems: "center", justifyContent: "center" }}
+        style={{ width: 56, height: 56, border: "none", background: "none", fontSize: 24, fontWeight: 500, cursor: "pointer", color: C.ink, display: "flex", alignItems: "center", justifyContent: "center" }}
       >
         <Plus size={20} strokeWidth={3} />
       </button>
@@ -164,12 +164,12 @@ export default function KakeAndKream() {
     width: "100%", padding: "14px 18px", borderRadius: 12,
     border: `2px solid ${errors[field] ? C.coral : C.border}`,
     fontFamily: F.b, fontSize: 16, outline: "none", background: C.white,
-    boxSizing: "border-box", fontWeight: 600, color: C.ink,
+    boxSizing: "border-box", fontWeight: 400, color: C.ink,
     transition: "border-color 250ms ease",
   });
-  const labelStyle = { display: "block", fontSize: 14, fontWeight: 700, color: C.sub, marginBottom: 6 };
+  const labelStyle = { display: "block", fontSize: 14, fontWeight: 400, color: C.sub, marginBottom: 6 };
   const reqStar = <span style={{ color: C.coral, marginLeft: 2 }}>*</span>;
-  const errMsg = (field) => errors[field] ? <p role="alert" style={{ fontSize: 13, color: C.coral, fontWeight: 700, marginTop: 4 }}>{errors[field]}</p> : null;
+  const errMsg = (field) => errors[field] ? <p role="alert" style={{ fontSize: 13, color: C.coral, fontWeight: 400, marginTop: 4 }}>{errors[field]}</p> : null;
 
   const faqs = [
     { q: "Do you deliver?", a: "Pickup only — Fridays from our home in the St. Louis area." },
@@ -190,7 +190,7 @@ export default function KakeAndKream() {
         <div role="dialog" aria-label="Shopping cart" style={{ position: "relative", width: "min(420px, 94vw)", height: "100%", background: C.bg, boxShadow: "-2px 0 20px rgba(0,0,0,0.08)", display: "flex", flexDirection: "column", animation: "si .25s ease" }}>
           <style>{`@keyframes si{from{transform:translateX(100%)}to{transform:translateX(0)}}`}</style>
           <div style={{ padding: "20px 24px", borderBottom: `2px solid ${C.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <h3 style={{ fontFamily: F.d, fontSize: 26, fontWeight: 700, margin: 0 }}>My Cart ({cart.length})</h3>
+            <h3 style={{ fontFamily: F.d, fontSize: 26, fontWeight: 400, margin: 0 }}>My Cart ({cart.length})</h3>
             <button aria-label="Close cart" onClick={() => setDrawer(false)} style={{ background: C.border, border: "none", width: 44, height: 44, borderRadius: "50%", cursor: "pointer", color: C.ink, display: "flex", alignItems: "center", justifyContent: "center" }}>
               <X size={20} strokeWidth={2.5} />
             </button>
@@ -199,15 +199,15 @@ export default function KakeAndKream() {
             {cart.length === 0 ? (
               <div style={{ textAlign: "center", padding: "60px 0", color: C.sub }}>
                 <ShoppingCart size={40} strokeWidth={1.5} style={{ marginBottom: 12, opacity: 0.4 }} />
-                <p style={{ fontSize: 18, fontWeight: 600 }}>Your cart is empty</p>
+                <p style={{ fontSize: 18, fontWeight: 400 }}>Your cart is empty</p>
               </div>
             ) : (
               <>
                 {cart.map((item, i) => (
                   <div key={item._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0", borderBottom: i < cart.length - 1 ? `2px solid ${C.border}` : "none" }}>
                     <div>
-                      <div style={{ fontWeight: 800, fontSize: 18 }}>{item.type}</div>
-                      <div style={{ fontSize: 16, color: C.sub, fontWeight: 600 }}>{item.flavor} x {item.qty}{item.filling ? ` + ${item.filling} filling` : ""}</div>
+                      <div style={{ fontWeight: 500, fontSize: 18 }}>{item.type}</div>
+                      <div style={{ fontSize: 16, color: C.sub, fontWeight: 400 }}>{item.flavor} x {item.qty}{item.filling ? ` + ${item.filling} filling` : ""}</div>
                       {item.notes && <div style={{ fontSize: 14, color: C.muted, fontStyle: "italic", fontWeight: 500 }}>{item.notes}</div>}
                     </div>
                     <button aria-label={`Remove ${item.type}`} onClick={() => rm(item._id)} style={{ width: 44, height: 44, borderRadius: 12, border: `2px solid ${C.coral}`, background: C.white, cursor: "pointer", color: C.coral, display: "flex", alignItems: "center", justifyContent: "center", transition: "all 250ms ease" }}>
@@ -216,7 +216,7 @@ export default function KakeAndKream() {
                   </div>
                 ))}
                 <div style={{ marginTop: 20, paddingTop: 20, borderTop: `3px solid ${C.border}`, display: "flex", flexDirection: "column", gap: 14 }}>
-                  <p style={{ fontFamily: F.d, fontSize: 22, fontWeight: 800, margin: 0 }}>Your Pickup Info</p>
+                  <p style={{ fontFamily: F.d, fontSize: 22, fontWeight: 500, margin: 0 }}>Your Pickup Info</p>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                     <div>
                       <label style={labelStyle}>First name{reqStar}</label>
@@ -251,7 +251,7 @@ export default function KakeAndKream() {
                     <label style={labelStyle}>Additional notes for Kalyani</label>
                     <textarea rows={2} value={cust.notes} onChange={e => setCust(p => ({ ...p, notes: e.target.value }))} style={{ ...inp("notes"), resize: "vertical" }} placeholder="Special requests, decorations, etc." />
                   </div>
-                  <div style={{ padding: "14px 16px", borderRadius: 14, background: RAW.yellow + "30", fontSize: 14, color: C.ink, lineHeight: 1.5, border: `2px solid ${C.yellow}`, fontWeight: 700, display: "flex", gap: 10, alignItems: "flex-start" }}>
+                  <div style={{ padding: "14px 16px", borderRadius: 14, background: RAW.yellow + "30", fontSize: 14, color: C.ink, lineHeight: 1.5, border: `2px solid ${C.yellow}`, fontWeight: 400, display: "flex", gap: 10, alignItems: "flex-start" }}>
                     <AlertTriangle size={18} strokeWidth={2.5} style={{ flexShrink: 0, marginTop: 2 }} />
                     <span>ATTENTION: Our kitchen is NOT allergy-free. Submitting this form does not book your order — it is only booked when the 50% deposit is paid.</span>
                   </div>
@@ -283,10 +283,10 @@ export default function KakeAndKream() {
                       if (!res.ok) throw new Error("Submission failed");
                       setDrawer(false); setView("done");
                     } catch { alert("Something went wrong — please try again."); } finally { setSubmitting(false); }
-                  }} style={{ width: "100%", padding: "18px", borderRadius: 16, border: "none", background: submitting ? C.muted : C.pink, color: C.white, fontFamily: F.d, fontSize: 20, fontWeight: 800, cursor: submitting ? "not-allowed" : "pointer", boxShadow: submitting ? "none" : `0 8px 24px ${RAW.pink}44`, transition: "all 250ms ease" }}>
+                  }} style={{ width: "100%", padding: "18px", borderRadius: 16, border: "none", background: submitting ? C.muted : C.pink, color: C.white, fontFamily: F.d, fontSize: 20, fontWeight: 500, cursor: submitting ? "not-allowed" : "pointer", boxShadow: submitting ? "none" : `0 8px 24px ${RAW.pink}44`, transition: "all 250ms ease" }}>
                     {submitting ? "Sending..." : "Submit Order Request"}
                   </button>
-                  <p style={{ fontSize: 16, color: C.sub, textAlign: "center", fontWeight: 700 }}>We'll email you within 24 hours.</p>
+                  <p style={{ fontSize: 16, color: C.sub, textAlign: "center", fontWeight: 400 }}>We'll email you within 24 hours.</p>
                 </div>
               </>
             )}
@@ -304,9 +304,9 @@ export default function KakeAndKream() {
           <div style={{ width: 72, height: 72, borderRadius: 20, background: RAW.mint + "25", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
             <PartyPopper size={36} strokeWidth={2} style={{ color: C.mint }} />
           </div>
-          <h1 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 700, marginBottom: 8 }}>Order Request Sent!</h1>
+          <h1 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 400, marginBottom: 8 }}>Order Request Sent!</h1>
           <p style={{ fontSize: 16, color: C.sub, lineHeight: 1.6, marginBottom: 28, fontWeight: 500 }}>We'll email you within 24 hours to confirm details and share payment info.</p>
-          <button className="kk-btn" onClick={() => { setView("home"); setCart([]); }} style={{ fontFamily: F.d, fontSize: 16, fontWeight: 600, padding: "14px 32px", borderRadius: 12, border: "none", background: C.pink, color: C.white, cursor: "pointer", transition: "all 250ms ease" }}>Back to Home</button>
+          <button className="kk-btn" onClick={() => { setView("home"); setCart([]); }} style={{ fontFamily: F.d, fontSize: 16, fontWeight: 400, padding: "14px 32px", borderRadius: 12, border: "none", background: C.pink, color: C.white, cursor: "pointer", transition: "all 250ms ease" }}>Back to Home</button>
         </div>
       </div>
     );
@@ -338,9 +338,9 @@ export default function KakeAndKream() {
         <Styles />
 
         {/* Top bar */}
-        <div style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(254,252,250,0.93)", backdropFilter: "blur(10px)", borderBottom: `1px solid ${C.border}`, padding: "0 20px" }}>
+        <div style={{ position: "sticky", top: 0, zIndex: 50, background: "rgba(255,255,255,0.93)", backdropFilter: "blur(10px)", borderBottom: `1px solid ${C.border}`, padding: "0 20px" }}>
           <div style={{ maxWidth: 680, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
-            <button className="kk-btn" onClick={() => setView("home")} style={{ padding: "10px 18px", borderRadius: 12, border: `2px solid ${C.ink}`, background: C.white, cursor: "pointer", fontFamily: F.b, fontSize: 16, fontWeight: 800, color: C.ink, display: "flex", alignItems: "center", gap: 6, transition: "all 250ms ease" }}>
+            <button className="kk-btn" onClick={() => setView("home")} style={{ padding: "10px 18px", borderRadius: 12, border: `2px solid ${C.border}`, background: C.white, cursor: "pointer", fontFamily: F.b, fontSize: 16, fontWeight: 500, color: C.ink, display: "flex", alignItems: "center", gap: 6, transition: "all 250ms ease" }}>
               <ChevronLeft size={18} strokeWidth={2.5} /> Back to Menu
             </button>
             <CartBtn cart={cart} onClick={() => setDrawer(true)} />
@@ -350,12 +350,12 @@ export default function KakeAndKream() {
         <div style={{ maxWidth: 680, margin: "0 auto", padding: "28px 20px 80px" }}>
           {/* Header */}
           <div style={{ marginBottom: 28 }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 10, background: prod.raw + "20", fontSize: 16, fontWeight: 800, color: C.ink, marginBottom: 14 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 10, background: prod.raw + "20", fontSize: 16, fontWeight: 500, color: C.ink, marginBottom: 14 }}>
               <Icon size={20} strokeWidth={2.5} /> {prod.name}
             </div>
-            <h1 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 800, margin: "0 0 6px" }}>{prod.name}</h1>
-            <p style={{ fontSize: 26, fontWeight: 800, color: C.ink, margin: "0 0 10px", fontFamily: F.d }}>{prod.price}</p>
-            <p style={{ fontSize: 16, color: C.sub, fontWeight: 700 }}>{prod.note}</p>
+            <h1 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 500, margin: "0 0 6px" }}>{prod.name}</h1>
+            <p style={{ fontSize: 26, fontWeight: 500, color: C.ink, margin: "0 0 10px", fontFamily: F.d }}>{prod.price}</p>
+            <p style={{ fontSize: 16, color: C.sub, fontWeight: 400 }}>{prod.note}</p>
           </div>
 
           {/* Photo gallery */}
@@ -385,7 +385,7 @@ export default function KakeAndKream() {
           {/* Flavor Dropdowns */}
           {hasFl && (
             <div style={{ marginBottom: 24 }}>
-              <p style={{ fontFamily: F.d, fontSize: 22, fontWeight: 800, marginBottom: 16, color: C.ink }}>Customize Your Flavor</p>
+              <p style={{ fontFamily: F.d, fontSize: 22, fontWeight: 500, marginBottom: 16, color: C.ink }}>Customize Your Flavor</p>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                 {[
                   { label: "Cake Flavor", value: selCake, onChange: setSelCake, options: CAKE_FLAVORS, required: true },
@@ -394,7 +394,7 @@ export default function KakeAndKream() {
                   { label: "Filling (optional)", value: selFilling, onChange: setSelFilling, options: FILLINGS, required: false },
                 ].map(({ label, value, onChange, options, required }) => (
                   <div key={label}>
-                    <label style={{ display: "block", fontFamily: F.d, fontSize: 15, fontWeight: 700, marginBottom: 8, color: C.sub }}>
+                    <label style={{ display: "block", fontFamily: F.d, fontSize: 15, fontWeight: 400, marginBottom: 8, color: C.sub }}>
                       {label}{required && <span style={{ color: C.coral, marginLeft: 4 }}>*</span>}
                     </label>
                     <select
@@ -403,7 +403,7 @@ export default function KakeAndKream() {
                       style={{
                         width: "100%", padding: "14px 40px 14px 16px", borderRadius: 12,
                         border: `2px solid ${value && value !== "None" ? prod.color : C.border}`,
-                        fontFamily: F.b, fontSize: 16, fontWeight: 600,
+                        fontFamily: F.b, fontSize: 16, fontWeight: 400,
                         color: value && value !== "None" ? C.ink : C.muted,
                         background: value && value !== "None" ? prod.raw + "08" : C.white,
                         cursor: "pointer", outline: "none",
@@ -425,7 +425,7 @@ export default function KakeAndKream() {
           {/* Bundt */}
           {isBundt && (
             <div style={{ marginBottom: 24 }}>
-              <p style={{ fontFamily: F.d, fontSize: 18, fontWeight: 800, marginBottom: 12 }}>Select a flavor</p>
+              <p style={{ fontFamily: F.d, fontSize: 18, fontWeight: 500, marginBottom: 12 }}>Select a flavor</p>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                 {BUNDTS.map(b => {
                   const active = selBundt === b.id;
@@ -435,9 +435,9 @@ export default function KakeAndKream() {
                       border: `2px solid ${active ? b.color : C.border}`, background: active ? b.raw + "12" : C.white,
                       transition: "all 250ms ease", outline: "none",
                     }}>
-                      <div style={{ fontFamily: F.d, fontSize: 17, fontWeight: 700 }}>{b.name}</div>
-                      <div style={{ fontSize: 14, color: C.sub, margin: "6px 0 10px", fontWeight: 600 }}>{b.desc}</div>
-                      <div style={{ fontFamily: F.d, fontSize: 20, fontWeight: 700, color: b.color }}>${b.price}</div>
+                      <div style={{ fontFamily: F.d, fontSize: 17, fontWeight: 400 }}>{b.name}</div>
+                      <div style={{ fontSize: 14, color: C.sub, margin: "6px 0 10px", fontWeight: 400 }}>{b.desc}</div>
+                      <div style={{ fontFamily: F.d, fontSize: 20, fontWeight: 400, color: b.color }}>${b.price}</div>
                     </button>
                   );
                 })}
@@ -448,8 +448,8 @@ export default function KakeAndKream() {
           {/* Sheet */}
           {isSheet && (
             <div style={{ marginBottom: 24 }}>
-              <p style={{ fontFamily: F.d, fontSize: 22, fontWeight: 800, marginBottom: 12 }}>Describe your order</p>
-              <p style={{ fontSize: 16, color: C.ink, marginBottom: 12, fontWeight: 600 }}>Flavor, occasion, colors — we'll confirm details.</p>
+              <p style={{ fontFamily: F.d, fontSize: 22, fontWeight: 500, marginBottom: 12 }}>Describe your order</p>
+              <p style={{ fontSize: 16, color: C.ink, marginBottom: 12, fontWeight: 400 }}>Flavor, occasion, colors — we'll confirm details.</p>
               <textarea value={sheetNote} onChange={e => setSheetNote(e.target.value)} rows={3} placeholder="e.g. Chocolate with vanilla buttercream..." style={{ ...inp("sheetNote"), resize: "vertical" }} />
             </div>
           )}
@@ -457,15 +457,15 @@ export default function KakeAndKream() {
           {/* Brownies */}
           {isBrown && (
             <div style={{ padding: "20px", borderRadius: 14, background: prod.raw + "15", marginBottom: 28, textAlign: "center", border: `2px solid ${prod.color}` }}>
-              <span style={{ fontFamily: F.d, fontSize: 20, fontWeight: 800 }}>Fudgy Chocolate Brownies</span>
-              <span style={{ fontSize: 18, color: prod.color, fontWeight: 800, marginLeft: 12 }}>$3 each</span>
+              <span style={{ fontFamily: F.d, fontSize: 20, fontWeight: 500 }}>Fudgy Chocolate Brownies</span>
+              <span style={{ fontSize: 18, color: prod.color, fontWeight: 500, marginLeft: 12 }}>$3 each</span>
             </div>
           )}
 
           {/* Quantity */}
           {!isSheet && (
             <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 24, padding: "20px", borderRadius: 14, background: C.white, border: `2px solid ${C.border}` }}>
-              <span style={{ fontSize: 18, fontWeight: 800, color: C.ink }}>Quantity</span>
+              <span style={{ fontSize: 18, fontWeight: 500, color: C.ink }}>Quantity</span>
               <Qty value={qty} onChange={setQtyVal} min={prod.min} step={prod.step} />
             </div>
           )}
@@ -474,7 +474,7 @@ export default function KakeAndKream() {
           <button className="kk-btn" onClick={doAdd} disabled={!canAdd} style={{
             width: "100%", padding: "18px", borderRadius: 14, border: "none",
             background: canAdd ? prod.color : C.border, color: canAdd ? C.white : C.muted,
-            fontFamily: F.d, fontSize: 18, fontWeight: 700, cursor: canAdd ? "pointer" : "not-allowed",
+            fontFamily: F.d, fontSize: 18, fontWeight: 400, cursor: canAdd ? "pointer" : "not-allowed",
             transition: "all 250ms ease",
             boxShadow: canAdd ? `0 6px 20px ${prod.raw}40` : "none",
           }}>
@@ -483,10 +483,10 @@ export default function KakeAndKream() {
 
           {cart.length > 0 && (
             <div style={{ marginTop: 20, padding: "16px 20px", borderRadius: 14, background: RAW.pink + "12", border: `2px solid ${C.pink}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <span style={{ fontSize: 16, fontWeight: 800, color: C.ink, display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: 16, fontWeight: 500, color: C.ink, display: "flex", alignItems: "center", gap: 8 }}>
                 <Check size={18} strokeWidth={3} style={{ color: C.pink }} /> {cart.length} item{cart.length !== 1 ? "s" : ""} in cart
               </span>
-              <button className="kk-btn" onClick={() => setDrawer(true)} style={{ background: C.pink, color: C.white, border: "none", padding: "10px 20px", borderRadius: 10, fontFamily: F.b, fontSize: 15, fontWeight: 800, cursor: "pointer", transition: "all 250ms ease" }}>Check Out</button>
+              <button className="kk-btn" onClick={() => setDrawer(true)} style={{ background: C.pink, color: C.white, border: "none", padding: "10px 20px", borderRadius: 10, fontFamily: F.b, fontSize: 15, fontWeight: 500, cursor: "pointer", transition: "all 250ms ease" }}>Check Out</button>
             </div>
           )}
         </div>
@@ -501,14 +501,14 @@ export default function KakeAndKream() {
       <Styles />
 
       {/* Nav */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: scrolled ? "rgba(254,252,250,0.93)" : "transparent", backdropFilter: scrolled ? "blur(10px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 250ms ease", padding: "0 20px" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: scrolled ? "rgba(255,255,255,0.93)" : "transparent", backdropFilter: scrolled ? "blur(10px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 250ms ease", padding: "0 20px" }}>
         <div style={{ maxWidth: 900, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
-          <span style={{ fontFamily: F.d, fontSize: 26, fontWeight: 800, color: C.ink }}>
+          <span style={{ fontFamily: F.d, fontSize: 26, fontWeight: 500, color: C.ink }}>
             Kake <span style={{ color: C.pink }}>N</span> Kream
           </span>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             {[["Menu", "#menu"], ["About", "#about"], ["FAQ", "#faq"]].map(([l, h]) => (
-              <a key={l} href={h} className="kk-nav-link" style={{ fontSize: 16, fontWeight: 800, color: C.ink, textDecoration: "none", padding: "10px 14px", borderRadius: 8, transition: "color 250ms ease" }}>{l}</a>
+              <a key={l} href={h} className="kk-nav-link" style={{ fontSize: 16, fontWeight: 500, color: C.ink, textDecoration: "none", padding: "10px 14px", borderRadius: 8, transition: "color 250ms ease" }}>{l}</a>
             ))}
             <CartBtn cart={cart} onClick={() => setDrawer(true)} />
           </div>
@@ -524,7 +524,7 @@ export default function KakeAndKream() {
             </div>
           </Reveal>
           <Reveal d={0.05}>
-            <h1 style={{ fontFamily: F.d, fontSize: "clamp(36px, 8vw, 60px)", fontWeight: 800, color: C.ink, lineHeight: 1.1, margin: "0 0 14px" }}>
+            <h1 style={{ fontFamily: F.d, fontSize: "clamp(36px, 8vw, 60px)", fontWeight: 500, color: C.ink, lineHeight: 1.1, margin: "0 0 14px" }}>
               Baked with Love
             </h1>
           </Reveal>
@@ -534,7 +534,7 @@ export default function KakeAndKream() {
             </p>
           </Reveal>
           <Reveal d={0.15}>
-            <a href="#menu" className="kk-btn" style={{ display: "inline-block", fontFamily: F.d, fontSize: 16, fontWeight: 700, color: C.white, background: C.pink, textDecoration: "none", padding: "16px 36px", borderRadius: 14, transition: "all 250ms ease", boxShadow: `0 6px 20px ${RAW.pink}35` }}>
+            <a href="#menu" className="kk-btn" style={{ display: "inline-block", fontFamily: F.d, fontSize: 16, fontWeight: 400, color: C.white, background: C.pink, textDecoration: "none", padding: "16px 36px", borderRadius: 14, transition: "all 250ms ease", boxShadow: `0 6px 20px ${RAW.pink}35` }}>
               Browse Menu
             </a>
           </Reveal>
@@ -543,7 +543,7 @@ export default function KakeAndKream() {
               {[
                 ["Pickup Only", RAW.pink], ["Fridays", RAW.coral], ["Venmo / Zelle", RAW.yellow], ["Made Fresh", RAW.mint],
               ].map(([t, c], i) => (
-                <span key={i} style={{ padding: "12px 24px", borderRadius: 14, background: c + "20", color: C.ink, fontSize: 15, fontWeight: 800, border: `2px solid ${c}40` }}>{t}</span>
+                <span key={i} style={{ padding: "12px 24px", borderRadius: 14, background: c + "20", color: C.ink, fontSize: 15, fontWeight: 500, border: `2px solid ${c}40` }}>{t}</span>
               ))}
             </div>
           </Reveal>
@@ -557,8 +557,8 @@ export default function KakeAndKream() {
       <section id="menu" style={{ padding: "100px 24px", background: C.surfRose }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
         <Reveal>
-          <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 800, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>Our Menu</p>
-          <h2 style={{ fontFamily: F.d, fontSize: "clamp(30px, 7vw, 44px)", fontWeight: 800, textAlign: "center", margin: "0 0 8px" }}>What are you craving?</h2>
+          <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 500, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>Our Menu</p>
+          <h2 style={{ fontFamily: F.d, fontSize: "clamp(30px, 7vw, 44px)", fontWeight: 500, textAlign: "center", margin: "0 0 8px" }}>What are you craving?</h2>
           <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 12px" }} />
           <p style={{ fontFamily: F.a, fontSize: 18, color: C.sub, textAlign: "center", marginBottom: 40, fontWeight: 400 }}>Tap to see flavors and add to cart</p>
         </Reveal>
@@ -586,12 +586,12 @@ export default function KakeAndKream() {
                   )}
                   <div style={{ padding: "20px 24px", display: "flex", flexDirection: "column", flex: 1 }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-                      <div style={{ fontFamily: F.d, fontSize: 22, fontWeight: 800 }}>{p.name}</div>
-                      <div style={{ fontSize: 16, fontWeight: 800, color: p.color }}>{p.price}</div>
+                      <div style={{ fontFamily: F.d, fontSize: 22, fontWeight: 500 }}>{p.name}</div>
+                      <div style={{ fontSize: 16, fontWeight: 500, color: p.color }}>{p.price}</div>
                     </div>
-                    <p style={{ fontSize: 14, color: C.sub, margin: "0 0 12px", lineHeight: 1.4, fontWeight: 600 }}>{p.note}</p>
+                    <p style={{ fontSize: 14, color: C.sub, margin: "0 0 12px", lineHeight: 1.4, fontWeight: 400 }}>{p.note}</p>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto" }}>
-                      <span style={{ fontSize: 15, fontWeight: 800, color: p.color }}>View options</span>
+                      <span style={{ fontSize: 15, fontWeight: 500, color: p.color }}>View options</span>
                       <div style={{ width: 10, height: 10, borderRadius: "50%", background: p.color }} />
                     </div>
                   </div>
@@ -607,8 +607,8 @@ export default function KakeAndKream() {
       <section style={{ padding: "100px 24px", background: C.surfMint }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           <Reveal>
-            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 800, color: C.mint, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>How It Works</p>
-            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 800, textAlign: "center", margin: "0 0 8px" }}>Easy as 1, 2, 3</h2>
+            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 500, color: C.mint, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>How It Works</p>
+            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 500, textAlign: "center", margin: "0 0 8px" }}>Easy as 1, 2, 3</h2>
             <div style={{ width: 48, height: 4, borderRadius: 2, background: C.mint, margin: "0 auto 32px" }} />
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20 }}>
@@ -624,9 +624,9 @@ export default function KakeAndKream() {
                     <div style={{ width: 56, height: 56, borderRadius: 14, background: s.rc + "18", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px", color: s.c }}>
                       <SIcon size={28} strokeWidth={2} />
                     </div>
-                    <div style={{ fontFamily: F.d, fontSize: 40, fontWeight: 900, color: s.c, marginBottom: 4 }}>{s.n}</div>
-                    <h3 style={{ fontFamily: F.d, fontSize: 22, fontWeight: 800, margin: "0 0 8px" }}>{s.t}</h3>
-                    <p style={{ fontSize: 15, color: C.sub, margin: 0, lineHeight: 1.5, fontWeight: 600 }}>{s.d}</p>
+                    <div style={{ fontFamily: F.d, fontSize: 40, fontWeight: 500, color: s.c, marginBottom: 4 }}>{s.n}</div>
+                    <h3 style={{ fontFamily: F.d, fontSize: 22, fontWeight: 500, margin: "0 0 8px" }}>{s.t}</h3>
+                    <p style={{ fontSize: 15, color: C.sub, margin: 0, lineHeight: 1.5, fontWeight: 400 }}>{s.d}</p>
                   </div>
                 </Reveal>
               );
@@ -639,8 +639,8 @@ export default function KakeAndKream() {
       <section id="about" style={{ padding: "100px 24px" }}>
         <div style={{ maxWidth: 460, margin: "0 auto", textAlign: "center" }}>
           <Reveal variant="fade-in">
-            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 800, color: C.lavender, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>About</p>
-            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 800, margin: "0 0 8px" }}>Meet the Baker</h2>
+            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 500, color: C.lavender, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>About</p>
+            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 500, margin: "0 0 8px" }}>Meet the Baker</h2>
             <div style={{ width: 48, height: 4, borderRadius: 2, background: C.lavender, margin: "0 auto 16px" }} />
           </Reveal>
           <Reveal d={0.05} variant="fade-in">
@@ -652,7 +652,7 @@ export default function KakeAndKream() {
             <p style={{ fontFamily: F.a, fontSize: 18, color: C.sub, lineHeight: 1.7, fontWeight: 400 }}>
               Hi, I'm Kalyani! I've been baking for family and friends for years and I'm so excited to share my treats with St. Louis. Every item is baked fresh to order with love.
             </p>
-            <p style={{ fontSize: 14, color: C.muted, marginTop: 12, fontWeight: 700 }}>Kalyani's words and photo coming soon!</p>
+            <p style={{ fontSize: 14, color: C.muted, marginTop: 12, fontWeight: 400 }}>Kalyani's words and photo coming soon!</p>
           </Reveal>
         </div>
       </section>
@@ -661,8 +661,8 @@ export default function KakeAndKream() {
       <section id="faq" style={{ padding: "100px 24px", background: C.surfLav }}>
         <div style={{ maxWidth: 520, margin: "0 auto" }}>
           <Reveal>
-            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 800, color: C.sky, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>FAQ</p>
-            <h2 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 800, textAlign: "center", margin: "0 0 8px" }}>Questions?</h2>
+            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 500, color: C.sky, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>FAQ</p>
+            <h2 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 500, textAlign: "center", margin: "0 0 8px" }}>Questions?</h2>
             <div style={{ width: 48, height: 4, borderRadius: 2, background: C.sky, margin: "0 auto 32px" }} />
           </Reveal>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -675,14 +675,14 @@ export default function KakeAndKream() {
                     style={{
                       width: "100%", padding: "18px 24px", background: "none", border: "none",
                       cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between",
-                      alignItems: "center", fontFamily: F.b, fontSize: 17, fontWeight: 800, color: C.ink,
+                      alignItems: "center", fontFamily: F.b, fontSize: 17, fontWeight: 500, color: C.ink,
                     }}
                   >
                     {f.q}
                     <ChevronDown size={20} strokeWidth={2.5} style={{ color: C.muted, transition: "transform 250ms ease", transform: openFaq === i ? "rotate(180deg)" : "none", flexShrink: 0 }} />
                   </button>
                   <div role="region" aria-hidden={openFaq !== i} style={{ maxHeight: openFaq === i ? 200 : 0, overflow: "hidden", transition: "max-height 250ms ease" }}>
-                    <p style={{ padding: "0 24px 20px", fontSize: 16, color: C.sub, lineHeight: 1.5, margin: 0, fontWeight: 600 }}>{f.a}</p>
+                    <p style={{ padding: "0 24px 20px", fontSize: 16, color: C.sub, lineHeight: 1.5, margin: 0, fontWeight: 400 }}>{f.a}</p>
                   </div>
                 </div>
               </Reveal>
@@ -693,7 +693,7 @@ export default function KakeAndKream() {
 
       {/* Disclaimer */}
       <div style={{ background: C.secondary, padding: "20px 24px", textAlign: "center" }}>
-        <p style={{ fontSize: 14, color: C.white, lineHeight: 1.5, maxWidth: 750, margin: "0 auto", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+        <p style={{ fontSize: 14, color: C.white, lineHeight: 1.5, maxWidth: 750, margin: "0 auto", fontWeight: 400, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
           <AlertTriangle size={16} strokeWidth={2.5} style={{ flexShrink: 0 }} />
           This food is made in a home kitchen and is not inspected by the Department of State Health Services or a local health department.
         </p>
@@ -701,15 +701,15 @@ export default function KakeAndKream() {
 
       {/* Footer */}
       <footer style={{ padding: "48px 24px 32px", textAlign: "center", background: C.warm }}>
-        <div style={{ fontFamily: F.d, fontSize: 26, fontWeight: 800, marginBottom: 8 }}>Kake <span style={{ color: C.pink }}>N</span> Kream</div>
+        <div style={{ fontFamily: F.d, fontSize: 26, fontWeight: 500, marginBottom: 8 }}>Kake <span style={{ color: C.pink }}>N</span> Kream</div>
         <p style={{ fontFamily: F.a, fontSize: 16, color: C.sub, margin: "0 0 12px", fontWeight: 400 }}>Handcrafted baked goods · St. Louis, MO</p>
-        <div style={{ fontSize: 13, color: C.muted, fontWeight: 700 }}>&copy; {new Date().getFullYear()} Kake N Kream</div>
-        <div style={{ fontSize: 12, color: C.muted, marginTop: 10, fontWeight: 600, opacity: 0.6 }}>Built by <a href="https://foundry-red.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: C.pink, textDecoration: "none" }}>Foundry</a></div>
+        <div style={{ fontSize: 13, color: C.muted, fontWeight: 400 }}>&copy; {new Date().getFullYear()} Kake N Kream</div>
+        <div style={{ fontSize: 12, color: C.muted, marginTop: 10, fontWeight: 400, opacity: 0.6 }}>Built by <a href="https://foundry-red.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: C.pink, textDecoration: "none" }}>Foundry</a></div>
       </footer>
 
       {/* Floating cart */}
       {scrolled && cart.length > 0 && (
-        <button aria-label="Open cart" onClick={() => setDrawer(true)} style={{ position: "fixed", bottom: 20, right: 20, zIndex: 90, background: C.pink, color: C.white, padding: "16px 24px", borderRadius: 16, fontFamily: F.d, fontSize: 16, fontWeight: 800, border: "none", cursor: "pointer", boxShadow: "0 8px 24px rgba(0,0,0,0.15)", display: "flex", alignItems: "center", gap: 8, transition: "all 250ms ease" }}>
+        <button aria-label="Open cart" onClick={() => setDrawer(true)} style={{ position: "fixed", bottom: 20, right: 20, zIndex: 90, background: C.pink, color: C.white, padding: "16px 24px", borderRadius: 16, fontFamily: F.d, fontSize: 16, fontWeight: 500, border: "none", cursor: "pointer", boxShadow: "0 8px 24px rgba(0,0,0,0.15)", display: "flex", alignItems: "center", gap: 8, transition: "all 250ms ease" }}>
           <ShoppingCart size={20} strokeWidth={2.5} /> Cart ({cart.length})
         </button>
       )}
@@ -725,11 +725,11 @@ function CartBtn({ cart, onClick }) {
   return (
     <button className="kk-btn" onClick={onClick} aria-label="Open cart" style={{
       position: "relative", background: C.pink, color: C.white, border: "none",
-      padding: "10px 20px", borderRadius: 12, fontFamily: F.b, fontSize: 16, fontWeight: 800, cursor: "pointer",
+      padding: "10px 20px", borderRadius: 12, fontFamily: F.b, fontSize: 16, fontWeight: 500, cursor: "pointer",
       boxShadow: `0 4px 12px ${RAW.pink}44`, display: "flex", alignItems: "center", gap: 8, transition: "all 250ms ease",
     }}>
       <ShoppingCart size={18} strokeWidth={2.5} />
-      Cart {cart.length > 0 && <span style={{ background: C.white, color: C.ink, borderRadius: "50%", padding: "2px 8px", fontSize: 13, fontWeight: 900 }}>{cart.length}</span>}
+      Cart {cart.length > 0 && <span style={{ background: C.white, color: C.ink, borderRadius: "50%", padding: "2px 8px", fontSize: 13, fontWeight: 500 }}>{cart.length}</span>}
     </button>
   );
 }
@@ -744,7 +744,7 @@ function Styles() {
       .kk-card img { transition: transform 400ms ease; }
       .kk-btn:hover:not(:disabled) { filter: brightness(1.06); transform: translateY(-1px); }
       .kk-btn:active:not(:disabled) { transform: translateY(1px); filter: brightness(0.97); }
-      .kk-nav-link:hover { color: var(--color-primary) !important; background: rgba(232,87,138,0.08); }
+      .kk-nav-link:hover { color: var(--color-primary) !important; background: rgba(255,182,193,0.12); }
     `}</style>
   );
 }
