@@ -1,31 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
 :root {
-  /* Brand */
-  --color-primary: #F2A0B5;
-  --color-primary-hover: #E88FA5;
-  --color-secondary: #B45309;
+  /* Brand — bold, saturated */
+  --color-primary: #E8578A;
+  --color-primary-hover: #D44A7C;
+  --color-secondary: #9A3412;
 
   /* Surface */
-  --color-bg: #FEFCFA;
+  --color-bg: #FEFAF8;
   --color-surface: #FFFFFF;
-  --color-surface-warm: #FEF3C7;
+  --color-surface-warm: #FEF0C7;
+  --color-surface-rose: #FFF0F3;
+  --color-surface-mint: #F0FBF6;
+  --color-surface-lavender: #F5F0FB;
 
   /* Text — tuned for 4.5:1+ contrast on --color-bg */
-  --color-ink: #1C1917;
-  --color-sub: #44403C;
-  --color-muted: #78716C;
+  --color-ink: #0F0D0C;
+  --color-sub: #33302E;
+  --color-muted: #5C5652;
 
-  /* Accent palette */
-  --color-coral: #F4978E;
-  --color-peach: #F8C4A4;
-  --color-yellow: #F7D794;
-  --color-mint: #A8DFC8;
-  --color-sky: #A0C4E8;
-  --color-lavender: #C4B5E0;
+  /* Accent palette — saturated */
+  --color-coral: #EF6F64;
+  --color-peach: #F5A87A;
+  --color-yellow: #F2C45E;
+  --color-mint: #6DCCA8;
+  --color-sky: #6EA8D8;
+  --color-lavender: #A48FCC;
 
   /* Border */
-  --color-border: #E7E5E4;
+  --color-border: #D6D3D1;
 
   /* Typography */
   --font-display: 'Fredoka', sans-serif;
@@ -33,7 +36,7 @@
   --font-accent: 'Playfair Display', serif;
 
   /* Focus */
-  --focus-ring: 0 0 0 3px rgba(242, 160, 181, 0.5);
+  --focus-ring: 0 0 0 3px rgba(232, 87, 138, 0.5);
 }
 
 * {

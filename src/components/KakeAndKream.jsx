@@ -26,18 +26,21 @@ const C = {
   border: "var(--color-border)",
   card: "var(--color-surface)",
   warm: "var(--color-surface-warm)",
+  surfRose: "var(--color-surface-rose)",
+  surfMint: "var(--color-surface-mint)",
+  surfLav: "var(--color-surface-lavender)",
   secondary: "var(--color-secondary)",
 };
 
 /* Raw hex values — only used where CSS var + alpha concatenation is needed */
 const RAW = {
-  pink: "#F2A0B5",
-  coral: "#F4978E",
-  peach: "#F8C4A4",
-  yellow: "#F7D794",
-  mint: "#A8DFC8",
-  sky: "#A0C4E8",
-  lavender: "#C4B5E0",
+  pink: "#E8578A",
+  coral: "#EF6F64",
+  peach: "#F5A87A",
+  yellow: "#F2C45E",
+  mint: "#6DCCA8",
+  sky: "#6EA8D8",
+  lavender: "#A48FCC",
 };
 
 const F = {
@@ -46,25 +49,10 @@ const F = {
   a: "var(--font-accent)",
 };
 
-const FLAVORS = [
-  { id: "choc-van", label: "Chocolate + Vanilla", desc: "Sprinkles & cherry · Filling: ganache or caramel", color: C.peach, raw: RAW.peach },
-  { id: "choc-choc", label: "Double Chocolate", desc: "Chocolate shavings · Filling: ganache", color: C.coral, raw: RAW.coral },
-  { id: "choc-straw", label: "Chocolate Strawberry", desc: "Fresh strawberry buttercream · Filling: strawberry", color: C.pink, raw: RAW.pink },
-  { id: "choc-cookie", label: "Cookies and Cream", desc: "Oreo cookies & cookies and cream buttercream", color: C.lavender, raw: RAW.lavender },
-  { id: "choc-marsh", label: "S'mores Chocolate", desc: "Mini marshmallows & ganache drizzle", color: C.peach, raw: RAW.peach },
-  { id: "choc-mocha", label: "Mocha", desc: "Coffee-kissed chocolate with ganache", color: C.coral, raw: RAW.coral },
-  { id: "choc-coco", label: "Chocolate Coconut", desc: "Unsweetened coconut topping", color: C.mint, raw: RAW.mint },
-  { id: "van-van", label: "Vanilla Squared", desc: "Classic vanilla buttercream & sprinkles", color: C.yellow, raw: RAW.yellow },
-  { id: "van-coco", label: "Vanilla Coconut", desc: "Toasted coconut flakes", color: C.mint, raw: RAW.mint },
-  { id: "van-choc", label: "Vanilla Chocolate", desc: "Rich chocolate buttercream · Filling: ganache", color: C.coral, raw: RAW.coral },
-  { id: "van-straw", label: "Strawberry Bliss", desc: "Strawberry buttercream & strawberry slice", color: C.pink, raw: RAW.pink },
-  { id: "van-cara", label: "Caramel Dream", desc: "Caramel buttercream & caramel drizzle", color: C.peach, raw: RAW.peach },
-  { id: "van-cotton", label: "Cotton Candy", desc: "Cotton candy bites & sprinkles", color: C.lavender, raw: RAW.lavender },
-  { id: "rv-cc", label: "Red Velvet", desc: "Cream cheese buttercream · Sprinkles", color: C.coral, raw: RAW.coral },
-  { id: "conf-van", label: "Confetti Vanilla", desc: "Vanilla almond cake with sprinkles", color: C.yellow, raw: RAW.yellow },
-  { id: "conf-choc", label: "Confetti Chocolate", desc: "Chocolate buttercream · Filling: ganache", color: C.peach, raw: RAW.peach },
-  { id: "conf-straw", label: "Confetti Strawberry", desc: "Strawberry buttercream · Filling: strawberry", color: C.pink, raw: RAW.pink },
-];
+const CAKE_FLAVORS = ["Vanilla", "Chocolate", "Red Velvet", "Confetti", "Strawberry", "Biscoff"];
+const BUTTERCREAMS = ["Vanilla", "Chocolate", "Strawberry", "Caramel", "Coconut", "Cookies & Cream", "Mocha", "Cotton Candy", "Cream Cheese"];
+const TOPPINGS = ["Sprinkles", "Chocolate Shavings/Curls", "Ganache", "Cherry", "Coconut Flakes", "Mini Marshmallows", "Oreo Cookies", "Caramel", "Strawberry Slice", "Cotton Candy Bites"];
+const FILLINGS = ["None", "Ganache", "Caramel", "Strawberry"];
 
 const BUNDTS = [
   { id: "b-van", name: "Vanilla", desc: "Cinnamon & toasted walnut streusel, topped with glaze", price: 45, color: C.yellow, raw: RAW.yellow },
@@ -75,7 +63,7 @@ const BUNDTS = [
 
 const PRODUCTS = [
   { id: "cupcakes", name: "Cupcakes", icon: Cake, price: "$4.50–$5 each", note: "Filling +$0.50 · Min 1 dozen · One flavor per dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12 },
-  { id: "mini", name: "Mini Cakes", icon: CakeSlice, price: "Per dozen", note: "Min 2 dozen · One flavor per dozen", color: C.peach, raw: RAW.peach, min: 24, step: 12 },
+  { id: "mini", name: "Mini Cakes", icon: CakeSlice, price: "Price varies", note: "Min 2 dozen · One flavor per dozen", color: C.peach, raw: RAW.peach, min: 24, step: 12 },
   { id: "bundt", name: "Bundt Cakes", icon: CircleDot, price: "From $45", note: "Full-size · Sold individually", color: C.yellow, raw: RAW.yellow, min: 1, step: 1 },
   { id: "sheet", name: "Sheet Cakes", icon: Cake, price: "From $110", note: "9×13 · Price varies", color: C.lavender, raw: RAW.lavender, min: 1, step: 1 },
   { id: "brownies", name: "Brownies", icon: Cookie, price: "$3 each", note: "Fudgy chocolate · Min 1 dozen", color: C.mint, raw: RAW.mint, min: 12, step: 12 },
@@ -100,7 +88,7 @@ const PRODUCT_IMAGES = {
   },
 };
 
-function Reveal({ children, d = 0, style = {} }) {
+function Reveal({ children, d = 0, style = {}, variant = "up" }) {
   const r = useRef(null);
   const [v, setV] = useState(false);
   const prefersReduced = useRef(false);
@@ -111,7 +99,8 @@ function Reveal({ children, d = 0, style = {} }) {
     const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setV(true); o.disconnect(); } }, { threshold: 0.1 });
     o.observe(el); return () => o.disconnect();
   }, []);
-  return <div ref={r} style={{ opacity: v ? 1 : 0, transform: v ? "none" : "translateY(16px)", transition: `all 0.5s ease ${d}s`, ...style }}>{children}</div>;
+  const hidden = { up: "translateY(24px)", scale: "scale(0.95)", "fade-in": "none", left: "translateX(-24px)", right: "translateX(24px)" };
+  return <div ref={r} style={{ opacity: v ? 1 : 0, transform: v ? "none" : (hidden[variant] || hidden.up), transition: `all 0.6s cubic-bezier(0.22,1,0.36,1) ${d}s`, ...style }}>{children}</div>;
 }
 
 function Qty({ value, onChange, min, step }) {
@@ -144,9 +133,11 @@ export default function KakeAndKream() {
   const [scrolled, setScrolled] = useState(false);
   const [view, setView] = useState("home");
   const [drawer, setDrawer] = useState(false);
-  const [sel, setSel] = useState("");
+  const [selCake, setSelCake] = useState("");
+  const [selButtercream, setSelButtercream] = useState("");
+  const [selTopping, setSelTopping] = useState("");
+  const [selFilling, setSelFilling] = useState("None");
   const [qty, setQtyVal] = useState(12);
-  const [filling, setFilling] = useState(false);
   const [selBundt, setSelBundt] = useState("");
   const [sheetNote, setSheetNote] = useState("");
   const [cust, setCust] = useState({ fn: "", ln: "", email: "", phone: "", date: "", allergy: "", notes: "" });
@@ -157,12 +148,12 @@ export default function KakeAndKream() {
   useEffect(() => { const fn = () => setScrolled(window.scrollY > 40); window.addEventListener("scroll", fn); return () => window.removeEventListener("scroll", fn); }, []);
   useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, [view]);
 
-  const add = (item) => { setCart(p => [...p, { ...item, _id: Date.now() + Math.random() }]); setSel(""); setFilling(false); setSelBundt(""); setSheetNote(""); };
+  const add = (item) => { setCart(p => [...p, { ...item, _id: Date.now() + Math.random() }]); setSelCake(""); setSelButtercream(""); setSelTopping(""); setSelFilling("None"); setSelBundt(""); setSheetNote(""); };
   const rm = (id) => setCart(p => p.filter(i => i._id !== id));
 
   const openProd = (id) => {
     const p = PRODUCTS.find(x => x.id === id);
-    setQtyVal(p.min); setSel(""); setSelBundt(""); setFilling(false); setSheetNote("");
+    setQtyVal(p.min); setSelCake(""); setSelButtercream(""); setSelTopping(""); setSelFilling("None"); setSelBundt(""); setSheetNote("");
     setView("p:" + id);
   };
 
@@ -181,12 +172,12 @@ export default function KakeAndKream() {
   const errMsg = (field) => errors[field] ? <p role="alert" style={{ fontSize: 13, color: C.coral, fontWeight: 700, marginTop: 4 }}>{errors[field]}</p> : null;
 
   const faqs = [
-    { q: "Do you deliver?", a: "Pickup only — Fridays from our home in the Austin area." },
+    { q: "Do you deliver?", a: "Pickup only — Fridays from our home in the St. Louis area." },
     { q: "Minimum orders?", a: "Cupcakes & brownies: 1 dozen. Mini cakes: 2 dozen. Bundt & sheet: individual." },
     { q: "Can I mix flavors?", a: "Each dozen is one flavor, but you can order multiple dozens in different flavors." },
     { q: "Custom cakes?", a: "Not yet — just our signature menu. Custom cakes coming soon!" },
     { q: "Payment?", a: "50% upfront via Venmo/Zelle after confirmation, 50% at pickup." },
-    { q: "How much notice?", a: "At least 1 week. Everything is baked fresh." },
+    { q: "How much notice?", a: "At least 2 weeks. Everything is baked fresh." },
     { q: "Allergy-free?", a: "No — same equipment for all products. Please note allergies in your order." },
   ];
 
@@ -216,7 +207,7 @@ export default function KakeAndKream() {
                   <div key={item._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0", borderBottom: i < cart.length - 1 ? `2px solid ${C.border}` : "none" }}>
                     <div>
                       <div style={{ fontWeight: 800, fontSize: 18 }}>{item.type}</div>
-                      <div style={{ fontSize: 16, color: C.sub, fontWeight: 600 }}>{item.flavor} x {item.qty}{item.filling ? " + filling" : ""}</div>
+                      <div style={{ fontSize: 16, color: C.sub, fontWeight: 600 }}>{item.flavor} x {item.qty}{item.filling ? ` + ${item.filling} filling` : ""}</div>
                       {item.notes && <div style={{ fontSize: 14, color: C.muted, fontStyle: "italic", fontWeight: 500 }}>{item.notes}</div>}
                     </div>
                     <button aria-label={`Remove ${item.type}`} onClick={() => rm(item._id)} style={{ width: 44, height: 44, borderRadius: 12, border: `2px solid ${C.coral}`, background: C.white, cursor: "pointer", color: C.coral, display: "flex", alignItems: "center", justifyContent: "center", transition: "all 250ms ease" }}>
@@ -248,7 +239,7 @@ export default function KakeAndKream() {
                     <input type="tel" value={cust.phone} onChange={e => setCust(p => ({ ...p, phone: e.target.value }))} style={inp("phone")} placeholder="(512) 555-1234" />
                   </div>
                   <div>
-                    <label style={labelStyle}>Pickup Friday (min 1 week notice){reqStar}</label>
+                    <label style={labelStyle}>Pickup Friday (min 2 weeks notice){reqStar}</label>
                     <input type="date" value={cust.date} onChange={e => { setCust(p => ({ ...p, date: e.target.value })); setErrors(p => ({ ...p, date: undefined })); }} style={{ ...inp("date"), height: 52 }} />
                     {errMsg("date")}
                   </div>
@@ -272,7 +263,7 @@ export default function KakeAndKream() {
                     if (!cust.date) errs.date = "Pickup date is required";
                     if (Object.keys(errs).length) { setErrors(errs); return; }
                     setErrors({});
-                    const order = cart.map((item, i) => `${i + 1}. ${item.type} — ${item.flavor} x ${item.qty}${item.filling ? " (+ filling)" : ""}${item.notes ? ` [${item.notes}]` : ""}`).join("\n");
+                    const order = cart.map((item, i) => `${i + 1}. ${item.type} — ${item.flavor} x ${item.qty}${item.filling ? ` (+ ${item.filling} filling)` : ""}${item.topping ? ` [topping: ${item.topping}]` : ""}${item.notes ? ` [${item.notes}]` : ""}`).join("\n");
                     const payload = { firstName: cust.fn, lastName: cust.ln, email: cust.email, _replyto: cust.email, phone: cust.phone, pickupDate: cust.date, allergies: cust.allergy, notes: cust.notes, order };
                     setSubmitting(true);
                     try {
@@ -327,11 +318,16 @@ export default function KakeAndKream() {
     const isBundt = pid === "bundt";
     const isSheet = pid === "sheet";
     const isBrown = pid === "brownies";
-    const canAdd = hasFl ? !!sel : isBundt ? !!selBundt : true;
+    const canAdd = hasFl ? (!!selCake && !!selButtercream && !!selTopping) : isBundt ? !!selBundt : true;
     const Icon = prod.icon;
 
     const doAdd = () => {
-      if (hasFl && sel) { const fl = FLAVORS.find(f => f.id === sel); add({ type: prod.name, flavor: fl.label, qty, filling: pid === "cupcakes" && filling, desc: fl.desc }); }
+      if (hasFl && selCake && selButtercream && selTopping) {
+        const flavorLabel = `${selCake} cake, ${selButtercream} buttercream`;
+        const fillingText = selFilling !== "None" ? selFilling : false;
+        const desc = `Topping: ${selTopping}${fillingText ? `, Filling: ${fillingText}` : ""}`;
+        add({ type: prod.name, flavor: flavorLabel, qty, filling: fillingText, desc, topping: selTopping });
+      }
       else if (isBundt && selBundt) { const b = BUNDTS.find(o => o.id === selBundt); add({ type: "Bundt Cake", flavor: b.name, qty, price: b.price }); }
       else if (isSheet) { add({ type: "Sheet Cake", flavor: "9x13", qty: 1, notes: sheetNote, price: 110 }); }
       else if (isBrown) { add({ type: "Brownies", flavor: "Fudgy Chocolate", qty }); }
@@ -386,43 +382,50 @@ export default function KakeAndKream() {
             </div>
           )}
 
-          {/* Flavors */}
+          {/* Flavor Dropdowns */}
           {hasFl && (
             <div style={{ marginBottom: 24 }}>
-              <p style={{ fontFamily: F.d, fontSize: 18, fontWeight: 600, marginBottom: 12 }}>Select a flavor</p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12 }}>
-                {FLAVORS.map(fl => {
-                  const active = sel === fl.id;
-                  return (
-                    <button key={fl.id} onClick={() => setSel(fl.id)} style={{
-                      display: "flex", flexDirection: "column", gap: 6, padding: "14px",
-                      borderRadius: 12, border: `2px solid ${active ? prod.color : C.border}`,
-                      background: active ? prod.raw + "10" : C.white,
-                      cursor: "pointer", textAlign: "left", transition: "all 250ms ease", outline: "none",
-                    }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 10, width: "100%" }}>
-                        <div style={{ width: 12, height: 12, borderRadius: "50%", background: fl.color, flexShrink: 0 }} />
-                        <span style={{ fontWeight: 800, fontSize: 15 }}>{fl.label}</span>
-                        {active && <Check size={16} strokeWidth={3} style={{ color: prod.color, marginLeft: "auto" }} />}
-                      </div>
-                      <div style={{ fontSize: 14, color: C.sub, fontWeight: 600 }}>{fl.desc}</div>
-                    </button>
-                  );
-                })}
+              <p style={{ fontFamily: F.d, fontSize: 22, fontWeight: 800, marginBottom: 16, color: C.ink }}>Customize Your Flavor</p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                {[
+                  { label: "Cake Flavor", value: selCake, onChange: setSelCake, options: CAKE_FLAVORS, required: true },
+                  { label: "Buttercream", value: selButtercream, onChange: setSelButtercream, options: BUTTERCREAMS, required: true },
+                  { label: "Topping", value: selTopping, onChange: setSelTopping, options: TOPPINGS, required: true },
+                  { label: "Filling (optional)", value: selFilling, onChange: setSelFilling, options: FILLINGS, required: false },
+                ].map(({ label, value, onChange, options, required }) => (
+                  <div key={label}>
+                    <label style={{ display: "block", fontFamily: F.d, fontSize: 15, fontWeight: 700, marginBottom: 8, color: C.sub }}>
+                      {label}{required && <span style={{ color: C.coral, marginLeft: 4 }}>*</span>}
+                    </label>
+                    <select
+                      value={value}
+                      onChange={e => onChange(e.target.value)}
+                      style={{
+                        width: "100%", padding: "14px 40px 14px 16px", borderRadius: 12,
+                        border: `2px solid ${value && value !== "None" ? prod.color : C.border}`,
+                        fontFamily: F.b, fontSize: 16, fontWeight: 600,
+                        color: value && value !== "None" ? C.ink : C.muted,
+                        background: value && value !== "None" ? prod.raw + "08" : C.white,
+                        cursor: "pointer", outline: "none",
+                        appearance: "none", WebkitAppearance: "none",
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235C5652' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
+                        backgroundRepeat: "no-repeat", backgroundPosition: "right 14px center",
+                        transition: "all 250ms ease",
+                      }}
+                    >
+                      {required ? <option value="">Choose...</option> : null}
+                      {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                    </select>
+                  </div>
+                ))}
               </div>
-              {pid === "cupcakes" && (
-                <label style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 16, fontSize: 16, fontWeight: 700, cursor: "pointer" }}>
-                  <input type="checkbox" checked={filling} onChange={e => setFilling(e.target.checked)} style={{ accentColor: RAW.yellow, width: 22, height: 22 }} />
-                  Add filling (+$0.50 each)
-                </label>
-              )}
             </div>
           )}
 
           {/* Bundt */}
           {isBundt && (
             <div style={{ marginBottom: 24 }}>
-              <p style={{ fontFamily: F.d, fontSize: 18, fontWeight: 600, marginBottom: 12 }}>Select a flavor</p>
+              <p style={{ fontFamily: F.d, fontSize: 18, fontWeight: 800, marginBottom: 12 }}>Select a flavor</p>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                 {BUNDTS.map(b => {
                   const active = selBundt === b.id;
@@ -475,7 +478,7 @@ export default function KakeAndKream() {
             transition: "all 250ms ease",
             boxShadow: canAdd ? `0 6px 20px ${prod.raw}40` : "none",
           }}>
-            {canAdd ? `Add ${qty / (prod.step >= 12 ? 12 : 1)} ${prod.step >= 12 ? (qty / 12 === 1 ? 'Dozen' : 'Dozens') : (qty === 1 ? 'Item' : 'Items')} to Cart` : "Please select a flavor"}
+            {canAdd ? `Add ${qty / (prod.step >= 12 ? 12 : 1)} ${prod.step >= 12 ? (qty / 12 === 1 ? 'Dozen' : 'Dozens') : (qty === 1 ? 'Item' : 'Items')} to Cart` : "Please complete flavor selections"}
           </button>
 
           {cart.length > 0 && (
@@ -513,9 +516,9 @@ export default function KakeAndKream() {
       </nav>
 
       {/* Hero */}
-      <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "120px 24px 80px" }}>
+      <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "120px 24px 80px", background: `linear-gradient(180deg, ${RAW.pink}08 0%, ${RAW.peach}10 50%, transparent 100%)` }}>
         <div style={{ maxWidth: 560 }}>
-          <Reveal>
+          <Reveal variant="scale">
             <div style={{ width: "min(280px, 70vw)", height: "min(280px, 70vw)", borderRadius: 999, overflow: "hidden", margin: "0 auto 28px", boxShadow: `0 12px 40px ${RAW.pink}30`, border: `4px solid ${C.white}` }}>
               <img src="/images/hero-pink-drip-cake.jpeg" alt="Pink drip cake with chocolate ganache and rosettes" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </div>
@@ -527,11 +530,11 @@ export default function KakeAndKream() {
           </Reveal>
           <Reveal d={0.1}>
             <p style={{ fontFamily: F.a, fontSize: "clamp(18px, 3vw, 22px)", fontWeight: 400, color: C.sub, lineHeight: 1.5, margin: "0 0 32px" }}>
-              Handcrafted cupcakes, cakes and brownies<br />made fresh to order in Austin, TX
+              Handcrafted cupcakes, cakes and brownies<br />made fresh to order in St. Louis, MO
             </p>
           </Reveal>
           <Reveal d={0.15}>
-            <a href="#menu" className="kk-btn" style={{ display: "inline-block", fontFamily: F.d, fontSize: 16, fontWeight: 600, color: C.white, background: C.pink, textDecoration: "none", padding: "16px 36px", borderRadius: 14, transition: "all 250ms ease", boxShadow: `0 6px 20px ${RAW.pink}35` }}>
+            <a href="#menu" className="kk-btn" style={{ display: "inline-block", fontFamily: F.d, fontSize: 16, fontWeight: 700, color: C.white, background: C.pink, textDecoration: "none", padding: "16px 36px", borderRadius: 14, transition: "all 250ms ease", boxShadow: `0 6px 20px ${RAW.pink}35` }}>
               Browse Menu
             </a>
           </Reveal>
@@ -551,14 +554,16 @@ export default function KakeAndKream() {
       <div style={{ height: 1, background: C.border, margin: "0 24px" }} />
 
       {/* Menu */}
-      <section id="menu" style={{ padding: "80px 24px", maxWidth: 900, margin: "0 auto" }}>
+      <section id="menu" style={{ padding: "100px 24px", background: C.surfRose }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
         <Reveal>
           <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 800, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>Our Menu</p>
-          <h2 style={{ fontFamily: F.d, fontSize: "clamp(30px, 7vw, 44px)", fontWeight: 800, textAlign: "center", margin: "0 0 12px" }}>What are you craving?</h2>
+          <h2 style={{ fontFamily: F.d, fontSize: "clamp(30px, 7vw, 44px)", fontWeight: 800, textAlign: "center", margin: "0 0 8px" }}>What are you craving?</h2>
+          <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 12px" }} />
           <p style={{ fontFamily: F.a, fontSize: 18, color: C.sub, textAlign: "center", marginBottom: 40, fontWeight: 400 }}>Tap to see flavors and add to cart</p>
         </Reveal>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 16, alignItems: "stretch" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 20, alignItems: "stretch" }}>
           {PRODUCTS.map((p, i) => {
             const PIcon = p.icon;
             const imgs = PRODUCT_IMAGES[p.id];
@@ -579,7 +584,7 @@ export default function KakeAndKream() {
                       <PIcon size={48} strokeWidth={1.5} />
                     </div>
                   )}
-                  <div style={{ padding: "16px 20px", display: "flex", flexDirection: "column", flex: 1 }}>
+                  <div style={{ padding: "20px 24px", display: "flex", flexDirection: "column", flex: 1 }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
                       <div style={{ fontFamily: F.d, fontSize: 22, fontWeight: 800 }}>{p.name}</div>
                       <div style={{ fontSize: 16, fontWeight: 800, color: p.color }}>{p.price}</div>
@@ -595,16 +600,18 @@ export default function KakeAndKream() {
             );
           })}
         </div>
+        </div>
       </section>
 
       {/* How it works */}
-      <section style={{ padding: "80px 24px", background: C.warm }}>
+      <section style={{ padding: "100px 24px", background: C.surfMint }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           <Reveal>
             <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 800, color: C.mint, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>How It Works</p>
-            <h2 style={{ fontFamily: F.d, fontSize: 30, fontWeight: 700, textAlign: "center", margin: "0 0 32px" }}>Easy as 1, 2, 3</h2>
+            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 800, textAlign: "center", margin: "0 0 8px" }}>Easy as 1, 2, 3</h2>
+            <div style={{ width: 48, height: 4, borderRadius: 2, background: C.mint, margin: "0 auto 32px" }} />
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20 }}>
             {[
               { n: "1", t: "Build Your Cart", d: "Browse, pick flavors, add items.", icon: ShoppingCart, c: C.pink, rc: RAW.pink },
               { n: "2", t: "Submit and Confirm", d: "We'll email to confirm and share payment info.", icon: Mail, c: C.yellow, rc: RAW.yellow },
@@ -612,8 +619,8 @@ export default function KakeAndKream() {
             ].map((s, i) => {
               const SIcon = s.icon;
               return (
-                <Reveal key={i} d={i * 0.05}>
-                  <div style={{ padding: "32px 24px", borderRadius: 18, border: `2px solid ${C.border}`, textAlign: "center", background: C.white }}>
+                <Reveal key={i} d={i * 0.05} variant="scale">
+                  <div style={{ padding: "36px 28px", borderRadius: 18, border: `2px solid ${C.border}`, textAlign: "center", background: C.white, boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}>
                     <div style={{ width: 56, height: 56, borderRadius: 14, background: s.rc + "18", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px", color: s.c }}>
                       <SIcon size={28} strokeWidth={2} />
                     </div>
@@ -629,20 +636,21 @@ export default function KakeAndKream() {
       </section>
 
       {/* About */}
-      <section id="about" style={{ padding: "80px 24px" }}>
+      <section id="about" style={{ padding: "100px 24px" }}>
         <div style={{ maxWidth: 460, margin: "0 auto", textAlign: "center" }}>
-          <Reveal>
+          <Reveal variant="fade-in">
             <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 800, color: C.lavender, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>About</p>
-            <h2 style={{ fontFamily: F.d, fontSize: 30, fontWeight: 700, margin: "0 0 16px" }}>Meet the Baker</h2>
+            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 800, margin: "0 0 8px" }}>Meet the Baker</h2>
+            <div style={{ width: 48, height: 4, borderRadius: 2, background: C.lavender, margin: "0 auto 16px" }} />
           </Reveal>
-          <Reveal d={0.05}>
+          <Reveal d={0.05} variant="fade-in">
             <div style={{ width: 72, height: 72, borderRadius: "50%", margin: "0 auto 14px", background: RAW.peach + "30", display: "flex", alignItems: "center", justifyContent: "center", color: C.peach }}>
               <ChefHat size={34} strokeWidth={2} />
             </div>
           </Reveal>
           <Reveal d={0.1}>
             <p style={{ fontFamily: F.a, fontSize: 18, color: C.sub, lineHeight: 1.7, fontWeight: 400 }}>
-              Hi, I'm Kalyani! I've been baking for family and friends for years and I'm so excited to share my treats with Austin. Every item is baked fresh to order with love.
+              Hi, I'm Kalyani! I've been baking for family and friends for years and I'm so excited to share my treats with St. Louis. Every item is baked fresh to order with love.
             </p>
             <p style={{ fontSize: 14, color: C.muted, marginTop: 12, fontWeight: 700 }}>Kalyani's words and photo coming soon!</p>
           </Reveal>
@@ -650,11 +658,12 @@ export default function KakeAndKream() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" style={{ padding: "80px 24px", background: C.white }}>
+      <section id="faq" style={{ padding: "100px 24px", background: C.surfLav }}>
         <div style={{ maxWidth: 520, margin: "0 auto" }}>
           <Reveal>
             <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 800, color: C.sky, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>FAQ</p>
-            <h2 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 800, textAlign: "center", margin: "0 0 32px" }}>Questions?</h2>
+            <h2 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 800, textAlign: "center", margin: "0 0 8px" }}>Questions?</h2>
+            <div style={{ width: 48, height: 4, borderRadius: 2, background: C.sky, margin: "0 auto 32px" }} />
           </Reveal>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {faqs.map((f, i) => (
@@ -693,7 +702,7 @@ export default function KakeAndKream() {
       {/* Footer */}
       <footer style={{ padding: "48px 24px 32px", textAlign: "center", background: C.warm }}>
         <div style={{ fontFamily: F.d, fontSize: 26, fontWeight: 800, marginBottom: 8 }}>Kake <span style={{ color: C.pink }}>N</span> Kream</div>
-        <p style={{ fontFamily: F.a, fontSize: 16, color: C.sub, margin: "0 0 12px", fontWeight: 400 }}>Handcrafted baked goods · Austin, TX</p>
+        <p style={{ fontFamily: F.a, fontSize: 16, color: C.sub, margin: "0 0 12px", fontWeight: 400 }}>Handcrafted baked goods · St. Louis, MO</p>
         <div style={{ fontSize: 13, color: C.muted, fontWeight: 700 }}>&copy; {new Date().getFullYear()} Kake N Kream</div>
         <div style={{ fontSize: 12, color: C.muted, marginTop: 10, fontWeight: 600, opacity: 0.6 }}>Built by <a href="https://foundry-red.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: C.pink, textDecoration: "none" }}>Foundry</a></div>
       </footer>
@@ -728,11 +737,14 @@ function CartBtn({ cart, onClick }) {
 function Styles() {
   return (
     <style>{`
-      .kk-card:hover { border-color: var(--color-primary) !important; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
-      .kk-card:active { transform: translateY(0); }
+      .kk-card { box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: all 300ms cubic-bezier(0.22,1,0.36,1) !important; }
+      .kk-card:hover { border-color: var(--color-primary) !important; transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.10); }
+      .kk-card:hover img { transform: scale(1.03); }
+      .kk-card:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+      .kk-card img { transition: transform 400ms ease; }
       .kk-btn:hover:not(:disabled) { filter: brightness(1.06); transform: translateY(-1px); }
       .kk-btn:active:not(:disabled) { transform: translateY(1px); filter: brightness(0.97); }
-      .kk-nav-link:hover { color: var(--color-primary) !important; background: rgba(242,160,181,0.08); }
+      .kk-nav-link:hover { color: var(--color-primary) !important; background: rgba(232,87,138,0.08); }
     `}</style>
   );
 }
