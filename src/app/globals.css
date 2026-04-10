@@ -1,34 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
 :root {
-  /* Brand — soft pastels */
-  --color-primary: #FFB6C1;
-  --color-primary-hover: #F5A0AD;
-  --color-secondary: #8B6F5E;
+  /* Brand — bakery-chic pink / yellow / chocolate brown */
+  --color-primary: #FF69B4;
+  --color-primary-hover: #FF4DA6;
+  --color-secondary: #5C3A28;
+  --color-brown: #5C3A28;
+  --color-cream: #FFFAF7;
 
-  /* Surface */
-  --color-bg: #FFFFFF;
+  /* Surface — warm white with pink-cream alternation */
+  --color-bg: #FFFAF7;
   --color-surface: #FFFFFF;
-  --color-surface-warm: #FFF9F9;
-  --color-surface-rose: #FFF9F9;
-  --color-surface-mint: #F5FAFF;
-  --color-surface-lavender: #FFFEF5;
+  --color-surface-warm: #5C3A28;     /* footer → chocolate brown */
+  --color-surface-rose: #FFF5F0;     /* menu → faint pink-cream */
+  --color-surface-mint: #FFFAF7;     /* how-it-works → warm white */
+  --color-surface-lavender: #FFF5F0; /* FAQ → faint pink-cream */
 
-  /* Text — dark brown for warmth */
+  /* Text */
   --color-ink: #2A1810;
-  --color-sub: #5C4A3E;
+  --color-sub: #5C3A28;
   --color-muted: #8B7D75;
 
-  /* Accent palette — soft pastels */
-  --color-coral: #FECDD3;
-  --color-peach: #FFD8C4;
-  --color-yellow: #FFF9C4;
-  --color-mint: #C5E8D5;
-  --color-sky: #A8D8EA;
-  --color-lavender: #DDD0F0;
+  /* Accent palette — pink + yellow (legacy keys aliased to brown to kill any blue/green/purple fallthrough) */
+  --color-coral: #FF8A9B;
+  --color-peach: #5C3A28;
+  --color-yellow: #FFD54F;
+  --color-mint: #5C3A28;
+  --color-sky: #5C3A28;
+  --color-lavender: #5C3A28;
 
   /* Border */
-  --color-border: #F5E0E4;
+  --color-border: #FF9EC5;
 
   /* Typography */
   --font-display: 'Fredoka', sans-serif;
@@ -36,7 +38,7 @@
   --font-accent: 'Playfair Display', serif;
 
   /* Focus */
-  --focus-ring: 0 0 0 3px rgba(255, 182, 193, 0.5);
+  --focus-ring: 0 0 0 3px rgba(255, 105, 180, 0.65);
 }
 
 * {
@@ -62,7 +64,7 @@ body {
 }
 
 ::selection {
-  background: rgba(255, 182, 193, 0.13);
+  background: rgba(255, 105, 180, 0.18);
 }
 
 @media (prefers-reduced-motion: reduce) {

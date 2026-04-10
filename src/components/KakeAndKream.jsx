@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import {
   Cake, CakeSlice, CircleDot, Cookie, ShoppingCart, Mail, PartyPopper,
   ChefHat, AlertTriangle, X, Plus, Minus, Check, ChevronDown, ChevronLeft,
@@ -13,6 +14,7 @@ import {
 const C = {
   bg: "var(--color-bg)",
   white: "var(--color-surface)",
+  cream: "var(--color-cream)",
   pink: "var(--color-primary)",
   coral: "var(--color-coral)",
   peach: "var(--color-peach)",
@@ -20,6 +22,7 @@ const C = {
   mint: "var(--color-mint)",
   sky: "var(--color-sky)",
   lavender: "var(--color-lavender)",
+  brown: "var(--color-brown)",
   ink: "var(--color-ink)",
   sub: "var(--color-sub)",
   muted: "var(--color-muted)",
@@ -34,13 +37,14 @@ const C = {
 
 /* Raw hex values — only used where CSS var + alpha concatenation is needed */
 const RAW = {
-  pink: "#FFB6C1",
-  coral: "#FECDD3",
-  peach: "#FFD8C4",
-  yellow: "#FFF9C4",
-  mint: "#C5E8D5",
-  sky: "#A8D8EA",
-  lavender: "#DDD0F0",
+  pink: "#FF69B4",
+  coral: "#FF8A9B",
+  peach: "#5C3A28",
+  yellow: "#FFD54F",
+  mint: "#5C3A28",
+  sky: "#5C3A28",
+  lavender: "#5C3A28",
+  brown: "#5C3A28",
 };
 
 const F = {
@@ -56,17 +60,17 @@ const FILLINGS = ["None", "Ganache", "Caramel", "Strawberry"];
 
 const BUNDTS = [
   { id: "b-van", name: "Vanilla", desc: "Cinnamon & toasted walnut streusel, topped with glaze", price: 45, color: C.yellow, raw: RAW.yellow },
-  { id: "b-marble", name: "Marble", desc: "Ganache topping", price: 55, color: C.peach, raw: RAW.peach },
-  { id: "b-rv", name: "Red Velvet", desc: "Cream cheese glaze", price: 55, color: C.coral, raw: RAW.coral },
-  { id: "b-choc", name: "Chocolate", desc: "Ganache topping", price: 55, color: C.coral, raw: RAW.coral },
+  { id: "b-marble", name: "Marble", desc: "Ganache topping", price: 55, color: C.pink, raw: RAW.pink },
+  { id: "b-rv", name: "Red Velvet", desc: "Cream cheese glaze", price: 55, color: C.pink, raw: RAW.pink },
+  { id: "b-choc", name: "Chocolate", desc: "Ganache topping", price: 55, color: C.yellow, raw: RAW.yellow },
 ];
 
 const PRODUCTS = [
   { id: "cupcakes", name: "Cupcakes", icon: Cake, price: "$4.50–$5 each", note: "Filling +$0.50 · Min 1 dozen · One flavor per dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12 },
-  { id: "mini", name: "Mini Cakes", icon: CakeSlice, price: "Price varies", note: "Min 2 dozen · One flavor per dozen", color: C.peach, raw: RAW.peach, min: 24, step: 12 },
-  { id: "bundt", name: "Bundt Cakes", icon: CircleDot, price: "From $45", note: "Full-size · Sold individually", color: C.yellow, raw: RAW.yellow, min: 1, step: 1 },
-  { id: "sheet", name: "Sheet Cakes", icon: Cake, price: "From $110", note: "9×13 · Price varies", color: C.lavender, raw: RAW.lavender, min: 1, step: 1 },
-  { id: "brownies", name: "Brownies", icon: Cookie, price: "$3 each", note: "Fudgy chocolate · Min 1 dozen", color: C.mint, raw: RAW.mint, min: 12, step: 12 },
+  { id: "mini", name: "Mini Cakes", icon: CakeSlice, price: "Price varies", note: "Min 2 dozen · One flavor per dozen", color: C.yellow, raw: RAW.yellow, min: 24, step: 12 },
+  { id: "bundt", name: "Bundt Cakes", icon: CircleDot, price: "From $45", note: "Full-size · Sold individually", color: C.pink, raw: RAW.pink, min: 1, step: 1 },
+  { id: "sheet", name: "Sheet Cakes", icon: Cake, price: "From $110", note: "9×13 · Price varies", color: C.yellow, raw: RAW.yellow, min: 1, step: 1 },
+  { id: "brownies", name: "Brownies", icon: Cookie, price: "$3 each", note: "Fudgy chocolate · Min 1 dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12 },
 ];
 
 const ICON_PROPS = { size: 28, strokeWidth: 2.5 };
@@ -251,7 +255,7 @@ export default function KakeAndKream() {
                     <label style={labelStyle}>Additional notes for Kalyani</label>
                     <textarea rows={2} value={cust.notes} onChange={e => setCust(p => ({ ...p, notes: e.target.value }))} style={{ ...inp("notes"), resize: "vertical" }} placeholder="Special requests, decorations, etc." />
                   </div>
-                  <div style={{ padding: "14px 16px", borderRadius: 14, background: RAW.yellow + "30", fontSize: 14, color: C.ink, lineHeight: 1.5, border: `2px solid ${C.yellow}`, fontWeight: 400, display: "flex", gap: 10, alignItems: "flex-start" }}>
+                  <div style={{ padding: "14px 16px", borderRadius: 14, background: RAW.yellow + "60", fontSize: 14, color: C.ink, lineHeight: 1.5, border: `2px solid ${C.yellow}`, fontWeight: 400, display: "flex", gap: 10, alignItems: "flex-start" }}>
                     <AlertTriangle size={18} strokeWidth={2.5} style={{ flexShrink: 0, marginTop: 2 }} />
                     <span>ATTENTION: Our kitchen is NOT allergy-free. Submitting this form does not book your order — it is only booked when the 50% deposit is paid.</span>
                   </div>
@@ -301,8 +305,8 @@ export default function KakeAndKream() {
     return (
       <div style={{ fontFamily: F.b, color: C.ink, background: C.bg, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: 24 }}>
         <div style={{ textAlign: "center", maxWidth: 400 }}>
-          <div style={{ width: 72, height: 72, borderRadius: 20, background: RAW.mint + "25", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-            <PartyPopper size={36} strokeWidth={2} style={{ color: C.mint }} />
+          <div style={{ width: 72, height: 72, borderRadius: 20, background: RAW.pink + "40", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
+            <PartyPopper size={36} strokeWidth={2} style={{ color: C.pink }} />
           </div>
           <h1 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 700, marginBottom: 8 }}>Order Request Sent!</h1>
           <p style={{ fontSize: 16, color: C.sub, lineHeight: 1.6, marginBottom: 28, fontWeight: 500 }}>We'll email you within 24 hours to confirm details and share payment info.</p>
@@ -350,7 +354,7 @@ export default function KakeAndKream() {
         <div style={{ maxWidth: 680, margin: "0 auto", padding: "28px 20px 80px" }}>
           {/* Header */}
           <div style={{ marginBottom: 28 }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 10, background: prod.raw + "20", fontSize: 16, fontWeight: 500, color: C.ink, marginBottom: 14 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 10, background: prod.raw + "55", fontSize: 16, fontWeight: 500, color: C.ink, marginBottom: 14 }}>
               <Icon size={20} strokeWidth={2.5} /> {prod.name}
             </div>
             <h1 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 700, margin: "0 0 6px" }}>{prod.name}</h1>
@@ -405,7 +409,7 @@ export default function KakeAndKream() {
                         border: `2px solid ${value && value !== "None" ? prod.color : C.border}`,
                         fontFamily: F.b, fontSize: 16, fontWeight: 400,
                         color: value && value !== "None" ? C.ink : C.muted,
-                        background: value && value !== "None" ? prod.raw + "08" : C.white,
+                        background: value && value !== "None" ? prod.raw + "40" : C.white,
                         cursor: "pointer", outline: "none",
                         appearance: "none", WebkitAppearance: "none",
                         backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235C5652' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
@@ -432,7 +436,7 @@ export default function KakeAndKream() {
                   return (
                     <button key={b.id} onClick={() => setSelBundt(b.id)} style={{
                       padding: "16px 14px", borderRadius: 12, textAlign: "center", cursor: "pointer",
-                      border: `2px solid ${active ? b.color : C.border}`, background: active ? b.raw + "12" : C.white,
+                      border: `2px solid ${active ? b.color : C.border}`, background: active ? b.raw + "45" : C.white,
                       transition: "all 250ms ease", outline: "none",
                     }}>
                       <div style={{ fontFamily: F.d, fontSize: 17, fontWeight: 600 }}>{b.name}</div>
@@ -456,7 +460,7 @@ export default function KakeAndKream() {
 
           {/* Brownies */}
           {isBrown && (
-            <div style={{ padding: "20px", borderRadius: 14, background: prod.raw + "15", marginBottom: 28, textAlign: "center", border: `2px solid ${prod.color}` }}>
+            <div style={{ padding: "20px", borderRadius: 14, background: prod.raw + "50", marginBottom: 28, textAlign: "center", border: `2px solid ${prod.color}` }}>
               <span style={{ fontFamily: F.d, fontSize: 20, fontWeight: 600 }}>Fudgy Chocolate Brownies</span>
               <span style={{ fontSize: 18, color: prod.color, fontWeight: 500, marginLeft: 12 }}>$3 each</span>
             </div>
@@ -482,7 +486,7 @@ export default function KakeAndKream() {
           </button>
 
           {cart.length > 0 && (
-            <div style={{ marginTop: 20, padding: "16px 20px", borderRadius: 14, background: RAW.pink + "12", border: `2px solid ${C.pink}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div style={{ marginTop: 20, padding: "16px 20px", borderRadius: 14, background: RAW.pink + "45", border: `2px solid ${C.pink}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <span style={{ fontSize: 16, fontWeight: 500, color: C.ink, display: "flex", alignItems: "center", gap: 8 }}>
                 <Check size={18} strokeWidth={3} style={{ color: C.pink }} /> {cart.length} item{cart.length !== 1 ? "s" : ""} in cart
               </span>
@@ -501,14 +505,31 @@ export default function KakeAndKream() {
       <Styles />
 
       {/* Nav */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: scrolled ? "rgba(255,255,255,0.93)" : "transparent", backdropFilter: scrolled ? "blur(10px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 250ms ease", padding: "0 20px" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: scrolled ? "rgba(92,58,40,0.97)" : "rgba(92,58,40,0.85)", backdropFilter: "blur(10px)", borderBottom: `2px solid ${scrolled ? C.pink : "transparent"}`, transition: "all 250ms ease", padding: "0 20px" }}>
         <div style={{ maxWidth: 900, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
-          <span style={{ fontFamily: F.d, fontSize: 26, fontWeight: 700, color: C.ink }}>
-            Kake <span style={{ color: C.pink }}>N</span> Kream
-          </span>
+          <a href="#" onClick={(e) => { e.preventDefault(); setView("home"); window.scrollTo({ top: 0, behavior: "smooth" }); }} aria-label="Kake N Kream home" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+            <Image
+              src="/images/logo-text.png"
+              alt="Kake N Kream"
+              width={150}
+              height={84}
+              priority
+              className="kk-logo-desktop"
+              style={{ height: 44, width: "auto", display: "block" }}
+            />
+            <Image
+              src="/images/logo-icon.png"
+              alt="Kake N Kream"
+              width={72}
+              height={40}
+              priority
+              className="kk-logo-mobile"
+              style={{ height: 40, width: "auto", display: "block" }}
+            />
+          </a>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             {[["Menu", "#menu"], ["About", "#about"], ["FAQ", "#faq"]].map(([l, h]) => (
-              <a key={l} href={h} className="kk-nav-link" style={{ fontSize: 16, fontWeight: 500, color: C.ink, textDecoration: "none", padding: "10px 14px", borderRadius: 8, transition: "color 250ms ease" }}>{l}</a>
+              <a key={l} href={h} className="kk-nav-link" style={{ fontSize: 16, fontWeight: 500, color: C.cream, textDecoration: "none", padding: "10px 14px", borderRadius: 8, transition: "color 250ms ease" }}>{l}</a>
             ))}
             <CartBtn cart={cart} onClick={() => setDrawer(true)} />
           </div>
@@ -516,11 +537,19 @@ export default function KakeAndKream() {
       </nav>
 
       {/* Hero */}
-      <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "120px 24px 80px", background: `linear-gradient(180deg, ${RAW.pink}08 0%, ${RAW.peach}10 50%, transparent 100%)` }}>
+      <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "120px 24px 80px", background: `linear-gradient(180deg, ${RAW.pink}35 0%, ${RAW.yellow}20 60%, transparent 100%)` }}>
         <div style={{ maxWidth: 560 }}>
           <Reveal variant="scale">
-            <div style={{ width: "min(280px, 70vw)", height: "min(280px, 70vw)", borderRadius: 999, overflow: "hidden", margin: "0 auto 28px", boxShadow: `0 12px 40px ${RAW.pink}30`, border: `4px solid ${C.white}` }}>
-              <img src="/images/hero-pink-drip-cake.jpeg" alt="Pink drip cake with chocolate ganache and rosettes" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            <div style={{ width: "min(300px, 80vw)", margin: "0 auto 24px", display: "flex", justifyContent: "center" }}>
+              <Image
+                src="/images/logo-full.png"
+                alt="Kake N Kream logo"
+                width={600}
+                height={338}
+                priority
+                sizes="(max-width: 640px) 80vw, 300px"
+                style={{ width: "100%", height: "auto", display: "block" }}
+              />
             </div>
           </Reveal>
           <Reveal d={0.05}>
@@ -534,16 +563,16 @@ export default function KakeAndKream() {
             </p>
           </Reveal>
           <Reveal d={0.15}>
-            <a href="#menu" className="kk-btn" style={{ display: "inline-block", fontFamily: F.d, fontSize: 16, fontWeight: 600, color: C.white, background: C.pink, textDecoration: "none", padding: "16px 36px", borderRadius: 14, transition: "all 250ms ease", boxShadow: `0 6px 20px ${RAW.pink}35` }}>
+            <a href="#menu" className="kk-btn" style={{ display: "inline-block", fontFamily: F.d, fontSize: 16, fontWeight: 600, color: C.white, background: C.pink, textDecoration: "none", padding: "16px 36px", borderRadius: 14, transition: "all 250ms ease", boxShadow: `0 8px 24px ${RAW.pink}60` }}>
               Browse Menu
             </a>
           </Reveal>
           <Reveal d={0.2}>
             <div style={{ marginTop: 40, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
               {[
-                ["Pickup Only", RAW.pink], ["Fridays", RAW.coral], ["Venmo / Zelle", RAW.yellow], ["Made Fresh", RAW.mint],
-              ].map(([t, c], i) => (
-                <span key={i} style={{ padding: "12px 24px", borderRadius: 14, background: c + "20", color: C.ink, fontSize: 15, fontWeight: 500, border: `2px solid ${c}40` }}>{t}</span>
+                ["Pickup Only", RAW.pink, C.ink], ["Fridays", RAW.yellow, C.ink], ["Venmo / Zelle", RAW.brown, C.cream], ["Made Fresh", RAW.pink, C.ink],
+              ].map(([t, c, tc], i) => (
+                <span key={i} style={{ padding: "12px 24px", borderRadius: 14, background: c + (tc === C.cream ? "" : "60"), color: tc, fontSize: 15, fontWeight: 500, border: `2px solid ${c}` }}>{t}</span>
               ))}
             </div>
           </Reveal>
@@ -558,7 +587,7 @@ export default function KakeAndKream() {
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
         <Reveal>
           <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>Our Menu</p>
-          <h2 style={{ fontFamily: F.d, fontSize: "clamp(30px, 7vw, 44px)", fontWeight: 700, textAlign: "center", margin: "0 0 8px" }}>What are you craving?</h2>
+          <h2 style={{ fontFamily: F.d, fontSize: "clamp(30px, 7vw, 44px)", fontWeight: 700, textAlign: "center", margin: "0 0 8px", color: C.brown }}>What are you craving?</h2>
           <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 12px" }} />
           <p style={{ fontFamily: F.a, fontSize: 18, color: C.sub, textAlign: "center", marginBottom: 40, fontWeight: 400 }}>Tap to see flavors and add to cart</p>
         </Reveal>
@@ -571,16 +600,16 @@ export default function KakeAndKream() {
               <Reveal key={p.id} d={i * 0.04} style={{ display: "flex" }}>
                 <button className="kk-card" onClick={() => openProd(p.id)} aria-label={`${p.name} — ${p.price}`} style={{
                   width: "100%", padding: 0, borderRadius: 16,
-                  border: `2px solid ${C.border}`, background: C.white, cursor: "pointer",
+                  border: `3px solid ${p.color}`, background: C.white, cursor: "pointer",
                   textAlign: "left", transition: "all 250ms ease", outline: "none",
                   display: "flex", flexDirection: "column", overflow: "hidden",
                 }}>
                   {imgs ? (
-                    <div style={{ width: "100%", aspectRatio: "4/3", overflow: "hidden", background: p.raw + "10" }}>
+                    <div style={{ width: "100%", aspectRatio: "4/3", overflow: "hidden", background: p.raw + "40" }}>
                       <img src={imgs.thumb} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                     </div>
                   ) : (
-                    <div style={{ width: "100%", aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center", background: p.raw + "10", color: p.color }}>
+                    <div style={{ width: "100%", aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center", background: p.raw + "40", color: p.color }}>
                       <PIcon size={48} strokeWidth={1.5} />
                     </div>
                   )}
@@ -607,21 +636,21 @@ export default function KakeAndKream() {
       <section style={{ padding: "100px 24px", background: C.surfMint }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           <Reveal>
-            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.mint, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>How It Works</p>
-            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 700, textAlign: "center", margin: "0 0 8px" }}>Easy as 1, 2, 3</h2>
-            <div style={{ width: 48, height: 4, borderRadius: 2, background: C.mint, margin: "0 auto 32px" }} />
+            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>How It Works</p>
+            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 700, textAlign: "center", margin: "0 0 8px", color: C.brown }}>Easy as 1, 2, 3</h2>
+            <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 32px" }} />
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20 }}>
             {[
               { n: "1", t: "Build Your Cart", d: "Browse, pick flavors, add items.", icon: ShoppingCart, c: C.pink, rc: RAW.pink },
               { n: "2", t: "Submit and Confirm", d: "We'll email to confirm and share payment info.", icon: Mail, c: C.yellow, rc: RAW.yellow },
-              { n: "3", t: "Pickup Friday", d: "Pick up fresh. Pay remaining 50%.", icon: PartyPopper, c: C.mint, rc: RAW.mint },
+              { n: "3", t: "Pickup Friday", d: "Pick up fresh. Pay remaining 50%.", icon: PartyPopper, c: C.brown, rc: RAW.brown },
             ].map((s, i) => {
               const SIcon = s.icon;
               return (
-                <Reveal key={i} d={i * 0.05} variant="scale">
-                  <div style={{ padding: "36px 28px", borderRadius: 18, border: `2px solid ${C.border}`, textAlign: "center", background: C.white, boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}>
-                    <div style={{ width: 56, height: 56, borderRadius: 14, background: s.rc + "18", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px", color: s.c }}>
+                <Reveal key={i} d={i * 0.05} variant="scale" style={{ display: "flex", flexDirection: "column" }}>
+                  <div style={{ flex: 1, padding: "36px 28px", borderRadius: 18, border: `3px solid ${C.brown}`, textAlign: "center", background: C.white, boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}>
+                    <div style={{ width: 56, height: 56, borderRadius: 14, background: s.rc + (s.c === C.brown ? "30" : "60"), display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px", color: s.c }}>
                       <SIcon size={28} strokeWidth={2} />
                     </div>
                     <div style={{ fontFamily: F.d, fontSize: 40, fontWeight: 700, color: s.c, marginBottom: 4 }}>{s.n}</div>
@@ -636,15 +665,15 @@ export default function KakeAndKream() {
       </section>
 
       {/* About */}
-      <section id="about" style={{ padding: "100px 24px" }}>
+      <section id="about" style={{ padding: "100px 24px", background: C.surfRose }}>
         <div style={{ maxWidth: 460, margin: "0 auto", textAlign: "center" }}>
           <Reveal variant="fade-in">
-            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.lavender, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>About</p>
-            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 700, margin: "0 0 8px" }}>Meet the Baker</h2>
-            <div style={{ width: 48, height: 4, borderRadius: 2, background: C.lavender, margin: "0 auto 16px" }} />
+            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>About</p>
+            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 700, margin: "0 0 8px", color: C.brown }}>Meet the Baker</h2>
+            <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 16px" }} />
           </Reveal>
           <Reveal d={0.05} variant="fade-in">
-            <div style={{ width: 72, height: 72, borderRadius: "50%", margin: "0 auto 14px", background: RAW.peach + "30", display: "flex", alignItems: "center", justifyContent: "center", color: C.peach }}>
+            <div style={{ width: 72, height: 72, borderRadius: "50%", margin: "0 auto 14px", background: RAW.pink + "40", display: "flex", alignItems: "center", justifyContent: "center", color: C.brown }}>
               <ChefHat size={34} strokeWidth={2} />
             </div>
           </Reveal>
@@ -661,14 +690,14 @@ export default function KakeAndKream() {
       <section id="faq" style={{ padding: "100px 24px", background: C.surfLav }}>
         <div style={{ maxWidth: 520, margin: "0 auto" }}>
           <Reveal>
-            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.sky, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>FAQ</p>
-            <h2 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 700, textAlign: "center", margin: "0 0 8px" }}>Questions?</h2>
-            <div style={{ width: 48, height: 4, borderRadius: 2, background: C.sky, margin: "0 auto 32px" }} />
+            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>FAQ</p>
+            <h2 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 700, textAlign: "center", margin: "0 0 8px", color: C.brown }}>Questions?</h2>
+            <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 32px" }} />
           </Reveal>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {faqs.map((f, i) => (
               <Reveal key={i} d={i * 0.02}>
-                <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, overflow: "hidden" }}>
+                <div style={{ borderRadius: 12, border: `2px solid ${C.pink}`, overflow: "hidden", background: C.white }}>
                   <button
                     aria-expanded={openFaq === i}
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
@@ -700,11 +729,20 @@ export default function KakeAndKream() {
       </div>
 
       {/* Footer */}
-      <footer style={{ padding: "48px 24px 32px", textAlign: "center", background: C.warm }}>
-        <div style={{ fontFamily: F.d, fontSize: 26, fontWeight: 700, marginBottom: 8 }}>Kake <span style={{ color: C.pink }}>N</span> Kream</div>
-        <p style={{ fontFamily: F.a, fontSize: 16, color: C.sub, margin: "0 0 12px", fontWeight: 400 }}>Handcrafted baked goods · St. Louis, MO</p>
-        <div style={{ fontSize: 13, color: C.muted, fontWeight: 400 }}>&copy; {new Date().getFullYear()} Kake N Kream</div>
-        <div style={{ fontSize: 12, color: C.muted, marginTop: 10, fontWeight: 400, opacity: 0.6 }}>Built by <a href="https://foundry-red.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: C.pink, textDecoration: "none" }}>Foundry</a></div>
+      <footer style={{ padding: "48px 24px 32px", textAlign: "center", background: C.warm, color: C.cream }}>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
+          <Image
+            src="/images/logo-text.png"
+            alt="Kake N Kream"
+            width={240}
+            height={135}
+            sizes="120px"
+            style={{ width: 120, height: "auto", display: "block", filter: "brightness(0) invert(1)" }}
+          />
+        </div>
+        <p style={{ fontFamily: F.a, fontSize: 16, color: C.cream, margin: "0 0 12px", fontWeight: 400, opacity: 0.85 }}>Handcrafted baked goods · St. Louis, MO</p>
+        <div style={{ fontSize: 13, color: C.cream, fontWeight: 400, opacity: 0.7 }}>&copy; {new Date().getFullYear()} Kake N Kream</div>
+        <div style={{ fontSize: 12, color: C.cream, marginTop: 10, fontWeight: 400, opacity: 0.55 }}>Built by <a href="https://foundry-red.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: C.pink, textDecoration: "none" }}>Foundry</a></div>
       </footer>
 
       {/* Floating cart */}
@@ -726,7 +764,7 @@ function CartBtn({ cart, onClick }) {
     <button className="kk-btn" onClick={onClick} aria-label="Open cart" style={{
       position: "relative", background: C.pink, color: C.white, border: "none",
       padding: "10px 20px", borderRadius: 12, fontFamily: F.b, fontSize: 16, fontWeight: 600, cursor: "pointer",
-      boxShadow: `0 4px 12px ${RAW.pink}44`, display: "flex", alignItems: "center", gap: 8, transition: "all 250ms ease",
+      boxShadow: `0 6px 16px ${RAW.pink}66`, display: "flex", alignItems: "center", gap: 8, transition: "all 250ms ease",
     }}>
       <ShoppingCart size={18} strokeWidth={2.5} />
       Cart {cart.length > 0 && <span style={{ background: C.white, color: C.ink, borderRadius: "50%", padding: "2px 8px", fontSize: 13, fontWeight: 500 }}>{cart.length}</span>}
@@ -744,7 +782,13 @@ function Styles() {
       .kk-card img { transition: transform 400ms ease; }
       .kk-btn:hover:not(:disabled) { filter: brightness(1.06); transform: translateY(-1px); }
       .kk-btn:active:not(:disabled) { transform: translateY(1px); filter: brightness(0.97); }
-      .kk-nav-link:hover { color: var(--color-primary) !important; background: rgba(255,182,193,0.12); }
+      .kk-nav-link:hover { color: var(--color-primary) !important; background: rgba(255,105,180,0.25); }
+      .kk-logo-desktop { display: block; }
+      .kk-logo-mobile { display: none; }
+      @media (max-width: 600px) {
+        .kk-logo-desktop { display: none; }
+        .kk-logo-mobile { display: block; }
+      }
     `}</style>
   );
 }
