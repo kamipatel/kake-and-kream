@@ -7,17 +7,17 @@ const siteUrl =
 
 export const metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Kake N Kream — Handcrafted Baked Goods · St. Louis, MO",
-  description: "Handcrafted cupcakes, mini cakes, bundt cakes, sheet cakes & brownies made fresh to order in St. Louis, MO. Pickup Fridays.",
+  title: "Kake N Kream — Handcrafted Baked Goods · St. Charles, MO",
+  description: "Handcrafted cupcakes, mini cakes, bundt cakes, sheet cakes & brownies made fresh to order in St. Charles, MO. Pickup Fridays.",
   openGraph: {
     title: "Kake N Kream — Handcrafted Baked Goods",
-    description: "Cupcakes, cakes & brownies baked fresh to order in St. Louis, MO.",
+    description: "Cupcakes, cakes & brownies baked fresh to order in St. Charles, MO.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Kake N Kream — Handcrafted Baked Goods",
-    description: "Cupcakes, cakes & brownies baked fresh to order in St. Louis, MO.",
+    description: "Cupcakes, cakes & brownies baked fresh to order in St. Charles, MO.",
   },
 };
 

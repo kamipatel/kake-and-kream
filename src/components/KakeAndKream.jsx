@@ -80,17 +80,23 @@ const PRODUCT_IMAGES = {
     thumb: "/images/cupcake-red-velvet-closeup.jpeg",
     gallery: ["/images/cupcake-red-velvet-closeup.jpeg", "/images/cupcake-red-velvet-display.jpeg"],
   },
-  sheet: {
-    thumb: "/images/cake-lavender-rosette.jpeg",
-    gallery: [
-      "/images/cake-lavender-rosette.jpeg",
-      "/images/cake-yellow-rainbow.jpeg",
-      "/images/cake-coconut-cherry.jpeg",
-      "/images/cake-almond-cherry.jpeg",
-      "/images/cake-mocha-bonbon.jpeg",
-    ],
+  bundt: {
+    thumb: "/images/bundt-glazed.jpeg",
+    gallery: ["/images/bundt-glazed.jpeg"],
+  },
+  brownies: {
+    thumb: "/images/DSC_0044.jpeg",
+    gallery: ["/images/DSC_0044.jpeg"],
   },
 };
+
+const ABOUT_GALLERY = [
+  "/images/cake-lavender-rosette.jpeg",
+  "/images/cake-yellow-rainbow.jpeg",
+  "/images/cake-coconut-cherry.jpeg",
+  "/images/cake-almond-cherry.jpeg",
+  "/images/cake-mocha-bonbon.jpeg",
+];
 
 function Reveal({ children, d = 0, style = {}, variant = "up" }) {
   const r = useRef(null);
@@ -176,11 +182,12 @@ export default function KakeAndKream() {
   const errMsg = (field) => errors[field] ? <p role="alert" style={{ fontSize: 13, color: C.coral, fontWeight: 400, marginTop: 4 }}>{errors[field]}</p> : null;
 
   const faqs = [
-    { q: "Do you deliver?", a: "Pickup only — Fridays from our home in the St. Louis area." },
+    { q: "Do you deliver?", a: "Pickup only — Fridays from our home in the St. Charles area." },
     { q: "Minimum orders?", a: "Cupcakes & brownies: 1 dozen. Mini cakes: 2 dozen. Bundt & sheet: individual." },
     { q: "Can I mix flavors?", a: "Each dozen is one flavor, but you can order multiple dozens in different flavors." },
     { q: "Custom cakes?", a: "Not yet — just our signature menu. Custom cakes coming soon!" },
-    { q: "Payment?", a: "50% upfront via Venmo/Zelle after confirmation, 50% at pickup." },
+    { q: "Payment?", a: "50% upfront via Venmo/Zelle after confirmation, 50% at pickup. The initial 50% deposit is non-refundable in case of cancellation." },
+    { q: "Cancellation policy?", a: "The initial 50% deposit is non-refundable. The remaining 50% must be paid before pickup." },
     { q: "How much notice?", a: "At least 2 weeks. Everything is baked fresh." },
     { q: "Allergy-free?", a: "No — same equipment for all products. Please note allergies in your order." },
   ];
@@ -212,7 +219,7 @@ export default function KakeAndKream() {
                     <div>
                       <div style={{ fontWeight: 500, fontSize: 18 }}>{item.type}</div>
                       <div style={{ fontSize: 16, color: C.sub, fontWeight: 400 }}>{item.flavor} x {item.qty}{item.filling ? ` + ${item.filling} filling` : ""}</div>
-                      {item.notes && <div style={{ fontSize: 14, color: C.muted, fontStyle: "italic", fontWeight: 500 }}>{item.notes}</div>}
+                      {item.notes && <div style={{ fontSize: 14, color: C.sub, fontStyle: "italic", fontWeight: 500 }}>{item.notes}</div>}
                     </div>
                     <button aria-label={`Remove ${item.type}`} onClick={() => rm(item._id)} style={{ width: 44, height: 44, borderRadius: 12, border: `2px solid ${C.coral}`, background: C.white, cursor: "pointer", color: C.coral, display: "flex", alignItems: "center", justifyContent: "center", transition: "all 250ms ease" }}>
                       <X size={18} strokeWidth={2.5} />
@@ -258,6 +265,10 @@ export default function KakeAndKream() {
                   <div style={{ padding: "14px 16px", borderRadius: 14, background: RAW.yellow + "60", fontSize: 14, color: C.ink, lineHeight: 1.5, border: `2px solid ${C.yellow}`, fontWeight: 400, display: "flex", gap: 10, alignItems: "flex-start" }}>
                     <AlertTriangle size={18} strokeWidth={2.5} style={{ flexShrink: 0, marginTop: 2 }} />
                     <span>ATTENTION: Our kitchen is NOT allergy-free. Submitting this form does not book your order — it is only booked when the 50% deposit is paid.</span>
+                  </div>
+                  <div style={{ padding: "14px 16px", borderRadius: 14, background: RAW.pink + "20", fontSize: 14, color: C.ink, lineHeight: 1.5, border: `2px solid ${C.border}`, fontWeight: 400 }}>
+                    <p style={{ margin: 0, fontWeight: 500, color: C.brown }}>Payment & Cancellation Policy</p>
+                    <p style={{ margin: "6px 0 0", color: C.ink }}>Initial 50% payment is non-refundable in case of cancellation. Remaining 50% must be paid before pickup.</p>
                   </div>
                   <button className="kk-btn" disabled={submitting} onClick={async () => {
                     const errs = {};
@@ -441,7 +452,7 @@ export default function KakeAndKream() {
                     }}>
                       <div style={{ fontFamily: F.d, fontSize: 17, fontWeight: 600 }}>{b.name}</div>
                       <div style={{ fontSize: 14, color: C.sub, margin: "6px 0 10px", fontWeight: 400 }}>{b.desc}</div>
-                      <div style={{ fontFamily: F.d, fontSize: 20, fontWeight: 600, color: b.color }}>${b.price}</div>
+                      <div style={{ fontFamily: F.d, fontSize: 20, fontWeight: 600, color: C.brown }}>${b.price}</div>
                     </button>
                   );
                 })}
@@ -462,7 +473,7 @@ export default function KakeAndKream() {
           {isBrown && (
             <div style={{ padding: "20px", borderRadius: 14, background: prod.raw + "50", marginBottom: 28, textAlign: "center", border: `2px solid ${prod.color}` }}>
               <span style={{ fontFamily: F.d, fontSize: 20, fontWeight: 600 }}>Fudgy Chocolate Brownies</span>
-              <span style={{ fontSize: 18, color: prod.color, fontWeight: 500, marginLeft: 12 }}>$3 each</span>
+              <span style={{ fontSize: 18, color: C.brown, fontWeight: 600, marginLeft: 12 }}>$3 each</span>
             </div>
           )}
 
@@ -540,14 +551,27 @@ export default function KakeAndKream() {
       <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "120px 24px 80px", background: `linear-gradient(180deg, ${RAW.pink}35 0%, ${RAW.yellow}20 60%, transparent 100%)` }}>
         <div style={{ maxWidth: 560 }}>
           <Reveal variant="scale">
-            <div style={{ width: "min(300px, 80vw)", margin: "0 auto 24px", display: "flex", justifyContent: "center" }}>
+            <div style={{ width: "min(320px, 80vw)", margin: "0 auto 20px", borderRadius: 24, overflow: "hidden", boxShadow: `0 12px 40px ${RAW.pink}40` }}>
+              <Image
+                src="/images/hero-pink-drip-cake.jpeg"
+                alt="Pink tiered drip cake"
+                width={800}
+                height={800}
+                priority
+                sizes="(max-width: 640px) 80vw, 320px"
+                style={{ width: "100%", height: "auto", display: "block" }}
+              />
+            </div>
+          </Reveal>
+          <Reveal variant="scale" d={0.03}>
+            <div style={{ width: "min(200px, 50vw)", margin: "0 auto 16px", display: "flex", justifyContent: "center" }}>
               <Image
                 src="/images/logo-full.png"
                 alt="Kake N Kream logo"
                 width={600}
                 height={338}
                 priority
-                sizes="(max-width: 640px) 80vw, 300px"
+                sizes="(max-width: 640px) 50vw, 200px"
                 style={{ width: "100%", height: "auto", display: "block" }}
               />
             </div>
@@ -559,7 +583,7 @@ export default function KakeAndKream() {
           </Reveal>
           <Reveal d={0.1}>
             <p style={{ fontFamily: F.a, fontSize: "clamp(18px, 3vw, 22px)", fontWeight: 400, color: C.sub, lineHeight: 1.5, margin: "0 0 32px" }}>
-              Handcrafted cupcakes, cakes and brownies<br />made fresh to order in St. Louis, MO
+              Handcrafted cupcakes, cakes and brownies<br />made fresh to order in St. Charles, MO
             </p>
           </Reveal>
           <Reveal d={0.15}>
@@ -616,12 +640,12 @@ export default function KakeAndKream() {
                   <div style={{ padding: "20px 24px", display: "flex", flexDirection: "column", flex: 1 }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
                       <div style={{ fontFamily: F.d, fontSize: 22, fontWeight: 600 }}>{p.name}</div>
-                      <div style={{ fontSize: 16, fontWeight: 500, color: p.color }}>{p.price}</div>
+                      <div style={{ fontSize: 16, fontWeight: 600, color: C.brown }}>{p.price}</div>
                     </div>
                     <p style={{ fontSize: 14, color: C.sub, margin: "0 0 12px", lineHeight: 1.4, fontWeight: 400 }}>{p.note}</p>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto" }}>
-                      <span style={{ fontSize: 15, fontWeight: 500, color: p.color }}>View options</span>
-                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: p.color }} />
+                      <span style={{ fontSize: 15, fontWeight: 600, color: C.brown }}>View options</span>
+                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: C.pink }} />
                     </div>
                   </div>
                 </button>
@@ -666,7 +690,7 @@ export default function KakeAndKream() {
 
       {/* About */}
       <section id="about" style={{ padding: "100px 24px", background: C.surfRose }}>
-        <div style={{ maxWidth: 460, margin: "0 auto", textAlign: "center" }}>
+        <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
           <Reveal variant="fade-in">
             <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>About</p>
             <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 700, margin: "0 0 8px", color: C.brown }}>Meet the Baker</h2>
@@ -678,10 +702,23 @@ export default function KakeAndKream() {
             </div>
           </Reveal>
           <Reveal d={0.1}>
-            <p style={{ fontFamily: F.a, fontSize: 18, color: C.sub, lineHeight: 1.7, fontWeight: 400 }}>
-              Hi, I'm Kalyani! I've been baking for family and friends for years and I'm so excited to share my treats with St. Louis. Every item is baked fresh to order with love.
+            <p style={{ fontFamily: F.a, fontSize: 18, color: C.sub, lineHeight: 1.7, fontWeight: 400, maxWidth: 460, margin: "0 auto" }}>
+              Hi, I'm Kalyani! I've been baking for family and friends for years and I'm so excited to share my treats with St. Charles. Every item is baked fresh to order with love.
             </p>
-            <p style={{ fontSize: 14, color: C.muted, marginTop: 12, fontWeight: 400 }}>Kalyani's words and photo coming soon!</p>
+            <p style={{ fontSize: 14, color: C.sub, marginTop: 12, fontWeight: 400 }}>Kalyani's words and photo coming soon!</p>
+          </Reveal>
+          <Reveal d={0.15}>
+            <div style={{ marginTop: 32, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              {ABOUT_GALLERY.map((src, i) => (
+                <div key={src} style={{
+                  borderRadius: 14, overflow: "hidden",
+                  aspectRatio: i === 0 ? "16/9" : "4/3",
+                  gridColumn: i === 0 ? "1 / -1" : "auto",
+                }}>
+                  <img src={src} alt={`Cake example ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </div>
+              ))}
+            </div>
           </Reveal>
         </div>
       </section>
@@ -740,7 +777,7 @@ export default function KakeAndKream() {
             style={{ width: 120, height: "auto", display: "block", filter: "brightness(0) invert(1)" }}
           />
         </div>
-        <p style={{ fontFamily: F.a, fontSize: 16, color: C.cream, margin: "0 0 12px", fontWeight: 400, opacity: 0.85 }}>Handcrafted baked goods · St. Louis, MO</p>
+        <p style={{ fontFamily: F.a, fontSize: 16, color: C.cream, margin: "0 0 12px", fontWeight: 400, opacity: 0.85 }}>Handcrafted baked goods · St. Charles, MO</p>
         <div style={{ fontSize: 13, color: C.cream, fontWeight: 400, opacity: 0.7 }}>&copy; {new Date().getFullYear()} Kake N Kream</div>
         <div style={{ fontSize: 12, color: C.cream, marginTop: 10, fontWeight: 400, opacity: 0.55 }}>Built by <a href="https://foundry-red.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: C.pink, textDecoration: "none" }}>Foundry</a></div>
       </footer>
