@@ -5,6 +5,13 @@ import {
   Cake, CakeSlice, CircleDot, Cookie, ShoppingCart, Mail, PartyPopper,
   ChefHat, AlertTriangle, X, Plus, Minus, Check, ChevronDown, ChevronLeft,
 } from "lucide-react";
+import { Marquee } from "@/components/ui/marquee";
+import { NumberTicker } from "@/components/ui/number-ticker";
+import { ShimmerButton } from "@/components/ui/shimmer-button";
+import { BlurFade } from "@/components/ui/blur-fade";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import { Lens } from "@/components/ui/lens";
 
 /* ═══════════════════════════════════════════
    KAKE AND KREAM v5
@@ -96,6 +103,23 @@ const ABOUT_GALLERY = [
   "/images/cake-coconut-cherry.jpeg",
   "/images/cake-almond-cherry.jpeg",
   "/images/cake-mocha-bonbon.jpeg",
+];
+
+const TESTIMONIALS = [
+  { quote: "The red velvet cupcakes were absolutely divine! Everyone at the party was raving about them.", name: "Sarah M.", title: "Birthday Party" },
+  { quote: "Kalyani's bundt cake was the star of our family brunch. Moist, flavorful, and gorgeous!", name: "Jessica T.", title: "Family Gathering" },
+  { quote: "Ordered brownies for a work event and they disappeared in minutes. Rich and fudgy perfection.", name: "David K.", title: "Office Event" },
+  { quote: "The sheet cake for my daughter's birthday was beautiful and delicious. She loved the design!", name: "Maria L.", title: "Kids' Birthday" },
+  { quote: "Best cupcakes in St. Charles, hands down. The cotton candy buttercream is incredible!", name: "Ashley R.", title: "Repeat Customer" },
+];
+
+const MARQUEE_ITEMS = [
+  { text: "Pickup Fridays", color: "#FF69B4" },
+  { text: "St. Charles, MO", color: "#5C3A28" },
+  { text: "2 Week Notice", color: "#FFD54F" },
+  { text: "Made Fresh to Order", color: "#FF69B4" },
+  { text: "Venmo / Zelle", color: "#5C3A28" },
+  { text: "Home Baked with Love", color: "#FFD54F" },
 ];
 
 function Reveal({ children, d = 0, style = {}, variant = "up" }) {
@@ -525,17 +549,7 @@ export default function KakeAndKream() {
               width={150}
               height={84}
               priority
-              className="kk-logo-desktop"
               style={{ height: 44, width: "auto", display: "block" }}
-            />
-            <Image
-              src="/images/logo-icon.png"
-              alt="Kake N Kream"
-              width={72}
-              height={40}
-              priority
-              className="kk-logo-mobile"
-              style={{ height: 40, width: "auto", display: "block" }}
             />
           </a>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
@@ -548,9 +562,9 @@ export default function KakeAndKream() {
       </nav>
 
       {/* Hero */}
-      <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "120px 24px 80px", background: `linear-gradient(180deg, ${RAW.pink}35 0%, ${RAW.yellow}20 60%, transparent 100%)` }}>
+      <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "120px 24px 60px", background: `linear-gradient(180deg, ${RAW.pink}35 0%, ${RAW.yellow}20 60%, transparent 100%)` }}>
         <div style={{ maxWidth: 560 }}>
-          <Reveal variant="scale">
+          <BlurFade delay={0} yOffset={0} blur="8px">
             <div style={{ width: "min(320px, 80vw)", margin: "0 auto 20px", borderRadius: 24, overflow: "hidden", boxShadow: `0 12px 40px ${RAW.pink}40` }}>
               <Image
                 src="/images/hero-pink-drip-cake.jpeg"
@@ -562,8 +576,8 @@ export default function KakeAndKream() {
                 style={{ width: "100%", height: "auto", display: "block" }}
               />
             </div>
-          </Reveal>
-          <Reveal variant="scale" d={0.03}>
+          </BlurFade>
+          <BlurFade delay={0.15} yOffset={0} blur="6px">
             <div style={{ width: "min(200px, 50vw)", margin: "0 auto 16px", display: "flex", justifyContent: "center" }}>
               <Image
                 src="/images/logo-full.png"
@@ -575,53 +589,60 @@ export default function KakeAndKream() {
                 style={{ width: "100%", height: "auto", display: "block" }}
               />
             </div>
-          </Reveal>
-          <Reveal d={0.05}>
+          </BlurFade>
+          <BlurFade delay={0.3}>
             <h1 style={{ fontFamily: F.d, fontSize: "clamp(36px, 8vw, 60px)", fontWeight: 700, color: C.ink, lineHeight: 1.1, margin: "0 0 14px" }}>
-              Baked with Love
+              <TextGenerateEffect words="Baked with Love" className="inline" duration={0.4} />
             </h1>
-          </Reveal>
-          <Reveal d={0.1}>
+          </BlurFade>
+          <BlurFade delay={0.5}>
             <p style={{ fontFamily: F.a, fontSize: "clamp(18px, 3vw, 22px)", fontWeight: 400, color: C.sub, lineHeight: 1.5, margin: "0 0 32px" }}>
               Handcrafted cupcakes, cakes and brownies<br />made fresh to order in St. Charles, MO
             </p>
-          </Reveal>
-          <Reveal d={0.15}>
-            <a href="#menu" className="kk-btn" style={{ display: "inline-block", fontFamily: F.d, fontSize: 16, fontWeight: 600, color: C.white, background: C.pink, textDecoration: "none", padding: "16px 36px", borderRadius: 14, transition: "all 250ms ease", boxShadow: `0 8px 24px ${RAW.pink}60` }}>
-              Browse Menu
+          </BlurFade>
+          <BlurFade delay={0.65}>
+            <a href="#menu" style={{ display: "inline-block", textDecoration: "none" }}>
+              <ShimmerButton
+                background="#FF69B4"
+                shimmerColor="#FFD54F"
+                shimmerSize="0.06em"
+                borderRadius="14px"
+                className="font-display text-base font-semibold px-9 py-4 shadow-lg"
+              >
+                Browse Menu
+              </ShimmerButton>
             </a>
-          </Reveal>
-          <Reveal d={0.2}>
-            <div style={{ marginTop: 40, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              {[
-                ["Pickup Only", RAW.pink, C.ink], ["Fridays", RAW.yellow, C.ink], ["Venmo / Zelle", RAW.brown, C.cream], ["Made Fresh", RAW.pink, C.ink],
-              ].map(([t, c, tc], i) => (
-                <span key={i} style={{ padding: "12px 24px", borderRadius: 14, background: c + (tc === C.cream ? "" : "60"), color: tc, fontSize: 15, fontWeight: 500, border: `2px solid ${c}` }}>{t}</span>
-              ))}
-            </div>
-          </Reveal>
+          </BlurFade>
         </div>
       </section>
 
-      {/* Divider */}
-      <div style={{ height: 1, background: C.border, margin: "0 24px" }} />
+      {/* Trust Marquee */}
+      <div style={{ background: C.surfRose, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, overflow: "hidden" }}>
+        <Marquee pauseOnHover className="py-3 [--duration:25s]">
+          {MARQUEE_ITEMS.map((item, i) => (
+            <span key={i} style={{ padding: "10px 24px", borderRadius: 12, background: item.color + "25", color: "#2A1810", fontSize: 15, fontWeight: 600, border: `2px solid ${item.color}`, whiteSpace: "nowrap", fontFamily: F.d }}>
+              {item.text}
+            </span>
+          ))}
+        </Marquee>
+      </div>
 
       {/* Menu */}
       <section id="menu" style={{ padding: "100px 24px", background: C.surfRose }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
-        <Reveal>
+        <BlurFade inView delay={0.1}>
           <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>Our Menu</p>
           <h2 style={{ fontFamily: F.d, fontSize: "clamp(30px, 7vw, 44px)", fontWeight: 700, textAlign: "center", margin: "0 0 8px", color: C.brown }}>What are you craving?</h2>
           <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 12px" }} />
           <p style={{ fontFamily: F.a, fontSize: 18, color: C.sub, textAlign: "center", marginBottom: 40, fontWeight: 400 }}>Tap to see flavors and add to cart</p>
-        </Reveal>
+        </BlurFade>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 20, alignItems: "stretch" }}>
           {PRODUCTS.map((p, i) => {
             const PIcon = p.icon;
             const imgs = PRODUCT_IMAGES[p.id];
             return (
-              <Reveal key={p.id} d={i * 0.04} style={{ display: "flex" }}>
+              <BlurFade key={p.id} delay={0.15 + i * 0.08} inView>
                 <button className="kk-card" onClick={() => openProd(p.id)} aria-label={`${p.name} — ${p.price}`} style={{
                   width: "100%", padding: 0, borderRadius: 16,
                   border: `3px solid ${p.color}`, background: C.white, cursor: "pointer",
@@ -629,9 +650,11 @@ export default function KakeAndKream() {
                   display: "flex", flexDirection: "column", overflow: "hidden",
                 }}>
                   {imgs ? (
-                    <div style={{ width: "100%", aspectRatio: "4/3", overflow: "hidden", background: p.raw + "40" }}>
-                      <img src={imgs.thumb} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                    </div>
+                    <Lens zoomFactor={1.4} lensSize={140}>
+                      <div style={{ width: "100%", aspectRatio: "4/3", overflow: "hidden", background: p.raw + "40" }}>
+                        <img src={imgs.thumb} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                      </div>
+                    </Lens>
                   ) : (
                     <div style={{ width: "100%", aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center", background: p.raw + "40", color: p.color }}>
                       <PIcon size={48} strokeWidth={1.5} />
@@ -649,7 +672,7 @@ export default function KakeAndKream() {
                     </div>
                   </div>
                 </button>
-              </Reveal>
+              </BlurFade>
             );
           })}
         </div>
@@ -659,55 +682,75 @@ export default function KakeAndKream() {
       {/* How it works */}
       <section style={{ padding: "100px 24px", background: C.surfMint }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
-          <Reveal>
+          <BlurFade inView delay={0.1}>
             <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>How It Works</p>
             <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 700, textAlign: "center", margin: "0 0 8px", color: C.brown }}>Easy as 1, 2, 3</h2>
             <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 32px" }} />
-          </Reveal>
+          </BlurFade>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20 }}>
             {[
-              { n: "1", t: "Build Your Cart", d: "Browse, pick flavors, add items.", icon: ShoppingCart, c: C.pink, rc: RAW.pink },
-              { n: "2", t: "Submit and Confirm", d: "We'll email to confirm and share payment info.", icon: Mail, c: C.yellow, rc: RAW.yellow },
-              { n: "3", t: "Pickup Friday", d: "Pick up fresh. Pay remaining 50%.", icon: PartyPopper, c: C.brown, rc: RAW.brown },
+              { n: 1, t: "Build Your Cart", d: "Browse, pick flavors, add items.", icon: ShoppingCart, c: C.pink, rc: RAW.pink },
+              { n: 2, t: "Submit and Confirm", d: "We'll email to confirm and share payment info.", icon: Mail, c: C.yellow, rc: RAW.yellow },
+              { n: 3, t: "Pickup Friday", d: "Pick up fresh. Pay remaining 50%.", icon: PartyPopper, c: C.brown, rc: RAW.brown },
             ].map((s, i) => {
               const SIcon = s.icon;
               return (
-                <Reveal key={i} d={i * 0.05} variant="scale" style={{ display: "flex", flexDirection: "column" }}>
+                <BlurFade key={i} delay={0.15 + i * 0.1} inView>
                   <div style={{ flex: 1, padding: "36px 28px", borderRadius: 18, border: `3px solid ${C.brown}`, textAlign: "center", background: C.white, boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}>
                     <div style={{ width: 56, height: 56, borderRadius: 14, background: s.rc + (s.c === C.brown ? "30" : "60"), display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px", color: s.c }}>
                       <SIcon size={28} strokeWidth={2} />
                     </div>
-                    <div style={{ fontFamily: F.d, fontSize: 40, fontWeight: 700, color: s.c, marginBottom: 4 }}>{s.n}</div>
+                    <div style={{ fontFamily: F.d, fontSize: 40, fontWeight: 700, color: s.c, marginBottom: 4 }}>
+                      <NumberTicker value={s.n} className="!text-inherit" />
+                    </div>
                     <h3 style={{ fontFamily: F.d, fontSize: 22, fontWeight: 600, margin: "0 0 8px" }}>{s.t}</h3>
                     <p style={{ fontSize: 15, color: C.sub, margin: 0, lineHeight: 1.5, fontWeight: 400 }}>{s.d}</p>
                   </div>
-                </Reveal>
+                </BlurFade>
               );
             })}
           </div>
         </div>
       </section>
 
+      {/* Stats */}
+      <section style={{ padding: "60px 24px", background: C.secondary }}>
+        <div style={{ maxWidth: 700, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, textAlign: "center" }}>
+          {[
+            { value: 5, label: "Baked Goods", suffix: "+" },
+            { value: 100, label: "Happy Customers", suffix: "+" },
+            { value: 6, label: "Signature Flavors", suffix: "" },
+          ].map((stat, i) => (
+            <BlurFade key={i} delay={0.1 + i * 0.1} inView>
+              <div>
+                <div style={{ fontFamily: F.d, fontSize: "clamp(32px, 6vw, 48px)", fontWeight: 700, color: "#FFFFFF" }}>
+                  <NumberTicker value={stat.value} className="!text-white" />{stat.suffix}
+                </div>
+                <div style={{ fontFamily: F.b, fontSize: 15, fontWeight: 500, color: "#FFFAF7", opacity: 0.85, marginTop: 4 }}>{stat.label}</div>
+              </div>
+            </BlurFade>
+          ))}
+        </div>
+      </section>
+
       {/* About */}
       <section id="about" style={{ padding: "100px 24px", background: C.surfRose }}>
         <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
-          <Reveal variant="fade-in">
+          <BlurFade inView delay={0.1}>
             <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>About</p>
             <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 700, margin: "0 0 8px", color: C.brown }}>Meet the Baker</h2>
             <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 16px" }} />
-          </Reveal>
-          <Reveal d={0.05} variant="fade-in">
+          </BlurFade>
+          <BlurFade inView delay={0.2}>
             <div style={{ width: 72, height: 72, borderRadius: "50%", margin: "0 auto 14px", background: RAW.pink + "40", display: "flex", alignItems: "center", justifyContent: "center", color: C.brown }}>
               <ChefHat size={34} strokeWidth={2} />
             </div>
-          </Reveal>
-          <Reveal d={0.1}>
             <p style={{ fontFamily: F.a, fontSize: 18, color: C.sub, lineHeight: 1.7, fontWeight: 400, maxWidth: 460, margin: "0 auto" }}>
               Hi, I'm Kalyani! I've been baking for family and friends for years and I'm so excited to share my treats with St. Charles. Every item is baked fresh to order with love.
             </p>
             <p style={{ fontSize: 14, color: C.sub, marginTop: 12, fontWeight: 400 }}>Kalyani's words and photo coming soon!</p>
-          </Reveal>
-          <Reveal d={0.15}>
+          </BlurFade>
+          <BlurFade inView delay={0.3}>
             <div style={{ marginTop: 32, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
               {ABOUT_GALLERY.map((src, i) => (
                 <div key={src} style={{
@@ -719,21 +762,36 @@ export default function KakeAndKream() {
                 </div>
               ))}
             </div>
-          </Reveal>
+          </BlurFade>
         </div>
+      </section>
+
+      {/* Testimonials */}
+      <section style={{ padding: "80px 0", background: C.surfMint, overflow: "hidden" }}>
+        <BlurFade inView delay={0.1}>
+          <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>Love Letters</p>
+          <h2 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 700, textAlign: "center", margin: "0 0 8px", color: C.brown }}>What Customers Say</h2>
+          <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 32px" }} />
+        </BlurFade>
+        <InfiniteMovingCards
+          items={TESTIMONIALS}
+          direction="left"
+          speed="slow"
+          pauseOnHover
+        />
       </section>
 
       {/* FAQ */}
       <section id="faq" style={{ padding: "100px 24px", background: C.surfLav }}>
         <div style={{ maxWidth: 520, margin: "0 auto" }}>
-          <Reveal>
+          <BlurFade inView delay={0.1}>
             <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>FAQ</p>
             <h2 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 700, textAlign: "center", margin: "0 0 8px", color: C.brown }}>Questions?</h2>
             <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 32px" }} />
-          </Reveal>
+          </BlurFade>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {faqs.map((f, i) => (
-              <Reveal key={i} d={i * 0.02}>
+              <BlurFade key={i} delay={i * 0.05} inView>
                 <div style={{ borderRadius: 12, border: `2px solid ${C.pink}`, overflow: "hidden", background: C.white }}>
                   <button
                     aria-expanded={openFaq === i}
@@ -751,7 +809,7 @@ export default function KakeAndKream() {
                     <p style={{ padding: "0 24px 20px", fontSize: 16, color: C.sub, lineHeight: 1.5, margin: 0, fontWeight: 400 }}>{f.a}</p>
                   </div>
                 </div>
-              </Reveal>
+              </BlurFade>
             ))}
           </div>
         </div>
@@ -820,12 +878,6 @@ function Styles() {
       .kk-btn:hover:not(:disabled) { filter: brightness(1.06); transform: translateY(-1px); }
       .kk-btn:active:not(:disabled) { transform: translateY(1px); filter: brightness(0.97); }
       .kk-nav-link:hover { color: var(--color-primary) !important; background: rgba(255,105,180,0.25); }
-      .kk-logo-desktop { display: block; }
-      .kk-logo-mobile { display: none; }
-      @media (max-width: 600px) {
-        .kk-logo-desktop { display: none; }
-        .kk-logo-mobile { display: block; }
-      }
     `}</style>
   );
 }
