@@ -12,6 +12,7 @@ import { BlurFade } from "@/components/ui/blur-fade";
 import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { Lens } from "@/components/ui/lens";
+import { SpotlightNav } from "@/components/ui/spotlight-nav";
 
 /* ═══════════════════════════════════════════
    KAKE AND KREAM v5
@@ -540,52 +541,33 @@ export default function KakeAndKream() {
       <Styles />
 
       {/* Nav */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: scrolled ? "rgba(92,58,40,0.97)" : "rgba(92,58,40,0.85)", backdropFilter: "blur(10px)", borderBottom: `2px solid ${scrolled ? C.pink : "transparent"}`, transition: "all 250ms ease", padding: "0 20px" }}>
-        <div style={{ maxWidth: 900, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
-          <a href="#" onClick={(e) => { e.preventDefault(); setView("home"); window.scrollTo({ top: 0, behavior: "smooth" }); }} aria-label="Kake N Kream home" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
-            <Image
-              src="/images/logo-text.png"
-              alt="Kake N Kream"
-              width={150}
-              height={84}
-              priority
-              style={{ height: 44, width: "auto", display: "block" }}
-            />
-          </a>
-          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            {[["Menu", "#menu"], ["About", "#about"], ["FAQ", "#faq"]].map(([l, h]) => (
-              <a key={l} href={h} className="kk-nav-link" style={{ fontSize: 16, fontWeight: 500, color: C.cream, textDecoration: "none", padding: "10px 14px", borderRadius: 8, transition: "color 250ms ease" }}>{l}</a>
-            ))}
-            <CartBtn cart={cart} onClick={() => setDrawer(true)} />
-          </div>
-        </div>
-      </nav>
+      <SpotlightNav cart={cart} onCartClick={() => setDrawer(true)} />
 
       {/* Hero */}
-      <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "120px 24px 60px", background: `linear-gradient(180deg, ${RAW.pink}35 0%, ${RAW.yellow}20 60%, transparent 100%)` }}>
+      <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "100px 24px 60px", background: `linear-gradient(180deg, ${RAW.pink}35 0%, ${RAW.yellow}20 60%, transparent 100%)` }}>
         <div style={{ maxWidth: 560 }}>
           <BlurFade delay={0} yOffset={0} blur="8px">
-            <div style={{ width: "min(320px, 80vw)", margin: "0 auto 20px", borderRadius: 24, overflow: "hidden", boxShadow: `0 12px 40px ${RAW.pink}40` }}>
+            <div style={{ width: "min(340px, 80vw)", margin: "0 auto 24px", borderRadius: 24, overflow: "hidden", boxShadow: `0 12px 40px ${RAW.pink}40` }}>
               <Image
-                src="/images/hero-pink-drip-cake.jpeg"
-                alt="Pink tiered drip cake"
+                src="/images/hero-pink-tiered-cake.jpeg"
+                alt="Pink tiered rosette cake"
                 width={800}
-                height={800}
+                height={1200}
                 priority
-                sizes="(max-width: 640px) 80vw, 320px"
+                sizes="(max-width: 640px) 80vw, 340px"
                 style={{ width: "100%", height: "auto", display: "block" }}
               />
             </div>
           </BlurFade>
           <BlurFade delay={0.15} yOffset={0} blur="6px">
-            <div style={{ width: "min(200px, 50vw)", margin: "0 auto 16px", display: "flex", justifyContent: "center" }}>
+            <div style={{ width: "min(400px, 85vw)", margin: "0 auto 20px", display: "flex", justifyContent: "center" }}>
               <Image
                 src="/images/logo-full.png"
                 alt="Kake N Kream logo"
-                width={600}
-                height={338}
+                width={800}
+                height={450}
                 priority
-                sizes="(max-width: 640px) 50vw, 200px"
+                sizes="(max-width: 640px) 85vw, 400px"
                 style={{ width: "100%", height: "auto", display: "block" }}
               />
             </div>
