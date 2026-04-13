@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Varela+Round&display=swap');
 
 :root {
   /* Brand — bakery-chic pink / yellow / chocolate brown */
@@ -38,8 +38,8 @@
 
   /* Typography */
   --font-display: 'Fredoka', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
-  --font-accent: 'Playfair Display', serif;
+  --font-body: 'Varela Round', sans-serif;
+  --font-accent: 'Varela Round', sans-serif;
 
   /* Focus */
   --focus-ring: 0 0 0 3px rgba(255, 105, 180, 0.65);

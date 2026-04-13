@@ -15,7 +15,7 @@ const NavItem = ({
 
   return (
     <button
-      className="relative flex flex-col items-center justify-center px-5 py-2.5 mx-1 transition-all duration-400 group"
+      className="relative flex flex-col items-center justify-center px-5 py-2.5 mx-1 transition-all duration-400 group md:px-5 md:py-2.5 px-3 py-1.5"
       onClick={onClick}
     >
       <div
@@ -28,7 +28,7 @@ const NavItem = ({
         }}
       />
       <Icon
-        className={`w-5 h-5 transition-colors duration-200 ${
+        className={`w-4 h-4 md:w-5 md:h-5 transition-colors duration-200 ${
           isActive
             ? "text-white"
             : "text-[#FFFAF7]/60 group-hover:text-[#FFFAF7]/90"
@@ -36,7 +36,7 @@ const NavItem = ({
         strokeWidth={isActive ? 2.5 : 2}
       />
       <span
-        className={`text-[11px] mt-1 font-medium transition-colors duration-200 ${
+        className={`text-[9px] md:text-[11px] mt-0.5 md:mt-1 font-medium transition-colors duration-200 ${
           isActive
             ? "text-white"
             : "text-[#FFFAF7]/60 group-hover:text-[#FFFAF7]/90"
@@ -59,15 +59,40 @@ export function SpotlightNav({ cart, onCartClick }) {
     { icon: HelpCircle, label: "FAQ", href: "#faq" },
   ];
 
+  useEffect(() => {
+    const sectionIds = navItems.map((item) => item.href.slice(1));
+    const observers = [];
+    sectionIds.forEach((id, index) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) setActiveIndex(index);
+        },
+        { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
   const handleClick = (index, href) => {
     setActiveIndex(index);
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Width per item: ~72px, so indicator offset = index * 72 + padding
-  const itemWidth = 72;
-  const indicatorLeft = activeIndex * itemWidth + 12;
+  // Width per item: ~56px on mobile, ~72px on desktop
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  const itemWidth = isMobile ? 56 : 72;
+  const indicatorLeft = activeIndex * itemWidth + (isMobile ? 8 : 12);
 
   return (
     <nav
@@ -78,7 +103,7 @@ export function SpotlightNav({ cart, onCartClick }) {
         pointerEvents: visible ? "auto" : "none",
       }}
     >
-      <div className="relative flex items-center px-3 py-1.5 rounded-2xl shadow-xl border backdrop-blur-md"
+      <div className="relative flex items-center px-2 py-1 md:px-3 md:py-1.5 rounded-2xl shadow-xl border backdrop-blur-md"
         style={{
           background: "rgba(92,58,40,0.92)",
           borderColor: "rgba(255,105,180,0.25)",
@@ -111,11 +136,11 @@ export function SpotlightNav({ cart, onCartClick }) {
         {/* Cart button */}
         <button
           onClick={onCartClick}
-          className="relative flex flex-col items-center justify-center px-5 py-2.5 mx-1 transition-all duration-200 group"
+          className="relative flex flex-col items-center justify-center px-3 py-1.5 md:px-5 md:py-2.5 mx-1 transition-all duration-200 group"
         >
           <div className="relative">
             <ShoppingCart
-              className="w-5 h-5 text-[#FFFAF7]/60 group-hover:text-[#FF69B4] transition-colors duration-200"
+              className="w-4 h-4 md:w-5 md:h-5 text-[#FFFAF7]/60 group-hover:text-[#FF69B4] transition-colors duration-200"
               strokeWidth={2}
             />
             {cart.length > 0 && (
@@ -128,7 +153,7 @@ export function SpotlightNav({ cart, onCartClick }) {
             )}
           </div>
           <span
-            className="text-[11px] mt-1 font-medium text-[#FFFAF7]/60 group-hover:text-[#FF69B4] transition-colors duration-200"
+            className="text-[9px] md:text-[11px] mt-0.5 md:mt-1 font-medium text-[#FFFAF7]/60 group-hover:text-[#FF69B4] transition-colors duration-200"
             style={{ fontFamily: "'Fredoka', sans-serif" }}
           >
             Cart

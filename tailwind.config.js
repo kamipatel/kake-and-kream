@@ -22,8 +22,8 @@ module.exports = {
       },
       fontFamily: {
         display: ["Fredoka", "sans-serif"],
-        body: ["DM Sans", "sans-serif"],
-        accent: ["Playfair Display", "serif"],
+        body: ["Varela Round", "sans-serif"],
+        accent: ["Varela Round", "sans-serif"],
       },
       animation: {
         marquee: "marquee var(--duration) linear infinite",
