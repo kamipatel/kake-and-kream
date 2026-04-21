@@ -40,10 +40,10 @@ const C = {
   brown: "var(--color-brown)",
   ink: "var(--color-ink)",
   sub: "var(--color-sub)",
-  muted: "var(--color-muted)",
-  border: "var(--color-border)",
   card: "var(--color-surface)",
   warm: "var(--color-surface-warm)",
+  surfRose: "var(--color-surface-rose)",
+  surfMint: "var(--color-surface-mint)",
   surfRose: "var(--color-surface-rose)",
   surfMint: "var(--color-surface-mint)",
   surfLav: "var(--color-surface-lavender)",
@@ -595,54 +595,31 @@ export default function KakeAndKream() {
       <SpotlightNav cart={cart} onCartClick={() => { if (ACCEPTING_ORDERS) setDrawer(true); }} />
 
       {/* Hero */}
-      <section style={{ width: "100vw", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "80px 24px 48px", background: `linear-gradient(180deg, ${RAW.pink}25 0%, ${RAW.brown}08 60%, transparent 100%)` }}>
-        <div style={{ maxWidth: 560 }}>
-          <BlurFade delay={0} yOffset={0} blur="6px">
-            <div style={{ position: "relative", width: "min(280px, 80vw)", margin: "0 auto 8px" }}>
-              <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
-                <SparklesCore
-                  background="transparent"
-                  minSize={0.4}
-                  maxSize={1.2}
-                  particleDensity={40}
-                  particleColor="#FF69B4"
-                  speed={1.5}
-                />
-              </div>
-              <div style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "center" }}>
-                <Image
-                  src={logoFull}
-                  alt="Kake N Kream"
-                  width={800}
-                  height={450}
-                  priority
-                  sizes="(max-width: 640px) 80vw, 280px"
-                  style={{ width: "100%", height: "auto", display: "block" }}
-                />
-              </div>
-            </div>
-          </BlurFade>
+      <section style={{ width: "100vw", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "100px 24px 60px", background: C.bg }}>
+        <div style={{ maxWidth: 680 }}>
+          {/* Logo removed from here to reduce clutter. */ }
           <BlurFade delay={0.15} yOffset={0} blur="8px">
-            <div style={{ width: "min(200px, 50vw)", margin: "0 auto 20px", borderRadius: 20, overflow: "hidden", boxShadow: `0 12px 40px ${RAW.pink}40` }}>
+            <div style={{ width: "min(320px, 80vw)", margin: "0 auto 40px", borderRadius: 24, overflow: "hidden", boxShadow: `0 24px 60px rgba(92,58,40,0.15)`, position: "relative" }}>
+              <div style={{ position: "absolute", inset: 0, border: "1px solid rgba(255,255,255,0.4)", borderRadius: 24, zIndex: 10, pointerEvents: "none" }} />
               <Image
                 src="/images/hero-pink-tiered-cake.jpeg"
                 alt="Pink tiered rosette cake"
                 width={800}
                 height={1200}
                 priority
-                sizes="(max-width: 640px) 50vw, 200px"
+                sizes="(max-width: 640px) 80vw, 320px"
                 style={{ width: "100%", height: "auto", display: "block" }}
               />
             </div>
           </BlurFade>
           <BlurFade delay={0.3}>
-            <h1 style={{ fontFamily: F.d, fontSize: "clamp(36px, 8vw, 60px)", fontWeight: 700, color: C.ink, lineHeight: 1.1, margin: "0 0 8px", letterSpacing: "-0.02em" }}>
+            <h1 style={{ fontFamily: F.d, fontSize: "clamp(48px, 8vw, 72px)", fontWeight: 500, color: C.ink, lineHeight: 1.1, margin: "0 0 12px", letterSpacing: "-0.03em" }}>
               <TextGenerateEffect words="Baked with Love" className="inline" duration={0.4} />
             </h1>
           </BlurFade>
           <BlurFade delay={0.5}>
-            <div style={{ fontFamily: F.a, fontSize: "clamp(18px, 3vw, 22px)", fontWeight: 400, color: C.sub, lineHeight: 1.6, margin: "0 0 20px" }}>
-              Handcrafted <FlipWords words={["cupcakes", "cakes", "brownies", "treats"]} duration={2500} className="!text-[#FF69B4] font-semibold" /><br />made fresh to order in St. Charles, MO
+            <div style={{ fontFamily: F.a, fontSize: "clamp(18px, 3vw, 22px)", fontWeight: 400, color: C.sub, lineHeight: 1.6, margin: "0 0 32px" }}>
+              <span className="italic">Handcrafted treats</span> made fresh to order in St. Charles, MO
             </div>
           </BlurFade>
           <BlurFade delay={0.65}>
@@ -715,9 +692,10 @@ export default function KakeAndKream() {
                       <div style={{ fontSize: 16, fontWeight: 600, color: C.brown }}>{p.price}</div>
                     </div>
                     <p style={{ fontSize: 14, color: C.sub, margin: "0 0 12px", lineHeight: 1.4, fontWeight: 400 }}>{p.note}</p>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto" }}>
-                      <span style={{ fontSize: 15, fontWeight: 600, color: C.brown }}>View options</span>
-                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: C.pink }} />
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto", paddingTop: 16 }}>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: C.pink, padding: "6px 14px", borderRadius: 20, border: `1px solid ${C.pink}`, background: "transparent" }}>
+                        View Options
+                      </span>
                     </div>
                   </div>
                 </button>
@@ -790,37 +768,31 @@ export default function KakeAndKream() {
 
       {/* About */}
       <section id="about" style={{ padding: "100px 24px", background: C.surfRose }}>
-        <TracingBeam className="px-6">
-        <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
-          <BlurFade inView delay={0.1}>
-            <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>About</p>
-            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 700, margin: "0 0 8px", color: C.brown, letterSpacing: "-0.01em" }}>Meet the Baker</h2>
-            <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 16px" }} />
-          </BlurFade>
-          <BlurFade inView delay={0.2}>
-            <div style={{ width: 72, height: 72, borderRadius: "50%", margin: "0 auto 14px", background: RAW.pink + "40", display: "flex", alignItems: "center", justifyContent: "center", color: C.brown }}>
-              <ChefHat size={34} strokeWidth={2} />
-            </div>
-            <p style={{ fontFamily: F.a, fontSize: 18, color: C.sub, lineHeight: 1.7, fontWeight: 400, maxWidth: 460, margin: "0 auto" }}>
-              Hi, I&apos;m Kalyani! I&apos;m a home baker in St. Charles, MO, creating handcrafted cupcakes, cakes, and brownies made fresh to order. Every recipe is baked with love using quality ingredients — because your celebrations deserve something special.
-            </p>
-          </BlurFade>
-          <div style={{ marginTop: 32, maxWidth: 480, margin: "32px auto 0", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
-            {ABOUT_GALLERY.map((src, i) => (
-              <BlurFade key={src} delay={0.2 + i * 0.08} inView>
-                <Lens zoomFactor={1.6} lensSize={100}>
-                  <div style={{
-                    borderRadius: 12, overflow: "hidden",
-                    aspectRatio: "1",
-                  }}>
-                    <img src={src} alt={`Cake example ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                  </div>
-                </Lens>
+        <div style={{ maxWidth: 1000, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr", gap: 48 }} className="md:grid-cols-2 items-center">
+          <div>
+            <BlurFade inView delay={0.1}>
+              <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>About</p>
+              <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 700, margin: "0 0 8px", color: C.brown, letterSpacing: "-0.01em" }}>Meet the Baker</h2>
+              <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 0 24px" }} />
+            </BlurFade>
+            <BlurFade inView delay={0.2}>
+              <p style={{ fontFamily: F.a, fontSize: 18, color: C.sub, lineHeight: 1.7, fontWeight: 400 }}>
+                Hi, I&apos;m Kalyani! I&apos;m a home baker in St. Charles, MO, creating handcrafted cupcakes, cakes, and brownies made fresh to order. Every recipe is baked with love using quality ingredients — because your celebrations deserve something special.
+              </p>
+            </BlurFade>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }}>
+            {ABOUT_GALLERY.slice(0, 4).map((src, i) => (
+              <BlurFade key={src} delay={0.2 + i * 0.1} inView>
+                <div style={{
+                  borderRadius: 16, overflow: "hidden", aspectRatio: "1", boxShadow: "0 4px 16px rgba(0,0,0,0.06)"
+                }}>
+                  <img src={src} alt={`Cake example ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </div>
               </BlurFade>
             ))}
           </div>
         </div>
-        </TracingBeam>
       </section>
 
       <AnimatedDivider variant="dots" />
@@ -850,24 +822,25 @@ export default function KakeAndKream() {
             <h2 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 700, textAlign: "center", margin: "0 0 8px", color: C.brown }}>Questions?</h2>
             <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 32px" }} />
           </BlurFade>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {faqs.map((f, i) => (
               <BlurFade key={i} delay={i * 0.05} inView>
-                <div style={{ borderRadius: 12, border: `2px solid ${C.pink}`, overflow: "hidden", background: C.white }}>
+                <div style={{ borderRadius: 16, border: openFaq === i ? `2px solid ${C.pink}` : `1px solid rgba(0,0,0,0.08)`, overflow: "hidden", background: C.white, transition: "all 300ms ease", boxShadow: openFaq === i ? "0 4px 16px rgba(255,105,180,0.12)" : "0 2px 8px rgba(0,0,0,0.03)" }}>
                   <button
                     aria-expanded={openFaq === i}
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
                     style={{
-                      width: "100%", padding: "18px 24px", background: "none", border: "none",
+                      width: "100%", padding: "20px 24px", background: "none", border: "none",
                       cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between",
-                      alignItems: "center", fontFamily: F.b, fontSize: 17, fontWeight: 500, color: C.ink,
+                      alignItems: "center", fontFamily: F.b, fontSize: 17, fontWeight: 500, color: openFaq === i ? C.pink : C.brown,
+                      transition: "color 300ms ease",
                     }}
                   >
                     {f.q}
-                    <ChevronDown size={20} strokeWidth={2.5} style={{ color: C.muted, transition: "transform 250ms ease", transform: openFaq === i ? "rotate(180deg)" : "none", flexShrink: 0 }} />
+                    <ChevronDown size={20} strokeWidth={2.5} style={{ color: openFaq === i ? C.pink : C.muted, transition: "transform 300ms ease", transform: openFaq === i ? "rotate(180deg)" : "none", flexShrink: 0 }} />
                   </button>
-                  <div role="region" aria-hidden={openFaq !== i} style={{ maxHeight: openFaq === i ? 200 : 0, overflow: "hidden", transition: "max-height 250ms ease" }}>
-                    <p style={{ padding: "0 24px 20px", fontSize: 16, color: C.sub, lineHeight: 1.5, margin: 0, fontWeight: 400 }}>{f.a}</p>
+                  <div role="region" aria-hidden={openFaq !== i} style={{ maxHeight: openFaq === i ? 200 : 0, overflow: "hidden", transition: "max-height 300ms ease" }}>
+                    <p style={{ padding: "0 24px 24px", fontSize: 16, color: C.sub, lineHeight: 1.6, margin: 0, fontWeight: 400 }}>{f.a}</p>
                   </div>
                 </div>
               </BlurFade>
@@ -885,8 +858,7 @@ export default function KakeAndKream() {
       </div>
 
       {/* Footer */}
-      <footer style={{ position: "relative", padding: "48px 24px 32px", textAlign: "center", background: C.warm, color: C.cream, overflow: "hidden" }}>
-        <Particles className="absolute inset-0 hidden md:block" quantity={18} color="#FFFAF7" size={0.6} staticity={80} ease={80} />
+      <footer style={{ position: "relative", padding: "60px 24px 40px", textAlign: "center", background: C.brown, color: C.cream, overflow: "hidden" }}>
         <div style={{ position: "relative", zIndex: 1 }}>
         <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
           <Image
@@ -934,10 +906,10 @@ function CartBtn({ cart, onClick }) {
 function Styles() {
   return (
     <style>{`
-      .kk-card { box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: all 300ms cubic-bezier(0.22,1,0.36,1) !important; }
-      .kk-card:hover { border-color: var(--color-primary) !important; transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.10); }
-      .kk-card:hover img { transform: scale(1.03); }
-      .kk-card:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+      .kk-card { box-shadow: 0 2px 12px rgba(0,0,0,0.06); transition: all 300ms cubic-bezier(0.22,1,0.36,1) !important; }
+      .kk-card:hover { border-color: rgba(92,58,40,0.15) !important; transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,0,0,0.08); }
+      .kk-card:hover img { transform: scale(1.02); }
+      .kk-card:active { transform: translateY(0); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
       .kk-card img { transition: transform 400ms ease; }
       .kk-btn:hover:not(:disabled) { filter: brightness(1.06); transform: translateY(-1px); }
       .kk-btn:active:not(:disabled) { transform: translateY(1px); filter: brightness(0.97); }

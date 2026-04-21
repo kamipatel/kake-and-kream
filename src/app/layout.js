@@ -1,14 +1,14 @@
-import { Fredoka, Varela_Round } from "next/font/google";
+import { Playfair_Display, Outfit } from "next/font/google";
 import "./globals.css";
 
-const fredoka = Fredoka({
+const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
+  style: ["normal", "italic"],
 });
 
-const varelaRound = Varela_Round({
-  weight: "400",
+const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
@@ -36,7 +36,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${fredoka.variable} ${varelaRound.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${outfit.variable}`}>
       <body>{children}</body>
     </html>
   );

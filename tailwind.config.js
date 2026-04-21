@@ -23,7 +23,7 @@ module.exports = {
   		fontFamily: {
   			display: [
   				'var(--font-display)',
-  				'sans-serif'
+  				'serif'
   			],
   			body: [
   				'var(--font-body)',

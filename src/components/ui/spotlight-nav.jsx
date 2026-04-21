@@ -3,64 +3,44 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import logoFull from "@/app/logo.png";
 import logoIcon from "@/app/icon.png";
-import { Cake, User, HelpCircle, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 
 const NavItem = ({
-  icon: Icon,
   label,
   isActive = false,
   onClick,
-  indicatorPosition,
-  position,
+  scrolled,
 }) => {
-  const distance = Math.abs(indicatorPosition - position);
-  const spotlightOpacity = isActive ? 1 : Math.max(0, 1 - distance * 0.6);
-
   return (
     <button
-      className="relative flex flex-col items-center justify-center px-5 py-2.5 mx-1 transition-all duration-400 group md:px-5 md:py-2.5 px-3 py-1.5"
+      className={`relative px-4 py-1.5 mx-0.5 md:mx-1 transition-all duration-300 rounded-full text-sm font-medium ${
+        isActive
+          ? (scrolled ? "text-[#FFFAF7] bg-[#FFFAF7]/10" : "text-[#5C3A28] bg-[#5C3A28]/5")
+          : (scrolled ? "text-[#FFFAF7]/70 hover:text-[#FFFAF7]" : "text-[#5C3A28]/70 hover:text-[#5C3A28]")
+      }`}
       onClick={onClick}
     >
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-24 rounded-full blur-lg transition-opacity duration-400"
-        style={{
-          background:
-            "linear-gradient(to bottom, rgba(255,105,180,0.5), transparent)",
-          opacity: spotlightOpacity,
-          transitionDelay: isActive ? "0.1s" : "0s",
-        }}
-      />
-      <Icon
-        className={`w-4 h-4 md:w-5 md:h-5 transition-colors duration-200 ${
-          isActive
-            ? "text-white"
-            : "text-[#FFFAF7]/60 group-hover:text-[#FFFAF7]/90"
-        }`}
-        strokeWidth={isActive ? 2.5 : 2}
-      />
-      <span
-        className={`text-[9px] md:text-[11px] mt-0.5 md:mt-1 font-medium transition-colors duration-200 ${
-          isActive
-            ? "text-white"
-            : "text-[#FFFAF7]/60 group-hover:text-[#FFFAF7]/90"
-        }`}
-        style={{ fontFamily: "'Fredoka', sans-serif" }}
-      >
-        {label}
-      </span>
+      {label}
     </button>
   );
 };
 
 export function SpotlightNav({ cart, onCartClick }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
   const visible = true;
 
   const navItems = [
-    { icon: Cake, label: "Menu", href: "#menu" },
-    { icon: User, label: "About", href: "#about" },
-    { icon: HelpCircle, label: "FAQ", href: "#faq" },
+    { label: "Menu", href: "#menu" },
+    { label: "About", href: "#about" },
+    { label: "FAQ", href: "#faq" },
   ];
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const sectionIds = navItems.map((item) => item.href.slice(1));
@@ -86,102 +66,69 @@ export function SpotlightNav({ cart, onCartClick }) {
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Width per item: ~56px on mobile, ~72px on desktop
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-  const itemWidth = isMobile ? 56 : 72;
-  const logoWidth = isMobile ? 44 : 164;
-  const indicatorLeft = logoWidth + activeIndex * itemWidth + (isMobile ? 8 : 12);
-
   return (
     <nav
-      className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] transition-all duration-300"
+      className="fixed top-4 w-full z-[100] transition-all duration-300 px-4 md:px-8 pointer-events-none"
       style={{
         opacity: visible ? 1 : 0,
-        transform: `translateX(-50%) translateY(${visible ? 0 : -20}px)`,
-        pointerEvents: visible ? "auto" : "none",
+        transform: `translateY(${visible ? 0 : -20}px)`,
       }}
     >
-      <div className="relative flex items-center px-2 py-1 md:px-3 md:py-1.5 rounded-2xl shadow-xl border backdrop-blur-md"
-        style={{
-          background: "rgba(92,58,40,0.92)",
-          borderColor: "rgba(255,105,180,0.25)",
-          boxShadow: "0 8px 32px rgba(92,58,40,0.4), 0 0 0 1px rgba(255,105,180,0.1)",
-        }}
-      >
-        {/* Sliding indicator line */}
-        <div
-          className="absolute top-0 h-[2px] rounded-full transition-all duration-400 ease-in-out"
+      <div className="max-w-6xl mx-auto flex items-center justify-between pointer-events-auto">
+        <div 
+          className="flex items-center transition-all duration-300 p-2 rounded-2xl"
           style={{
-            left: `${indicatorLeft}px`,
-            width: `${itemWidth - 8}px`,
-            background: "linear-gradient(90deg, transparent, #FF69B4, transparent)",
-            transform: "translateY(-1px)",
+            background: scrolled ? "rgba(92,58,40,0.95)" : "transparent",
+            backdropFilter: scrolled ? "blur(12px)" : "none",
+            boxShadow: scrolled ? "0 4px 20px rgba(0,0,0,0.08)" : "none",
           }}
-        />
-
-        {/* Logo */}
-        <div className="flex items-center px-1.5 md:px-2.5">
-          <Image
-            src={logoIcon}
-            alt="Kake N Kream"
-            width={36}
-            height={36}
-            className="block md:hidden w-7 h-7 rounded"
-          />
-          <Image
-            src={logoFull}
-            alt="Kake N Kream"
-            width={140}
-            height={79}
-            className="hidden md:block rounded"
-            style={{ width: 140, height: "auto" }}
-          />
-        </div>
-
-        {navItems.map((item, index) => (
-          <NavItem
-            key={item.label}
-            icon={item.icon}
-            label={item.label}
-            isActive={activeIndex === index}
-            onClick={() => handleClick(index, item.href)}
-            indicatorPosition={activeIndex}
-            position={index}
-          />
-        ))}
-
-        {/* Cart button */}
-        <button
-          onClick={onCartClick}
-          className="relative flex flex-col items-center justify-center px-3 py-1.5 md:px-5 md:py-2.5 mx-1 transition-all duration-200 group"
         >
-          <div className="relative">
-            <ShoppingCart
-              className="w-4 h-4 md:w-5 md:h-5 text-[#FFFAF7]/60 group-hover:text-[#FF69B4] transition-colors duration-200"
-              strokeWidth={2}
+          {/* Logo */}
+          <div className="flex items-center px-2 mr-4 md:mr-8 cursor-pointer" onClick={() => window.scrollTo({top:0, behavior:"smooth"})}>
+            <Image
+              src={logoIcon}
+              alt="Kake N Kream"
+              width={40}
+              height={40}
+              className={`block md:hidden rounded transition-all duration-300 ${scrolled ? "filter brightness-0 invert" : ""}`}
             />
-            {cart.length > 0 && (
-              <span
-                className="absolute -top-1.5 -right-2 text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center"
-                style={{ background: "#FF69B4", color: "#fff" }}
-              >
-                {cart.length}
-              </span>
-            )}
+            <Image
+              src={logoFull}
+              alt="Kake N Kream"
+              width={140}
+              height={79}
+              className={`hidden md:block rounded transition-all duration-300 ${scrolled ? "filter brightness-0 invert" : ""}`}
+              style={{ width: "auto", height: 40 }}
+            />
           </div>
-          <span
-            className="text-[9px] md:text-[11px] mt-0.5 md:mt-1 font-medium text-[#FFFAF7]/60 group-hover:text-[#FF69B4] transition-colors duration-200"
-            style={{ fontFamily: "'Fredoka', sans-serif" }}
+
+          <div className="flex items-center">
+            {navItems.map((item, index) => (
+              <NavItem
+                key={item.label}
+                label={item.label}
+                isActive={activeIndex === index}
+                onClick={() => handleClick(index, item.href)}
+                scrolled={scrolled}
+              />
+            ))}
+          </div>
+
+          {/* Cart button */}
+          <button
+            onClick={onCartClick}
+            className={`relative flex items-center ml-2 md:ml-4 px-4 py-2 rounded-full transition-all duration-300 group ${
+              scrolled 
+                ? "bg-[#FF69B4] text-white hover:bg-[#FF4DA6]" 
+                : "bg-[#FF69B4] text-white hover:bg-[#FF4DA6] shadow-lg"
+            }`}
           >
-            Cart
-          </span>
-        </button>
+            <ShoppingCart className="w-4 h-4 md:w-4 md:h-4 mr-2" strokeWidth={2.5} />
+            <span className="text-sm font-semibold truncate max-w-[60px] md:max-w-none">
+              Cart {cart.length > 0 && `(${cart.length})`}
+            </span>
+          </button>
+        </div>
       </div>
     </nav>
   );
