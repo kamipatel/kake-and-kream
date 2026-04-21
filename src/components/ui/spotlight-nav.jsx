@@ -1,5 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import logoFull from "@/app/logo.png";
+import logoIcon from "@/app/icon.png";
 import { Cake, User, HelpCircle, ShoppingCart } from "lucide-react";
 
 const NavItem = ({
@@ -92,7 +95,8 @@ export function SpotlightNav({ cart, onCartClick }) {
     return () => window.removeEventListener("resize", check);
   }, []);
   const itemWidth = isMobile ? 56 : 72;
-  const indicatorLeft = activeIndex * itemWidth + (isMobile ? 8 : 12);
+  const logoWidth = isMobile ? 44 : 164;
+  const indicatorLeft = logoWidth + activeIndex * itemWidth + (isMobile ? 8 : 12);
 
   return (
     <nav
@@ -120,6 +124,25 @@ export function SpotlightNav({ cart, onCartClick }) {
             transform: "translateY(-1px)",
           }}
         />
+
+        {/* Logo */}
+        <div className="flex items-center px-1.5 md:px-2.5">
+          <Image
+            src={logoIcon}
+            alt="Kake N Kream"
+            width={36}
+            height={36}
+            className="block md:hidden w-7 h-7 rounded"
+          />
+          <Image
+            src={logoFull}
+            alt="Kake N Kream"
+            width={140}
+            height={79}
+            className="hidden md:block rounded"
+            style={{ width: 140, height: "auto" }}
+          />
+        </div>
 
         {navItems.map((item, index) => (
           <NavItem

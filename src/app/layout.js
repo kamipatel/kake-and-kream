@@ -1,5 +1,18 @@
+import { Fredoka, Varela_Round } from "next/font/google";
 import "./globals.css";
 
+const fredoka = Fredoka({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const varelaRound = Varela_Round({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
   (process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`) ||
@@ -23,7 +36,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${fredoka.variable} ${varelaRound.variable}`}>
       <body>{children}</body>
     </html>
   );

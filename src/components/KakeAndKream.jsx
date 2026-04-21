@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import logoFull from "@/app/logo.png";
 import {
   Cake, CakeSlice, CircleDot, Cookie, ShoppingCart, Mail, PartyPopper,
   ChefHat, AlertTriangle, X, Plus, Minus, Check, ChevronDown, ChevronLeft,
@@ -13,6 +14,12 @@ import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { Lens } from "@/components/ui/lens";
 import { SpotlightNav } from "@/components/ui/spotlight-nav";
+import { SparklesCore } from "@/components/ui/sparkles";
+import { FlipWords } from "@/components/ui/flip-words";
+import { BorderBeam } from "@/components/ui/border-beam";
+import { TracingBeam } from "@/components/ui/tracing-beam";
+import { Particles } from "@/components/ui/particles";
+import { AnimatedDivider } from "@/components/ui/animated-divider";
 
 /* ═══════════════════════════════════════════
    KAKE AND KREAM v5
@@ -75,7 +82,7 @@ const BUNDTS = [
 
 const PRODUCTS = [
   { id: "cupcakes", name: "Cupcakes", icon: Cake, price: "$4.50–$5 each", note: "Filling +$0.50 · Min 1 dozen · One flavor per dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12 },
-  { id: "mini", name: "Mini Cakes", icon: CakeSlice, price: "Starting at $4.50 each", note: "Min 2 dozen · One flavor per dozen", color: C.brown, raw: RAW.brown, min: 24, step: 12, subtitle: "Bite-sized treats, 2–3 inches each. Perfect for parties." },
+  { id: "mini", name: "Mini Cakes", icon: CakeSlice, price: "Starting at $7 and up", note: "Min 2 dozen · One flavor per dozen", color: C.brown, raw: RAW.brown, min: 24, step: 12, subtitle: "Bite-sized treats, 2–3 inches each. Perfect for parties." },
   { id: "bundt", name: "Bundt Cakes", icon: CircleDot, price: "From $45", note: "Full-size · Sold individually", color: C.pink, raw: RAW.pink, min: 1, step: 1 },
   { id: "sheet", name: "Sheet Cakes", icon: Cake, price: "Starting at $110", note: "9×13 · Price varies by size & flavor", color: C.brown, raw: RAW.brown, min: 1, step: 1 },
   { id: "brownies", name: "Brownies", icon: Cookie, price: "$3 each", note: "Fudgy chocolate · Min 1 dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12 },
@@ -107,11 +114,14 @@ const PRODUCT_IMAGES = {
 };
 
 const ABOUT_GALLERY = [
-  "/images/cake-lavender-rosette.jpeg",
-  "/images/cake-yellow-rainbow.jpeg",
-  "/images/cake-coconut-cherry.jpeg",
-  "/images/cake-almond-cherry.jpeg",
-  "/images/cake-mocha-bonbon.jpeg",
+  "/images/IMG_0829.jpeg",
+  "/images/IMG_1859.jpeg",
+  "/images/IMG_3462.jpeg",
+  "/images/IMG_9959.jpeg",
+  "/images/e2b93684-85b3-4a02-93de-ca2e5b769589 2.jpeg",
+  "/images/IMG_6918 2.jpeg",
+  "/images/IMG_6919 2.jpeg",
+  "/images/2022-04-01_12-08-16_032 2.jpeg",
 ];
 
 const TESTIMONIALS = [
@@ -129,6 +139,7 @@ const MARQUEE_ITEMS = [
   { text: "Made Fresh to Order", color: "#FF69B4" },
   { text: "Venmo / Zelle", color: "#5C3A28" },
   { text: "Home Baked with Love", color: "#FF69B4" },
+  { text: "Non-Refundable", color: "#FF69B4" },
 ];
 
 function Reveal({ children, d = 0, style = {}, variant = "up" }) {
@@ -190,9 +201,11 @@ export default function KakeAndKream() {
   const [openFaq, setOpenFaq] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
+  const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => { const fn = () => setScrolled(window.scrollY > 40); window.addEventListener("scroll", fn); return () => window.removeEventListener("scroll", fn); }, []);
   useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, [view]);
+  useEffect(() => { const t = setTimeout(() => setShowIntro(false), 2200); return () => clearTimeout(t); }, []);
 
   const add = (item) => { setCart(p => [...p, { ...item, _id: Date.now() + Math.random() }]); setSelCake(""); setSelButtercream(""); setSelTopping(""); setSelFilling("None"); setSelBundt(""); setSheetNote(""); };
   const rm = (id) => setCart(p => p.filter(i => i._id !== id));
@@ -221,11 +234,10 @@ export default function KakeAndKream() {
     { q: "Do you deliver?", a: "Pickup only — Fridays from our home in the St. Charles area." },
     { q: "Minimum orders?", a: "Cupcakes & brownies: 1 dozen. Mini cakes: 2 dozen. Bundt & sheet: individual." },
     { q: "Can I mix flavors?", a: "Each dozen is one flavor, but you can order multiple dozens in different flavors." },
-    { q: "Do you make custom cakes?", a: "Right now we offer our signature menu only. Stay tuned for updates!" },
-    { q: "Payment?", a: "Full payment is required via Venmo/Zelle once the order is confirmed. Payment is non-refundable in case of cancellation." },
+{ q: "Payment?", a: "Full payment is required via Venmo/Zelle once the order is confirmed. Payment is non-refundable in case of cancellation." },
     { q: "Cancellation policy?", a: "Full payment is required once the order is confirmed. Payment is non-refundable in case of cancellation." },
     { q: "How much notice?", a: "At least 2 weeks. Everything is baked fresh." },
-    { q: "Allergy-free?", a: "No — same equipment for all products. Please note allergies in your order." },
+    { q: "Allergen-free?", a: "No — same equipment for all products. Please note any allergens in your order." },
   ];
 
   // ─── Cart Drawer ───
@@ -283,7 +295,7 @@ export default function KakeAndKream() {
                   </div>
                   <div>
                     <label style={labelStyle}>Phone number</label>
-                    <input type="tel" value={cust.phone} onChange={e => setCust(p => ({ ...p, phone: e.target.value }))} style={inp("phone")} placeholder="(512) 555-1234" />
+                    <input type="tel" value={cust.phone} onChange={e => setCust(p => ({ ...p, phone: e.target.value }))} style={inp("phone")} placeholder="(636) 555-1234" />
                   </div>
                   <div>
                     <label style={labelStyle}>Pickup Friday (min 2 weeks notice){reqStar}</label>
@@ -291,7 +303,7 @@ export default function KakeAndKream() {
                     {errMsg("date")}
                   </div>
                   <div>
-                    <label style={labelStyle}>Any food allergies?</label>
+                    <label style={labelStyle}>Any food allergens?</label>
                     <input value={cust.allergy} onChange={e => setCust(p => ({ ...p, allergy: e.target.value }))} style={inp("allergy")} placeholder="e.g. nuts, dairy" />
                   </div>
                   <div>
@@ -300,13 +312,13 @@ export default function KakeAndKream() {
                   </div>
                   <div style={{ padding: "14px 16px", borderRadius: 14, background: RAW.yellow + "60", fontSize: 14, color: C.ink, lineHeight: 1.5, border: `2px solid ${C.yellow}`, fontWeight: 400, display: "flex", gap: 10, alignItems: "flex-start" }}>
                     <AlertTriangle size={18} strokeWidth={2.5} style={{ flexShrink: 0, marginTop: 2 }} />
-                    <span>ATTENTION: Our kitchen is NOT allergy-free. Submitting this form does not book your order — it is only booked when full payment is received.</span>
+                    <span>ATTENTION: Our kitchen is NOT allergen-free. Submitting this form does not book your order — it is only booked when full payment is received.</span>
                   </div>
                   <div style={{ padding: "14px 16px", borderRadius: 14, background: RAW.pink + "20", fontSize: 14, color: C.ink, lineHeight: 1.5, border: `2px solid ${C.border}`, fontWeight: 400 }}>
                     <p style={{ margin: 0, fontWeight: 500, color: C.brown }}>Payment & Cancellation Policy</p>
                     <p style={{ margin: "6px 0 0", color: C.ink }}>Full payment is required once the order is confirmed. Payment is non-refundable in case of cancellation.</p>
                   </div>
-                  <button className="kk-btn" disabled={submitting} onClick={async () => {
+                  <ShimmerButton background={submitting ? "#8B7D75" : "#FF69B4"} shimmerColor="#FFD54F" shimmerSize="0.06em" borderRadius="16px" disabled={submitting} className="w-full font-display text-xl font-semibold py-4" style={{ cursor: submitting ? "not-allowed" : "pointer" }} onClick={async () => {
                     const errs = {};
                     if (!cust.fn.trim()) errs.fn = "First name is required";
                     if (!cust.ln.trim()) errs.ln = "Last name is required";
@@ -315,7 +327,7 @@ export default function KakeAndKream() {
                     if (Object.keys(errs).length) { setErrors(errs); return; }
                     setErrors({});
                     const order = cart.map((item, i) => `${i + 1}. ${item.type} — ${item.flavor} x ${item.qty}${item.filling ? ` (+ ${item.filling} filling)` : ""}${item.topping ? ` [topping: ${item.topping}]` : ""}${item.notes ? ` [${item.notes}]` : ""}`).join("\n");
-                    const payload = { firstName: cust.fn, lastName: cust.ln, email: cust.email, _replyto: cust.email, phone: cust.phone, pickupDate: cust.date, allergies: cust.allergy, notes: cust.notes, order };
+                    const payload = { firstName: cust.fn, lastName: cust.ln, email: cust.email, _replyto: cust.email, phone: cust.phone, pickupDate: cust.date, allergens: cust.allergy, notes: cust.notes, order };
                     setSubmitting(true);
                     try {
                       const [res] = await Promise.all([
@@ -334,9 +346,9 @@ export default function KakeAndKream() {
                       if (!res.ok) throw new Error("Submission failed");
                       setDrawer(false); setView("done");
                     } catch { alert("Something went wrong — please try again."); } finally { setSubmitting(false); }
-                  }} style={{ width: "100%", padding: "18px", borderRadius: 16, border: "none", background: submitting ? C.muted : C.pink, color: C.white, fontFamily: F.d, fontSize: 20, fontWeight: 600, cursor: submitting ? "not-allowed" : "pointer", boxShadow: submitting ? "none" : `0 8px 24px ${RAW.pink}44`, transition: "all 250ms ease" }}>
+                  }}>
                     {submitting ? "Sending..." : "Submit Order Request"}
-                  </button>
+                  </ShimmerButton>
                   <p style={{ fontSize: 16, color: C.sub, textAlign: "center", fontWeight: 400 }}>We'll email you within 24 hours.</p>
                 </div>
               </>
@@ -554,6 +566,24 @@ export default function KakeAndKream() {
     <div style={{ fontFamily: F.b, color: C.ink, background: C.bg, overflowX: "hidden" }}>
       <Styles />
 
+      {/* Page Intro */}
+      {showIntro && (
+        <div style={{
+          position: "fixed", inset: 0, zIndex: 9999, background: "#FFFAF7",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          animation: "introFadeOut 0.5s ease 1.7s forwards",
+        }}>
+          <Image
+            src={logoFull}
+            alt="Kake N Kream"
+            width={300}
+            height={169}
+            priority
+            style={{ width: 250, height: "auto", animation: "introLogoIn 0.7s ease both" }}
+          />
+        </div>
+      )}
+
       {/* Availability Banner */}
       {!ACCEPTING_ORDERS && (
         <div style={{ background: "#FFD54F", color: "#5C3A28", textAlign: "center", padding: "14px 24px", fontFamily: F.d, fontSize: 16, fontWeight: 600, lineHeight: 1.4, zIndex: 200, position: "relative" }}>
@@ -565,19 +595,31 @@ export default function KakeAndKream() {
       <SpotlightNav cart={cart} onCartClick={() => { if (ACCEPTING_ORDERS) setDrawer(true); }} />
 
       {/* Hero */}
-      <section style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "80px 24px 48px", background: `linear-gradient(180deg, ${RAW.pink}25 0%, ${RAW.brown}08 60%, transparent 100%)` }}>
+      <section style={{ width: "100vw", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "80px 24px 48px", background: `linear-gradient(180deg, ${RAW.pink}25 0%, ${RAW.brown}08 60%, transparent 100%)` }}>
         <div style={{ maxWidth: 560 }}>
           <BlurFade delay={0} yOffset={0} blur="6px">
-            <div style={{ width: "min(360px, 80vw)", margin: "0 auto 8px", display: "flex", justifyContent: "center" }}>
-              <Image
-                src="/images/logo-full.png"
-                alt="Kake N Kream logo"
-                width={800}
-                height={450}
-                priority
-                sizes="(max-width: 640px) 80vw, 360px"
-                style={{ width: "100%", height: "auto", display: "block" }}
-              />
+            <div style={{ position: "relative", width: "min(280px, 80vw)", margin: "0 auto 8px" }}>
+              <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+                <SparklesCore
+                  background="transparent"
+                  minSize={0.4}
+                  maxSize={1.2}
+                  particleDensity={40}
+                  particleColor="#FF69B4"
+                  speed={1.5}
+                />
+              </div>
+              <div style={{ position: "relative", zIndex: 1, display: "flex", justifyContent: "center" }}>
+                <Image
+                  src={logoFull}
+                  alt="Kake N Kream"
+                  width={800}
+                  height={450}
+                  priority
+                  sizes="(max-width: 640px) 80vw, 280px"
+                  style={{ width: "100%", height: "auto", display: "block" }}
+                />
+              </div>
             </div>
           </BlurFade>
           <BlurFade delay={0.15} yOffset={0} blur="8px">
@@ -594,14 +636,14 @@ export default function KakeAndKream() {
             </div>
           </BlurFade>
           <BlurFade delay={0.3}>
-            <h1 style={{ fontFamily: F.d, fontSize: "clamp(36px, 8vw, 60px)", fontWeight: 700, color: C.ink, lineHeight: 1.1, margin: "0 0 8px" }}>
+            <h1 style={{ fontFamily: F.d, fontSize: "clamp(36px, 8vw, 60px)", fontWeight: 700, color: C.ink, lineHeight: 1.1, margin: "0 0 8px", letterSpacing: "-0.02em" }}>
               <TextGenerateEffect words="Baked with Love" className="inline" duration={0.4} />
             </h1>
           </BlurFade>
           <BlurFade delay={0.5}>
-            <p style={{ fontFamily: F.a, fontSize: "clamp(18px, 3vw, 22px)", fontWeight: 400, color: C.sub, lineHeight: 1.5, margin: "0 0 20px" }}>
-              Handcrafted cupcakes, cakes and brownies<br />made fresh to order in St. Charles, MO
-            </p>
+            <div style={{ fontFamily: F.a, fontSize: "clamp(18px, 3vw, 22px)", fontWeight: 400, color: C.sub, lineHeight: 1.6, margin: "0 0 20px" }}>
+              Handcrafted <FlipWords words={["cupcakes", "cakes", "brownies", "treats"]} duration={2500} className="!text-[#FF69B4] font-semibold" /><br />made fresh to order in St. Charles, MO
+            </div>
           </BlurFade>
           <BlurFade delay={0.65}>
             <a href="#menu" style={{ display: "inline-block", textDecoration: "none" }}>
@@ -630,12 +672,14 @@ export default function KakeAndKream() {
         </Marquee>
       </div>
 
+      <AnimatedDivider variant="dots" />
+
       {/* Menu */}
       <section id="menu" style={{ padding: "100px 24px", background: C.surfRose }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
         <BlurFade inView delay={0.1}>
           <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>Our Menu</p>
-          <h2 style={{ fontFamily: F.d, fontSize: "clamp(30px, 7vw, 44px)", fontWeight: 700, textAlign: "center", margin: "0 0 8px", color: C.brown }}>What are you craving?</h2>
+          <h2 style={{ fontFamily: F.d, fontSize: "clamp(30px, 7vw, 44px)", fontWeight: 700, textAlign: "center", margin: "0 0 8px", color: C.brown, letterSpacing: "-0.01em" }}>What are you craving?</h2>
           <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 12px" }} />
           <p style={{ fontFamily: F.a, fontSize: 18, color: C.sub, textAlign: "center", marginBottom: 40, fontWeight: 400 }}>Tap to see flavors and add to cart</p>
         </BlurFade>
@@ -651,7 +695,9 @@ export default function KakeAndKream() {
                   border: `3px solid ${p.color}`, background: C.white, cursor: "pointer",
                   textAlign: "left", transition: "all 250ms ease", outline: "none",
                   display: "flex", flexDirection: "column", overflow: "hidden",
+                  position: "relative",
                 }}>
+                  {i === 0 && <BorderBeam size={200} duration={8} colorFrom="#FF69B4" colorTo="#FFD54F" borderWidth={2} />}
                   {imgs ? (
                     <Lens zoomFactor={1.4} lensSize={140}>
                       <div style={{ width: "100%", aspectRatio: "4/3", overflow: "hidden", background: p.raw + "40" }}>
@@ -682,18 +728,20 @@ export default function KakeAndKream() {
         </div>
       </section>
 
+      <AnimatedDivider variant="wave" />
+
       {/* How it works */}
       <section style={{ padding: "100px 24px", background: C.surfMint }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           <BlurFade inView delay={0.1}>
             <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>How It Works</p>
-            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 700, textAlign: "center", margin: "0 0 8px", color: C.brown }}>Easy as 1, 2, 3</h2>
+            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 700, textAlign: "center", margin: "0 0 8px", color: C.brown, letterSpacing: "-0.01em" }}>Easy as 1, 2, 3</h2>
             <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 32px" }} />
           </BlurFade>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20 }}>
             {[
               { n: 1, t: "Build Your Cart", d: "Browse, pick flavors, add items.", icon: ShoppingCart, c: C.pink, rc: RAW.pink },
-              { n: 2, t: "Submit and Confirm", d: "We'll email to confirm and share payment info.", icon: Mail, c: C.brown, rc: RAW.brown },
+              { n: 2, t: "Submit and Confirm", d: "We'll email to confirm and share payment info. All payments are non-refundable.", icon: Mail, c: C.brown, rc: RAW.brown },
               { n: 3, t: "Pickup Friday", d: "Pick up your fresh order!", icon: PartyPopper, c: C.brown, rc: RAW.brown },
             ].map((s, i) => {
               const SIcon = s.icon;
@@ -704,7 +752,7 @@ export default function KakeAndKream() {
                       <SIcon size={28} strokeWidth={2} />
                     </div>
                     <div style={{ fontFamily: F.d, fontSize: 40, fontWeight: 700, color: s.c, marginBottom: 4 }}>
-                      {s.n}
+                      <NumberTicker value={s.n} />
                     </div>
                     <h3 style={{ fontFamily: F.d, fontSize: 22, fontWeight: 600, margin: "0 0 8px" }}>{s.t}</h3>
                     <p style={{ fontSize: 15, color: C.sub, margin: 0, lineHeight: 1.5, fontWeight: 400 }}>{s.d}</p>
@@ -715,6 +763,8 @@ export default function KakeAndKream() {
           </div>
         </div>
       </section>
+
+      <AnimatedDivider variant="beam" />
 
       {/* Stats */}
       <section style={{ padding: "60px 24px", background: C.secondary }}>
@@ -736,12 +786,15 @@ export default function KakeAndKream() {
         </div>
       </section>
 
+      <AnimatedDivider variant="beam" />
+
       {/* About */}
       <section id="about" style={{ padding: "100px 24px", background: C.surfRose }}>
+        <TracingBeam className="px-6">
         <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
           <BlurFade inView delay={0.1}>
             <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>About</p>
-            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 700, margin: "0 0 8px", color: C.brown }}>Meet the Baker</h2>
+            <h2 style={{ fontFamily: F.d, fontSize: 36, fontWeight: 700, margin: "0 0 8px", color: C.brown, letterSpacing: "-0.01em" }}>Meet the Baker</h2>
             <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 16px" }} />
           </BlurFade>
           <BlurFade inView delay={0.2}>
@@ -752,7 +805,7 @@ export default function KakeAndKream() {
               Hi, I&apos;m Kalyani! I&apos;m a home baker in St. Charles, MO, creating handcrafted cupcakes, cakes, and brownies made fresh to order. Every recipe is baked with love using quality ingredients — because your celebrations deserve something special.
             </p>
           </BlurFade>
-          <div style={{ marginTop: 32, maxWidth: 480, margin: "32px auto 0", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
+          <div style={{ marginTop: 32, maxWidth: 480, margin: "32px auto 0", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
             {ABOUT_GALLERY.map((src, i) => (
               <BlurFade key={src} delay={0.2 + i * 0.08} inView>
                 <Lens zoomFactor={1.6} lensSize={100}>
@@ -767,7 +820,10 @@ export default function KakeAndKream() {
             ))}
           </div>
         </div>
+        </TracingBeam>
       </section>
+
+      <AnimatedDivider variant="dots" />
 
       {/* Testimonials */}
       <section style={{ padding: "80px 0", background: C.surfMint, overflow: "hidden" }}>
@@ -783,6 +839,8 @@ export default function KakeAndKream() {
           pauseOnHover
         />
       </section>
+
+      <AnimatedDivider variant="wave" />
 
       {/* FAQ */}
       <section id="faq" style={{ padding: "100px 24px", background: C.surfLav }}>
@@ -827,25 +885,28 @@ export default function KakeAndKream() {
       </div>
 
       {/* Footer */}
-      <footer style={{ padding: "48px 24px 32px", textAlign: "center", background: C.warm, color: C.cream }}>
+      <footer style={{ position: "relative", padding: "48px 24px 32px", textAlign: "center", background: C.warm, color: C.cream, overflow: "hidden" }}>
+        <Particles className="absolute inset-0 hidden md:block" quantity={18} color="#FFFAF7" size={0.6} staticity={80} ease={80} />
+        <div style={{ position: "relative", zIndex: 1 }}>
         <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
           <Image
-            src="/images/logo-text.png"
+            src={logoFull}
             alt="Kake N Kream"
             width={240}
             height={135}
-            sizes="120px"
-            style={{ width: 120, height: "auto", display: "block", filter: "brightness(0) invert(1)" }}
+            sizes="110px"
+            style={{ width: 110, height: "auto", display: "block", filter: "brightness(0) invert(1)" }}
           />
         </div>
         <p style={{ fontFamily: F.a, fontSize: 16, color: C.cream, margin: "0 0 12px", fontWeight: 400, opacity: 0.85 }}>Handcrafted baked goods · St. Charles, MO</p>
         <div style={{ fontSize: 13, color: C.cream, fontWeight: 400, opacity: 0.7 }}>&copy; {new Date().getFullYear()} Kake N Kream</div>
         <div style={{ fontSize: 12, color: C.cream, marginTop: 10, fontWeight: 400, opacity: 0.55 }}>Built by <a href="https://foundry-red.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: C.pink, textDecoration: "none" }}>Foundry</a></div>
+        </div>
       </footer>
 
       {/* Floating cart */}
       {ACCEPTING_ORDERS && scrolled && cart.length > 0 && (
-        <button aria-label="Open cart" onClick={() => setDrawer(true)} style={{ position: "fixed", bottom: 20, right: 20, zIndex: 90, background: C.pink, color: C.white, padding: "16px 24px", borderRadius: 16, fontFamily: F.d, fontSize: 16, fontWeight: 600, border: "none", cursor: "pointer", boxShadow: "0 8px 24px rgba(0,0,0,0.15)", display: "flex", alignItems: "center", gap: 8, transition: "all 250ms ease" }}>
+        <button aria-label="Open cart" onClick={() => setDrawer(true)} style={{ position: "fixed", bottom: 20, right: 20, zIndex: 90, background: C.pink, color: C.white, padding: "16px 24px", borderRadius: 16, fontFamily: F.d, fontSize: 16, fontWeight: 600, border: "none", cursor: "pointer", boxShadow: "0 8px 24px rgba(0,0,0,0.15)", display: "flex", alignItems: "center", gap: 8, transition: "all 250ms ease", animation: "cartPulse 2s ease-in-out infinite" }}>
           <ShoppingCart size={20} strokeWidth={2.5} /> Cart ({cart.length})
         </button>
       )}

@@ -1,9 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Varela+Round&display=swap');
-
 :root {
   /* Brand — bakery-chic pink / yellow / chocolate brown */
   --color-primary: #FF69B4;
@@ -36,10 +33,8 @@
   /* Border */
   --color-border: #FF9EC5;
 
-  /* Typography */
-  --font-display: 'Fredoka', sans-serif;
-  --font-body: 'Varela Round', sans-serif;
-  --font-accent: 'Varela Round', sans-serif;
+  /* Typography (Next/Font handles --font-display and --font-body) */
+  --font-accent: var(--font-body);
 
   /* Focus */
   --focus-ring: 0 0 0 3px rgba(255, 105, 180, 0.65);
@@ -71,6 +66,19 @@ body {
   background: rgba(255, 105, 180, 0.18);
 }
 
+@keyframes introLogoIn {
+  0% { opacity: 0; transform: scale(0.85); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes introFadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; visibility: hidden; }
+}
+@keyframes cartPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -81,3 +89,25 @@ body {
   }
 }
 
+@layer base {
+  .theme {
+    --animate-border-beam: border-beam calc(var(--duration)*1s) infinite linear;
+    --animate-ripple: ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite;
+  }
+}
+
+@theme inline {
+  @keyframes border-beam {
+  100% {
+    offset-distance: 100%;
+    }
+  }
+  @keyframes ripple {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    }
+  50% {
+    transform: translate(-50%, -50%) scale(0.9);
+    }
+  }
+}
