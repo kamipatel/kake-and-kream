@@ -10,7 +10,6 @@ import { Marquee } from "@/components/ui/marquee";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { BlurFade } from "@/components/ui/blur-fade";
-import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { Lens } from "@/components/ui/lens";
 import { SpotlightNav } from "@/components/ui/spotlight-nav";
@@ -122,14 +121,6 @@ const ABOUT_GALLERY = [
   "/images/IMG_6918 2.jpeg",
   "/images/IMG_6919 2.jpeg",
   "/images/2022-04-01_12-08-16_032 2.jpeg",
-];
-
-const TESTIMONIALS = [
-  { quote: "The red velvet cupcakes were absolutely divine! Everyone at the party was raving about them.", name: "Sarah M.", title: "Birthday Party" },
-  { quote: "Kalyani's bundt cake was the star of our family brunch. Moist, flavorful, and gorgeous!", name: "Jessica T.", title: "Family Gathering" },
-  { quote: "Ordered brownies for a work event and they disappeared in minutes. Rich and fudgy perfection.", name: "David K.", title: "Office Event" },
-  { quote: "The sheet cake for my daughter's birthday was beautiful and delicious. She loved the design!", name: "Maria L.", title: "Kids' Birthday" },
-  { quote: "Best cupcakes in St. Charles, hands down. The cotton candy buttercream is incredible!", name: "Ashley R.", title: "Repeat Customer" },
 ];
 
 const MARQUEE_ITEMS = [
@@ -595,46 +586,73 @@ export default function KakeAndKream() {
       <SpotlightNav cart={cart} onCartClick={() => { if (ACCEPTING_ORDERS) setDrawer(true); }} />
 
       {/* Hero */}
-      <section style={{ width: "100vw", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "160px 24px 80px", background: C.bg }}>
-        <div style={{ maxWidth: 680 }}>
-          {/* Logo removed from here to reduce clutter. */ }
-          <BlurFade delay={0.15} yOffset={0} blur="8px">
-            <div style={{ width: "min(320px, 80vw)", margin: "0 auto 40px", borderRadius: 24, overflow: "hidden", boxShadow: `0 24px 60px rgba(92,58,40,0.15)`, position: "relative" }}>
-              <div style={{ position: "absolute", inset: 0, border: "1px solid rgba(255,255,255,0.4)", borderRadius: 24, zIndex: 10, pointerEvents: "none" }} />
-              <Image
-                src="/images/hero-pink-tiered-cake.jpeg"
-                alt="Pink tiered rosette cake"
-                width={800}
-                height={1200}
-                priority
-                sizes="(max-width: 640px) 80vw, 320px"
-                style={{ width: "100%", height: "auto", display: "block" }}
-              />
+      <section style={{ width: "100vw", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "120px 24px 80px", background: C.bg }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center" style={{ maxWidth: 1100, margin: "0 auto", width: "100%" }}>
+
+          {/* Left: Text content */}
+          <div className="order-2 md:order-1 text-center md:text-left">
+            <div style={{ position: "relative" }}>
+              <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+                <SparklesCore
+                  id="hero-sparkles"
+                  background="transparent"
+                  minSize={0.6}
+                  maxSize={1.4}
+                  speed={0.8}
+                  particleColor="#FFD54F"
+                  particleDensity={15}
+                />
+              </div>
+              <BlurFade delay={0.15}>
+                <h1 style={{ fontFamily: F.d, fontSize: "clamp(40px, 5vw, 56px)", fontWeight: 500, fontStyle: "italic", color: C.ink, lineHeight: 1.1, margin: "0 0 20px", letterSpacing: "-0.03em", position: "relative", zIndex: 1 }}>
+                  <TextGenerateEffect words="Baked with Love" className="inline" duration={0.4} />
+                </h1>
+              </BlurFade>
             </div>
-          </BlurFade>
-          <BlurFade delay={0.3}>
-            <h1 style={{ fontFamily: F.d, fontSize: "clamp(48px, 8vw, 72px)", fontWeight: 500, color: C.ink, lineHeight: 1.1, margin: "0 0 12px", letterSpacing: "-0.03em" }}>
-              <TextGenerateEffect words="Baked with Love" className="inline" duration={0.4} />
-            </h1>
-          </BlurFade>
-          <BlurFade delay={0.5}>
-            <div style={{ fontFamily: F.a, fontSize: "clamp(18px, 3vw, 22px)", fontWeight: 400, color: C.sub, lineHeight: 1.6, margin: "0 0 32px" }}>
-              <span className="italic">Handcrafted treats</span> made fresh to order in St. Charles, MO
-            </div>
-          </BlurFade>
-          <BlurFade delay={0.65}>
-            <a href="#menu" style={{ display: "inline-block", textDecoration: "none" }}>
-              <ShimmerButton
-                background="#FF69B4"
-                shimmerColor="#FFD54F"
-                shimmerSize="0.06em"
-                borderRadius="14px"
-                className="font-display text-base font-semibold px-9 py-4 shadow-lg"
-              >
-                Browse Menu
-              </ShimmerButton>
-            </a>
-          </BlurFade>
+
+            <BlurFade delay={0.35}>
+              <div style={{ fontFamily: F.a, fontSize: "clamp(18px, 3vw, 22px)", fontWeight: 400, color: C.sub, lineHeight: 1.6, margin: "0 0 36px", position: "relative" }}>
+                Handcrafted{" "}
+                <FlipWords words={["cupcakes", "cakes", "brownies", "treats"]} duration={3000} className="!text-[#FF69B4] font-semibold" />
+                <br />
+                made fresh to order in St.&nbsp;Charles,&nbsp;MO
+              </div>
+            </BlurFade>
+
+            <BlurFade delay={0.5}>
+              <a href="#menu" style={{ display: "inline-block", textDecoration: "none" }}>
+                <ShimmerButton
+                  background="#FF69B4"
+                  shimmerColor="#FFD54F"
+                  shimmerSize="0.06em"
+                  borderRadius="14px"
+                  className="font-display text-base font-semibold px-9 py-4 shadow-lg"
+                >
+                  Browse Menu
+                </ShimmerButton>
+              </a>
+            </BlurFade>
+          </div>
+
+          {/* Right: Cake photo */}
+          <div className="order-1 md:order-2 flex justify-center">
+            <BlurFade delay={0.2} yOffset={0} blur="8px">
+              <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", boxShadow: "0 20px 50px rgba(92,58,40,0.12)", maxWidth: 400 }}>
+                <div style={{ position: "absolute", inset: 0, border: "1px solid rgba(255,255,255,0.4)", borderRadius: 16, zIndex: 10, pointerEvents: "none" }} />
+                <Image
+                  src="/images/hero-pink-tiered-cake.jpeg"
+                  alt="Pink tiered rosette cake"
+                  width={800}
+                  height={1200}
+                  priority
+                  sizes="(max-width: 768px) 70vw, 400px"
+                  className="max-h-[280px] md:max-h-[400px]"
+                  style={{ width: "100%", objectFit: "cover", display: "block", borderRadius: 16 }}
+                />
+              </div>
+            </BlurFade>
+          </div>
+
         </div>
       </section>
 
@@ -790,23 +808,6 @@ export default function KakeAndKream() {
             ))}
           </div>
         </div>
-      </section>
-
-      <AnimatedDivider variant="dots" />
-
-      {/* Testimonials */}
-      <section style={{ padding: "80px 0", background: C.surfMint, overflow: "hidden" }}>
-        <BlurFade inView delay={0.1}>
-          <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>Love Letters</p>
-          <h2 style={{ fontFamily: F.d, fontSize: 32, fontWeight: 700, textAlign: "center", margin: "0 0 8px", color: C.brown }}>What Customers Say</h2>
-          <div style={{ width: 48, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 32px" }} />
-        </BlurFade>
-        <InfiniteMovingCards
-          items={TESTIMONIALS}
-          direction="left"
-          speed="slow"
-          pauseOnHover
-        />
       </section>
 
       <AnimatedDivider variant="wave" />
