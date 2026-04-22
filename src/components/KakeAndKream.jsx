@@ -595,7 +595,7 @@ export default function KakeAndKream() {
       <SpotlightNav cart={cart} onCartClick={() => { if (ACCEPTING_ORDERS) setDrawer(true); }} />
 
       {/* Hero */}
-      <section style={{ width: "100vw", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "100px 24px 60px", background: C.bg }}>
+      <section style={{ width: "100vw", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "160px 24px 80px", background: C.bg }}>
         <div style={{ maxWidth: 680 }}>
           {/* Logo removed from here to reduce clutter. */ }
           <BlurFade delay={0.15} yOffset={0} blur="8px">
@@ -744,20 +744,17 @@ export default function KakeAndKream() {
 
       <AnimatedDivider variant="beam" />
 
-      {/* Stats */}
+      {/* Values (replaces fake stats) */}
       <section style={{ padding: "60px 24px", background: C.secondary }}>
-        <div style={{ maxWidth: 700, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, textAlign: "center" }}>
+        <div style={{ maxWidth: 800, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20, textAlign: "center" }}>
           {[
-            { value: 5, label: "Baked Goods", suffix: "+" },
-            { value: 100, label: "Happy Customers", suffix: "+" },
-            { value: 6, label: "Signature Flavors", suffix: "" },
+            { label: "Made Fresh to Order" },
+            { label: "Pickup Fridays" },
+            { label: "St. Charles, MO" },
           ].map((stat, i) => (
             <BlurFade key={i} delay={0.1 + i * 0.1} inView>
-              <div>
-                <div style={{ fontFamily: F.d, fontSize: "clamp(32px, 6vw, 48px)", fontWeight: 700, color: "#FFFFFF" }}>
-                  <NumberTicker value={stat.value} className="!text-white" />{stat.suffix}
-                </div>
-                <div style={{ fontFamily: F.b, fontSize: 15, fontWeight: 500, color: "#FFFAF7", opacity: 0.85, marginTop: 4 }}>{stat.label}</div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "16px 24px", borderRadius: 16, border: "2px solid rgba(255, 250, 247, 0.15)", background: "rgba(255, 250, 247, 0.05)" }}>
+                <div style={{ fontFamily: F.b, fontSize: 18, fontWeight: 500, color: "#FFFAF7" }}>{stat.label}</div>
               </div>
             </BlurFade>
           ))}
