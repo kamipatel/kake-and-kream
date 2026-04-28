@@ -586,8 +586,20 @@ export default function KakeAndKream() {
       <SpotlightNav cart={cart} onCartClick={() => { if (ACCEPTING_ORDERS) setDrawer(true); }} />
 
       {/* Hero */}
-      <section style={{ width: "100vw", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "120px 24px 80px", background: C.bg }}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center" style={{ maxWidth: 1100, margin: "0 auto", width: "100%" }}>
+      <section style={{ width: "100vw", minHeight: "85vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "120px 24px 60px", background: C.bg, position: "relative", overflow: "hidden" }}>
+        {/* Particles background — desktop only */}
+        <div className="hidden md:block absolute inset-0" style={{ zIndex: 0, opacity: 0.3 }}>
+          <Particles
+            className="absolute inset-0"
+            quantity={25}
+            color="#FF69B4"
+            size={0.4}
+            staticity={80}
+            ease={80}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-center" style={{ maxWidth: 1100, margin: "0 auto", width: "100%", position: "relative", zIndex: 1 }}>
 
           {/* Left: Text content */}
           <div className="order-2 md:order-1 text-center md:text-left">
@@ -632,23 +644,46 @@ export default function KakeAndKream() {
                 </ShimmerButton>
               </a>
             </BlurFade>
+
+            {/* Info badges */}
+            <BlurFade delay={0.65}>
+              <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-8">
+                {[
+                  { icon: "\uD83C\uDF82", text: "Made Fresh" },
+                  { icon: "\uD83D\uDCCD", text: "St. Charles, MO" },
+                  { icon: "\uD83D\uDD52", text: "Order 2 Weeks Ahead" },
+                ].map((badge) => (
+                  <span key={badge.text} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", borderRadius: 20, background: "rgba(255,105,180,0.08)", color: C.sub, fontSize: 14, fontWeight: 500, fontFamily: F.a }}>
+                    <span style={{ fontSize: 16 }}>{badge.icon}</span>
+                    {badge.text}
+                  </span>
+                ))}
+              </div>
+            </BlurFade>
           </div>
 
           {/* Right: Cake photo */}
           <div className="order-1 md:order-2 flex justify-center">
             <BlurFade delay={0.2} yOffset={0} blur="8px">
-              <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", boxShadow: "0 20px 50px rgba(92,58,40,0.12)", maxWidth: 400 }}>
-                <div style={{ position: "absolute", inset: 0, border: "1px solid rgba(255,255,255,0.4)", borderRadius: 16, zIndex: 10, pointerEvents: "none" }} />
-                <Image
-                  src="/images/hero-pink-tiered-cake.jpeg"
-                  alt="Pink tiered rosette cake"
-                  width={800}
-                  height={1200}
-                  priority
-                  sizes="(max-width: 768px) 70vw, 400px"
-                  className="max-h-[280px] md:max-h-[400px]"
-                  style={{ width: "100%", objectFit: "cover", display: "block", borderRadius: 16 }}
-                />
+              <div style={{ position: "relative", maxWidth: 400 }}>
+                {/* Floating decorations */}
+                <span style={{ position: "absolute", top: -10, right: -10, fontSize: 28, zIndex: 20, animation: "heroFloat 3s ease-in-out infinite", pointerEvents: "none" }} aria-hidden="true">{"\u2764\uFE0F"}</span>
+                <span style={{ position: "absolute", bottom: 20, left: -16, fontSize: 24, zIndex: 20, animation: "heroFloat 3.5s ease-in-out infinite 0.5s", pointerEvents: "none" }} aria-hidden="true">{"\uD83E\uDDC1"}</span>
+                <span style={{ position: "absolute", top: "40%", right: -20, fontSize: 22, zIndex: 20, animation: "heroFloat 4s ease-in-out infinite 1s", pointerEvents: "none" }} aria-hidden="true">{"\u2728"}</span>
+
+                <div style={{ borderRadius: 16, overflow: "hidden", boxShadow: "0 8px 40px rgba(255,105,180,0.2), 0 20px 50px rgba(92,58,40,0.12)" }}>
+                  <div style={{ position: "absolute", inset: 0, border: "1px solid rgba(255,255,255,0.4)", borderRadius: 16, zIndex: 10, pointerEvents: "none" }} />
+                  <Image
+                    src="/images/hero-pink-tiered-cake.jpeg"
+                    alt="Pink tiered rosette cake"
+                    width={800}
+                    height={1200}
+                    priority
+                    sizes="(max-width: 768px) 70vw, 400px"
+                    className="max-h-[280px] md:max-h-[400px]"
+                    style={{ width: "100%", objectFit: "cover", display: "block", borderRadius: 16 }}
+                  />
+                </div>
               </div>
             </BlurFade>
           </div>
@@ -863,9 +898,9 @@ export default function KakeAndKream() {
             src={logoFull}
             alt="Kake N Kream"
             width={240}
-            height={135}
-            sizes="110px"
-            style={{ width: 110, height: "auto", display: "block", filter: "brightness(0) invert(1)" }}
+            height={240}
+            sizes="90px"
+            style={{ width: 90, height: "auto", display: "block", borderRadius: "50%" }}
           />
         </div>
         <p style={{ fontFamily: F.a, fontSize: 16, color: C.cream, margin: "0 0 12px", fontWeight: 400, opacity: 0.85 }}>Handcrafted baked goods · St. Charles, MO</p>

@@ -14,19 +14,21 @@ const NavItem = ({
 }) => {
   return (
     <button
-      className={`relative px-5 py-2 mx-1 transition-all duration-300 text-base font-medium
-        after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-[2px] after:bg-[#FF69B4] after:transition-all after:duration-300 after:rounded-full
+      className={`relative px-6 py-2.5 mx-1.5 transition-all duration-300 text-[18px] font-semibold rounded-xl
         ${isActive
-          ? "after:w-3/4"
-          : "after:w-0 hover:after:w-3/4"
-        }
-        ${scrolled
-          ? "text-[#FFFAF7]/80 hover:text-[#FFFAF7]"
-          : "text-[#5C3A28]/70 hover:text-[#5C3A28]"
+          ? scrolled
+            ? "text-[#FF69B4] bg-white/10"
+            : "text-[#FF69B4] bg-[#FF69B4]/15 border-[3px] border-[#FF69B4]"
+          : scrolled
+            ? "text-[#FFFAF7]/80 hover:text-[#FFFAF7] hover:bg-white/5"
+            : "text-[#5C3A28]/70 hover:text-[#5C3A28] hover:bg-[#5C3A28]/5"
         }`}
       onClick={onClick}
     >
       {label}
+      {isActive && scrolled && (
+        <span className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-4 h-1 bg-[#FF69B4] rounded-full" />
+      )}
     </button>
   );
 };
@@ -89,12 +91,13 @@ export function SpotlightNav({ cart, onCartClick }) {
         className="fixed top-4 w-full z-[100] transition-all duration-300 px-4 md:px-8 pointer-events-none"
       >
         <div
-          className="max-w-6xl mx-auto flex items-center justify-between pointer-events-auto relative overflow-hidden rounded-2xl transition-all duration-300"
+          className="max-w-7xl mx-auto flex items-center justify-between pointer-events-auto relative overflow-hidden rounded-2xl transition-all duration-300"
           style={{
-            padding: scrolled ? "12px 24px" : "16px 24px",
-            background: scrolled ? "rgba(92,58,40,0.9)" : "transparent",
-            backdropFilter: scrolled ? "blur(12px)" : "none",
-            boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.1)" : "none",
+            padding: scrolled ? "20px 32px" : "24px 40px",
+            background: scrolled ? "rgba(92,58,40,0.92)" : "rgba(255, 250, 247, 0.95)",
+            backdropFilter: "blur(12px)",
+            boxShadow: scrolled ? "0 8px 32px rgba(0,0,0,0.15)" : "0 2px 8px rgba(0,0,0,0.06)",
+            borderBottom: "1px solid #E8D8D0",
           }}
         >
           {/* BorderBeam on scroll */}
@@ -116,17 +119,17 @@ export function SpotlightNav({ cart, onCartClick }) {
             <Image
               src={logoIcon}
               alt="Kake N Kream"
-              width={45}
-              height={45}
+              width={60}
+              height={60}
               className="block md:hidden rounded transition-all duration-300"
             />
             <Image
               src={logoFull}
               alt="Kake N Kream"
-              width={160}
-              height={90}
+              width={200}
+              height={100}
               className="hidden md:block rounded transition-all duration-300"
-              style={{ width: "auto", height: 48 }}
+              style={{ width: "auto", height: 70 }}
             />
           </div>
 
@@ -147,10 +150,10 @@ export function SpotlightNav({ cart, onCartClick }) {
           <div className="flex items-center gap-3">
             <button
               onClick={onCartClick}
-              className="relative flex items-center px-5 py-2.5 rounded-full transition-all duration-300 bg-[#FF69B4] text-white hover:bg-[#FF4DA6] shadow-lg"
+              className="relative flex items-center px-6 py-3.5 rounded-full transition-all duration-300 bg-[#FF69B4] text-white hover:bg-[#FF4DA6] shadow-xl hover:scale-105 active:scale-95"
             >
-              <ShoppingCart className="w-4 h-4 mr-2" strokeWidth={2.5} />
-              <span className="text-sm font-semibold truncate max-w-[60px] md:max-w-none">
+              <ShoppingCart className="w-5 h-5 mr-2" strokeWidth={2.5} />
+              <span className="text-[16px] font-bold">
                 Cart{cart.length > 0 && ` (${cart.length})`}
               </span>
             </button>
