@@ -69,7 +69,7 @@ const F = {
 
 const CAKE_FLAVORS = ["Vanilla", "Chocolate", "Red Velvet", "Confetti", "Strawberry", "Biscoff"];
 const BUTTERCREAMS = ["Vanilla", "Chocolate", "Strawberry", "Caramel", "Coconut", "Cookies & Cream", "Mocha", "Cotton Candy", "Cream Cheese"];
-const TOPPINGS = ["Sprinkles", "Chocolate Shavings/Curls", "Ganache", "Cherry", "Coconut Flakes", "Mini Marshmallows", "Oreo Cookies", "Caramel", "Strawberry Slice", "Cotton Candy Bites"];
+const TOPPINGS = ["None", "Sprinkles", "Chocolate Shavings/Curls", "Ganache", "Cherry", "Coconut Flakes", "Mini Marshmallows", "Oreo Cookies", "Caramel", "Strawberry Slice", "Cotton Candy Bites"];
 const FILLINGS = ["None", "Ganache", "Caramel", "Strawberry"];
 
 const BUNDTS = [
@@ -183,7 +183,7 @@ export default function KakeAndKream() {
   const [drawer, setDrawer] = useState(false);
   const [selCake, setSelCake] = useState("");
   const [selButtercream, setSelButtercream] = useState("");
-  const [selTopping, setSelTopping] = useState("");
+  const [selTopping, setSelTopping] = useState("None");
   const [selFilling, setSelFilling] = useState("None");
   const [qty, setQtyVal] = useState(12);
   const [selBundt, setSelBundt] = useState("");
@@ -198,28 +198,17 @@ export default function KakeAndKream() {
   useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, [view]);
   useEffect(() => { const t = setTimeout(() => setShowIntro(false), 2200); return () => clearTimeout(t); }, []);
 
-  const add = (item) => { setCart(p => [...p, { ...item, _id: Date.now() + Math.random() }]); setSelCake(""); setSelButtercream(""); setSelTopping(""); setSelFilling("None"); setSelBundt(""); setSheetNote(""); };
+  const add = (item) => { setCart(p => [...p, { ...item, _id: Date.now() + Math.random() }]); setSelCake(""); setSelButtercream(""); setSelTopping("None"); setSelFilling("None"); setSelBundt(""); setSheetNote(""); };
   const rm = (id) => setCart(p => p.filter(i => i._id !== id));
 
   const openProd = (id) => {
     const p = PRODUCTS.find(x => x.id === id);
-    setQtyVal(p.min); setSelCake(""); setSelButtercream(""); setSelTopping(""); setSelFilling("None"); setSelBundt(""); setSheetNote("");
+    setQtyVal(p.min); setSelCake(""); setSelButtercream(""); setSelTopping("None"); setSelFilling("None"); setSelBundt(""); setSheetNote("");
     setView("p:" + id);
   };
 
   const pid = view.startsWith("p:") ? view.slice(2) : null;
   const prod = pid ? PRODUCTS.find(p => p.id === pid) : null;
-
-  const inp = (field) => ({
-    width: "100%", padding: "14px 18px", borderRadius: 12,
-    border: `2px solid ${errors[field] ? C.coral : C.border}`,
-    fontFamily: F.b, fontSize: 16, outline: "none", background: C.white,
-    boxSizing: "border-box", fontWeight: 400, color: C.ink,
-    transition: "border-color 250ms ease", cursor: "text",
-  });
-  const labelStyle = { display: "block", fontSize: 14, fontWeight: 500, color: C.sub, marginBottom: 6 };
-  const reqStar = <span style={{ color: C.coral, marginLeft: 2 }}>*</span>;
-  const errMsg = (field) => errors[field] ? <p role="alert" style={{ fontSize: 13, color: C.coral, fontWeight: 400, marginTop: 4 }}>{errors[field]}</p> : null;
 
   const faqs = [
     { q: "Do you deliver?", a: "Pickup only — Fridays from our home in the St. Charles area." },
@@ -230,125 +219,6 @@ export default function KakeAndKream() {
     { q: "How much notice?", a: "At least 2 weeks. Everything is baked fresh." },
     { q: "Allergen-free?", a: "No — same equipment for all products. Please note any allergens in your order." },
   ];
-
-  // ─── Cart Drawer ───
-  const CartDrawer = () => {
-    if (!drawer) return null;
-    return (
-      <div style={{ position: "fixed", inset: 0, zIndex: 200, display: "flex", justifyContent: "flex-end" }}>
-        <div onClick={() => setDrawer(false)} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.3)" }} />
-        <div role="dialog" aria-label="Shopping cart" style={{ position: "relative", width: "min(420px, 94vw)", height: "100%", background: C.bg, boxShadow: "-2px 0 20px rgba(0,0,0,0.08)", display: "flex", flexDirection: "column", animation: "si .25s ease" }}>
-          <style>{`@keyframes si{from{transform:translateX(100%)}to{transform:translateX(0)}}`}</style>
-          <div style={{ padding: "20px 24px", borderBottom: `2px solid ${C.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <h3 style={{ fontFamily: F.d, fontSize: 26, fontWeight: 700, margin: 0 }}>My Cart ({cart.length})</h3>
-            <button aria-label="Close cart" onClick={() => setDrawer(false)} style={{ background: C.border, border: "none", width: 44, height: 44, borderRadius: "50%", cursor: "pointer", color: C.ink, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <X size={20} strokeWidth={2.5} />
-            </button>
-          </div>
-          <div style={{ flex: 1, overflowY: "auto", padding: "16px 24px" }}>
-            {cart.length === 0 ? (
-              <div style={{ textAlign: "center", padding: "60px 0", color: C.sub }}>
-                <ShoppingCart size={40} strokeWidth={1.5} style={{ marginBottom: 12, opacity: 0.4 }} />
-                <p style={{ fontSize: 18, fontWeight: 400 }}>Your cart is empty</p>
-              </div>
-            ) : (
-              <>
-                {cart.map((item, i) => (
-                  <div key={item._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0", borderBottom: i < cart.length - 1 ? `2px solid ${C.border}` : "none" }}>
-                    <div>
-                      <div style={{ fontWeight: 500, fontSize: 18 }}>{item.type}</div>
-                      <div style={{ fontSize: 16, color: C.sub, fontWeight: 400 }}>{item.flavor} x {item.qty}{item.filling ? ` + ${item.filling} filling` : ""}</div>
-                      {item.notes && <div style={{ fontSize: 14, color: C.sub, fontStyle: "italic", fontWeight: 500 }}>{item.notes}</div>}
-                    </div>
-                    <button aria-label={`Remove ${item.type}`} onClick={() => rm(item._id)} style={{ width: 44, height: 44, borderRadius: 12, border: `2px solid ${C.coral}`, background: C.white, cursor: "pointer", color: C.coral, display: "flex", alignItems: "center", justifyContent: "center", transition: "all 250ms ease" }}>
-                      <X size={18} strokeWidth={2.5} />
-                    </button>
-                  </div>
-                ))}
-                <div style={{ marginTop: 20, paddingTop: 20, borderTop: `3px solid ${C.border}`, display: "flex", flexDirection: "column", gap: 14 }}>
-                  <p style={{ fontFamily: F.d, fontSize: 22, fontWeight: 700, margin: 0 }}>Your Pickup Info</p>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                    <div>
-                      <label style={labelStyle}>First name{reqStar}</label>
-                      <input value={cust.fn} onChange={e => { setCust(p => ({ ...p, fn: e.target.value })); setErrors(p => ({ ...p, fn: undefined })); }} style={inp("fn")} placeholder="Jane" />
-                      {errMsg("fn")}
-                    </div>
-                    <div>
-                      <label style={labelStyle}>Last name{reqStar}</label>
-                      <input value={cust.ln} onChange={e => { setCust(p => ({ ...p, ln: e.target.value })); setErrors(p => ({ ...p, ln: undefined })); }} style={inp("ln")} placeholder="Doe" />
-                      {errMsg("ln")}
-                    </div>
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Email{reqStar}</label>
-                    <input type="email" value={cust.email} onChange={e => { setCust(p => ({ ...p, email: e.target.value })); setErrors(p => ({ ...p, email: undefined })); }} style={inp("email")} placeholder="jane@example.com" />
-                    {errMsg("email")}
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Phone number</label>
-                    <input type="tel" value={cust.phone} onChange={e => setCust(p => ({ ...p, phone: e.target.value }))} style={inp("phone")} placeholder="(636) 555-1234" />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Pickup Friday (min 2 weeks notice){reqStar}</label>
-                    <input type="date" value={cust.date} onChange={e => { setCust(p => ({ ...p, date: e.target.value })); setErrors(p => ({ ...p, date: undefined })); }} style={{ ...inp("date"), height: 52 }} />
-                    {errMsg("date")}
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Any food allergens?</label>
-                    <input value={cust.allergy} onChange={e => setCust(p => ({ ...p, allergy: e.target.value }))} style={inp("allergy")} placeholder="e.g. nuts, dairy" />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Additional notes for Kalyani</label>
-                    <textarea rows={2} value={cust.notes} onChange={e => setCust(p => ({ ...p, notes: e.target.value }))} style={{ ...inp("notes"), resize: "vertical" }} placeholder="Special requests, decorations, etc." />
-                  </div>
-                  <div style={{ padding: "14px 16px", borderRadius: 14, background: RAW.yellow + "60", fontSize: 14, color: C.ink, lineHeight: 1.5, border: `2px solid ${C.yellow}`, fontWeight: 400, display: "flex", gap: 10, alignItems: "flex-start" }}>
-                    <AlertTriangle size={18} strokeWidth={2.5} style={{ flexShrink: 0, marginTop: 2 }} />
-                    <span>ATTENTION: Our kitchen is NOT allergen-free. Submitting this form does not book your order — it is only booked when full payment is received.</span>
-                  </div>
-                  <div style={{ padding: "14px 16px", borderRadius: 14, background: RAW.pink + "20", fontSize: 14, color: C.ink, lineHeight: 1.5, border: `2px solid ${C.border}`, fontWeight: 400 }}>
-                    <p style={{ margin: 0, fontWeight: 500, color: C.brown }}>Payment & Cancellation Policy</p>
-                    <p style={{ margin: "6px 0 0", color: C.ink }}>Full payment is required once the order is confirmed. Payment is non-refundable in case of cancellation.</p>
-                  </div>
-                  <ShimmerButton background={submitting ? "#8B7D75" : "#FF69B4"} shimmerColor="#FFD54F" shimmerSize="0.06em" borderRadius="16px" disabled={submitting} className="w-full font-display text-xl font-semibold py-4" style={{ cursor: submitting ? "not-allowed" : "pointer" }} onClick={async () => {
-                    const errs = {};
-                    if (!cust.fn.trim()) errs.fn = "First name is required";
-                    if (!cust.ln.trim()) errs.ln = "Last name is required";
-                    if (!cust.email.trim()) errs.email = "Email is required";
-                    if (!cust.date) errs.date = "Pickup date is required";
-                    if (Object.keys(errs).length) { setErrors(errs); return; }
-                    setErrors({});
-                    const order = cart.map((item, i) => `${i + 1}. ${item.type} — ${item.flavor} x ${item.qty}${item.filling ? ` (+ ${item.filling} filling)` : ""}${item.topping ? ` [topping: ${item.topping}]` : ""}${item.notes ? ` [${item.notes}]` : ""}`).join("\n");
-                    const payload = { firstName: cust.fn, lastName: cust.ln, email: cust.email, _replyto: cust.email, phone: cust.phone, pickupDate: cust.date, allergens: cust.allergy, notes: cust.notes, order };
-                    setSubmitting(true);
-                    try {
-                      const [res] = await Promise.all([
-                        fetch("https://formspree.io/f/mgopbwvv", {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json", Accept: "application/json" },
-                          body: JSON.stringify(payload),
-                        }),
-                        fetch("https://script.google.com/macros/s/AKfycbwoZyte94gO6UxjRGkOaTkuCD_AbrKD7lZjh3_OkfahLBG0cjFX36lTQ6TzFsLB5azM/exec", {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify(payload),
-                          mode: "no-cors",
-                        }),
-                      ]);
-                      if (!res.ok) throw new Error("Submission failed");
-                      setDrawer(false); setView("done");
-                    } catch { alert("Something went wrong — please try again."); } finally { setSubmitting(false); }
-                  }}>
-                    {submitting ? "Sending..." : "Submit Order Request"}
-                  </ShimmerButton>
-                  <p style={{ fontSize: 16, color: C.sub, textAlign: "center", fontWeight: 400 }}>We'll email you within 24 hours.</p>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   // ─── Submitted ───
   if (view === "done") {
@@ -372,15 +242,16 @@ export default function KakeAndKream() {
     const isBundt = pid === "bundt";
     const isSheet = pid === "sheet";
     const isBrown = pid === "brownies";
-    const canAdd = hasFl ? (!!selCake && !!selButtercream && !!selTopping) : isBundt ? !!selBundt : true;
+    const canAdd = hasFl ? (!!selCake && !!selButtercream) : isBundt ? !!selBundt : true;
     const Icon = prod.icon;
 
     const doAdd = () => {
-      if (hasFl && selCake && selButtercream && selTopping) {
+      if (hasFl && selCake && selButtercream) {
         const flavorLabel = `${selCake} cake, ${selButtercream} buttercream`;
         const fillingText = selFilling !== "None" ? selFilling : false;
-        const desc = `Topping: ${selTopping}${fillingText ? `, Filling: ${fillingText}` : ""}`;
-        add({ type: prod.name, flavor: flavorLabel, qty, filling: fillingText, desc, topping: selTopping });
+        const toppingText = selTopping !== "None" ? selTopping : false;
+        const desc = `${toppingText ? `Topping: ${toppingText}` : ""}${toppingText && fillingText ? ", " : ""}${fillingText ? `Filling: ${fillingText}` : ""}`;
+        add({ type: prod.name, flavor: flavorLabel, qty, filling: fillingText, desc, topping: toppingText });
       }
       else if (isBundt && selBundt) { const b = BUNDTS.find(o => o.id === selBundt); add({ type: "Bundt Cake", flavor: b.name, qty, price: b.price }); }
       else if (isSheet) { add({ type: "Sheet Cake", flavor: "9x13", qty: 1, notes: sheetNote, price: 110 }); }
@@ -445,7 +316,7 @@ export default function KakeAndKream() {
                 {[
                   { label: "Cake Flavor", value: selCake, onChange: setSelCake, options: CAKE_FLAVORS, required: true },
                   { label: "Buttercream", value: selButtercream, onChange: setSelButtercream, options: BUTTERCREAMS, required: true },
-                  { label: "Topping", value: selTopping, onChange: setSelTopping, options: TOPPINGS, required: true },
+                  { label: "Topping (optional)", value: selTopping, onChange: setSelTopping, options: TOPPINGS, required: false },
                   { label: "Filling (optional)", value: selFilling, onChange: setSelFilling, options: FILLINGS, required: false },
                 ].map(({ label, value, onChange, options, required }) => (
                   <div key={label}>
@@ -505,7 +376,7 @@ export default function KakeAndKream() {
             <div style={{ marginBottom: 24 }}>
               <p style={{ fontFamily: F.d, fontSize: 22, fontWeight: 600, marginBottom: 12 }}>Describe your order</p>
               <p style={{ fontSize: 16, color: C.ink, marginBottom: 12, fontWeight: 400 }}>Flavor, occasion, colors — we'll confirm details.</p>
-              <textarea value={sheetNote} onChange={e => setSheetNote(e.target.value)} rows={3} placeholder="e.g. Chocolate with vanilla buttercream..." style={{ ...inp("sheetNote"), resize: "vertical" }} />
+              <textarea value={sheetNote} onChange={e => setSheetNote(e.target.value)} rows={3} placeholder="e.g. Chocolate with vanilla buttercream..." style={{ width: "100%", padding: "14px 18px", borderRadius: 12, border: "2px solid transparent", fontFamily: F.b, fontSize: 16, outline: "none", background: C.white, boxSizing: "border-box", fontWeight: 400, color: C.ink, transition: "border-color 250ms ease", cursor: "text", resize: "vertical" }} />
             </div>
           )}
 
@@ -547,7 +418,7 @@ export default function KakeAndKream() {
             </div>
           )}
         </div>
-        <CartDrawer />
+        <CartDrawer cart={cart} drawer={drawer} setDrawer={setDrawer} onRemoveItem={rm} cust={cust} setCust={setCust} errors={errors} setErrors={setErrors} submitting={submitting} setSubmitting={setSubmitting} onSubmitSuccess={() => setView("done")} />
       </div>
     );
   }
@@ -668,7 +539,6 @@ export default function KakeAndKream() {
               <div style={{ position: "relative", maxWidth: 400 }}>
                 {/* Floating decorations */}
                 <span style={{ position: "absolute", top: -10, right: -10, fontSize: 28, zIndex: 20, animation: "heroFloat 3s ease-in-out infinite", pointerEvents: "none" }} aria-hidden="true">{"\u2764\uFE0F"}</span>
-                <span style={{ position: "absolute", bottom: 20, left: -16, fontSize: 24, zIndex: 20, animation: "heroFloat 3.5s ease-in-out infinite 0.5s", pointerEvents: "none" }} aria-hidden="true">{"\uD83E\uDDC1"}</span>
                 <span style={{ position: "absolute", top: "40%", right: -20, fontSize: 22, zIndex: 20, animation: "heroFloat 4s ease-in-out infinite 1s", pointerEvents: "none" }} aria-hidden="true">{"\u2728"}</span>
 
                 <div style={{ borderRadius: 16, overflow: "hidden", boxShadow: "0 8px 40px rgba(255,105,180,0.2), 0 20px 50px rgba(92,58,40,0.12)" }}>
@@ -916,12 +786,141 @@ export default function KakeAndKream() {
         </button>
       )}
 
-      <CartDrawer />
+      <CartDrawer cart={cart} drawer={drawer} setDrawer={setDrawer} onRemoveItem={rm} cust={cust} setCust={setCust} errors={errors} setErrors={setErrors} submitting={submitting} setSubmitting={setSubmitting} onSubmitSuccess={() => setView("done")} />
     </div>
   );
 }
 
 // ─── Shared Components ───
+
+function CartDrawer({ cart, drawer, setDrawer, onRemoveItem, cust, setCust, errors, setErrors, submitting, setSubmitting, onSubmitSuccess }) {
+  const inp = (field) => ({
+    width: "100%", padding: "14px 18px", borderRadius: 12,
+    border: `2px solid ${errors[field] ? C.coral : C.border}`,
+    fontFamily: F.b, fontSize: 16, outline: "none", background: C.white,
+    boxSizing: "border-box", fontWeight: 400, color: C.ink,
+    transition: "border-color 250ms ease", cursor: "text",
+  });
+  const labelStyle = { display: "block", fontSize: 14, fontWeight: 500, color: C.sub, marginBottom: 6 };
+  const reqStar = <span style={{ color: C.coral, marginLeft: 2 }}>*</span>;
+  const errMsg = (field) => errors[field] ? <p role="alert" style={{ fontSize: 13, color: C.coral, fontWeight: 400, marginTop: 4 }}>{errors[field]}</p> : null;
+
+  if (!drawer) return null;
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 200, display: "flex", justifyContent: "flex-end" }}>
+      <div onClick={() => setDrawer(false)} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.3)" }} />
+      <div role="dialog" aria-label="Shopping cart" style={{ position: "relative", width: "min(420px, 94vw)", height: "100%", background: C.bg, boxShadow: "-2px 0 20px rgba(0,0,0,0.08)", display: "flex", flexDirection: "column", animation: "si .25s ease" }}>
+        <style>{`@keyframes si{from{transform:translateX(100%)}to{transform:translateX(0)}}`}</style>
+        <div style={{ padding: "20px 24px", borderBottom: `2px solid ${C.border}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <h3 style={{ fontFamily: F.d, fontSize: 26, fontWeight: 700, margin: 0 }}>My Cart ({cart.length})</h3>
+          <button aria-label="Close cart" onClick={() => setDrawer(false)} style={{ background: C.border, border: "none", width: 44, height: 44, borderRadius: "50%", cursor: "pointer", color: C.ink, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <X size={20} strokeWidth={2.5} />
+          </button>
+        </div>
+        <div style={{ flex: 1, overflowY: "auto", padding: "16px 24px" }}>
+          {cart.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "60px 0", color: C.sub }}>
+              <ShoppingCart size={40} strokeWidth={1.5} style={{ marginBottom: 12, opacity: 0.4 }} />
+              <p style={{ fontSize: 18, fontWeight: 400 }}>Your cart is empty</p>
+            </div>
+          ) : (
+            <>
+              {cart.map((item, i) => (
+                <div key={item._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0", borderBottom: i < cart.length - 1 ? `2px solid ${C.border}` : "none" }}>
+                  <div>
+                    <div style={{ fontWeight: 500, fontSize: 18 }}>{item.type}</div>
+                    <div style={{ fontSize: 16, color: C.sub, fontWeight: 400 }}>{item.flavor} x {item.qty}{item.filling ? ` + ${item.filling} filling` : ""}</div>
+                    {item.notes && <div style={{ fontSize: 14, color: C.sub, fontStyle: "italic", fontWeight: 500 }}>{item.notes}</div>}
+                  </div>
+                  <button aria-label={`Remove ${item.type}`} onClick={() => onRemoveItem(item._id)} style={{ width: 44, height: 44, borderRadius: 12, border: `2px solid ${C.coral}`, background: C.white, cursor: "pointer", color: C.coral, display: "flex", alignItems: "center", justifyContent: "center", transition: "all 250ms ease" }}>
+                    <X size={18} strokeWidth={2.5} />
+                  </button>
+                </div>
+              ))}
+              <div style={{ marginTop: 20, paddingTop: 20, borderTop: `3px solid ${C.border}`, display: "flex", flexDirection: "column", gap: 14 }}>
+                <p style={{ fontFamily: F.d, fontSize: 22, fontWeight: 700, margin: 0 }}>Your Pickup Info</p>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                  <div>
+                    <label style={labelStyle}>First name{reqStar}</label>
+                    <input value={cust.fn} onChange={e => { setCust(p => ({ ...p, fn: e.target.value })); setErrors(p => ({ ...p, fn: undefined })); }} style={inp("fn")} placeholder="Jane" />
+                    {errMsg("fn")}
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Last name{reqStar}</label>
+                    <input value={cust.ln} onChange={e => { setCust(p => ({ ...p, ln: e.target.value })); setErrors(p => ({ ...p, ln: undefined })); }} style={inp("ln")} placeholder="Doe" />
+                    {errMsg("ln")}
+                  </div>
+                </div>
+                <div>
+                  <label style={labelStyle}>Email{reqStar}</label>
+                  <input type="email" value={cust.email} onChange={e => { setCust(p => ({ ...p, email: e.target.value })); setErrors(p => ({ ...p, email: undefined })); }} style={inp("email")} placeholder="jane@example.com" />
+                  {errMsg("email")}
+                </div>
+                <div>
+                  <label style={labelStyle}>Phone number</label>
+                  <input type="tel" value={cust.phone} onChange={e => setCust(p => ({ ...p, phone: e.target.value }))} style={inp("phone")} placeholder="(636) 555-1234" />
+                </div>
+                <div>
+                  <label style={labelStyle}>Pickup Friday (min 2 weeks notice){reqStar}</label>
+                  <input type="date" value={cust.date} onChange={e => { setCust(p => ({ ...p, date: e.target.value })); setErrors(p => ({ ...p, date: undefined })); }} style={{ ...inp("date"), height: 52 }} />
+                  {errMsg("date")}
+                </div>
+                <div>
+                  <label style={labelStyle}>Any food allergens?</label>
+                  <input value={cust.allergy} onChange={e => setCust(p => ({ ...p, allergy: e.target.value }))} style={inp("allergy")} placeholder="e.g. nuts, dairy" />
+                </div>
+                <div>
+                  <label style={labelStyle}>Additional notes for Kalyani</label>
+                  <textarea rows={2} value={cust.notes} onChange={e => setCust(p => ({ ...p, notes: e.target.value }))} style={{ ...inp("notes"), resize: "vertical" }} placeholder="Special requests, decorations, etc." />
+                </div>
+                <div style={{ padding: "14px 16px", borderRadius: 14, background: RAW.yellow + "60", fontSize: 14, color: C.ink, lineHeight: 1.5, border: `2px solid ${C.yellow}`, fontWeight: 400, display: "flex", gap: 10, alignItems: "flex-start" }}>
+                  <AlertTriangle size={18} strokeWidth={2.5} style={{ flexShrink: 0, marginTop: 2 }} />
+                  <span>ATTENTION: Our kitchen is NOT allergen-free. Submitting this form does not book your order — it is only booked when full payment is received.</span>
+                </div>
+                <div style={{ padding: "14px 16px", borderRadius: 14, background: RAW.pink + "20", fontSize: 14, color: C.ink, lineHeight: 1.5, border: `2px solid ${C.border}`, fontWeight: 400 }}>
+                  <p style={{ margin: 0, fontWeight: 500, color: C.brown }}>Payment & Cancellation Policy</p>
+                  <p style={{ margin: "6px 0 0", color: C.ink }}>Full payment is required once the order is confirmed. Payment is non-refundable in case of cancellation.</p>
+                </div>
+                <ShimmerButton background={submitting ? "#8B7D75" : "#FF69B4"} shimmerColor="#FFD54F" shimmerSize="0.06em" borderRadius="16px" disabled={submitting} className="w-full font-display text-xl font-semibold py-4" style={{ cursor: submitting ? "not-allowed" : "pointer" }} onClick={async () => {
+                  const errs = {};
+                  if (!cust.fn.trim()) errs.fn = "First name is required";
+                  if (!cust.ln.trim()) errs.ln = "Last name is required";
+                  if (!cust.email.trim()) errs.email = "Email is required";
+                  if (!cust.date) errs.date = "Pickup date is required";
+                  if (Object.keys(errs).length) { setErrors(errs); return; }
+                  setErrors({});
+                  const order = cart.map((item, i) => `${i + 1}. ${item.type} — ${item.flavor} x ${item.qty}${item.filling ? ` (+ ${item.filling} filling)` : ""}${item.topping ? ` [topping: ${item.topping}]` : ""}${item.notes ? ` [${item.notes}]` : ""}`).join("\n");
+                  const payload = { firstName: cust.fn, lastName: cust.ln, email: cust.email, _replyto: cust.email, phone: cust.phone, pickupDate: cust.date, allergens: cust.allergy, notes: cust.notes, order };
+                  setSubmitting(true);
+                  try {
+                    const [res] = await Promise.all([
+                      fetch("https://formspree.io/f/mgopbwvv", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json", Accept: "application/json" },
+                        body: JSON.stringify(payload),
+                      }),
+                      fetch("https://script.google.com/macros/s/AKfycbwoZyte94gO6UxjRGkOaTkuCD_AbrKD7lZjh3_OkfahLBG0cjFX36lTQ6TzFsLB5azM/exec", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload),
+                        mode: "no-cors",
+                      }),
+                    ]);
+                    if (!res.ok) throw new Error("Submission failed");
+                    setDrawer(false); onSubmitSuccess();
+                  } catch { alert("Something went wrong — please try again."); } finally { setSubmitting(false); }
+                }}>
+                  {submitting ? "Sending..." : "Submit Order Request"}
+                </ShimmerButton>
+                <p style={{ fontSize: 16, color: C.sub, textAlign: "center", fontWeight: 400 }}>We'll email you within 24 hours.</p>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function CartBtn({ cart, onClick }) {
   return (
