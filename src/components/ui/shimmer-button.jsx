@@ -12,6 +12,7 @@ const ShimmerButton = React.forwardRef((
     background = "rgba(0, 0, 1)",
     className,
     children,
+    style,
     ...props
   },
   ref,
@@ -25,7 +26,8 @@ const ShimmerButton = React.forwardRef((
           "--radius": borderRadius,
           "--speed": shimmerDuration,
           "--cut": shimmerSize,
-          "--bg": background
+          "--bg": background,
+        ...style,
         }
       }
       className={cn(

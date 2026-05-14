@@ -893,20 +893,19 @@ function CartDrawer({ cart, drawer, setDrawer, onRemoveItem, cust, setCust, erro
                   const payload = { firstName: cust.fn, lastName: cust.ln, email: cust.email, _replyto: cust.email, phone: cust.phone, pickupDate: cust.date, allergens: cust.allergy, notes: cust.notes, order };
                   setSubmitting(true);
                   try {
-                    const [res] = await Promise.all([
-                      fetch("https://formspree.io/f/mgopbwvv", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json", Accept: "application/json" },
-                        body: JSON.stringify(payload),
-                      }),
-                      fetch("https://script.google.com/macros/s/AKfycbwoZyte94gO6UxjRGkOaTkuCD_AbrKD7lZjh3_OkfahLBG0cjFX36lTQ6TzFsLB5azM/exec", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(payload),
-                        mode: "no-cors",
-                      }),
-                    ]);
+                    const res = await fetch("https://formspree.io/f/mgopbwvv", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json", Accept: "application/json" },
+                      body: JSON.stringify(payload),
+                    });
                     if (!res.ok) throw new Error("Submission failed");
+                    // Fire-and-forget: send to Google Sheets via Apps Script
+                    fetch("https://script.google.com/macros/s/AKfycbwgCGQoPo3QXuLX3iRxzdDwBTz06L7xMtnHmBMXT2ciSGLNSTuYbBGQRk_beixXVLYS/exec", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify(payload),
+                      mode: "no-cors",
+                    }).catch(() => {});
                     setDrawer(false); onSubmitSuccess();
                   } catch { alert("Something went wrong — please try again."); } finally { setSubmitting(false); }
                 }}>
