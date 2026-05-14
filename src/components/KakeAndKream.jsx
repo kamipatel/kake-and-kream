@@ -83,7 +83,7 @@ const PRODUCTS = [
   { id: "cupcakes", name: "Cupcakes", icon: Cake, price: "$4.50–$5 each", note: "Filling +$0.50 · Min 1 dozen · One flavor per dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12 },
   { id: "mini", name: "Mini Cakes", icon: CakeSlice, price: "Starting at $7 and up", note: "Min 2 dozen · One flavor per dozen", color: C.brown, raw: RAW.brown, min: 24, step: 12, subtitle: "Bite-sized treats, 2–3 inches each. Perfect for parties." },
   { id: "bundt", name: "Bundt Cakes", icon: CircleDot, price: "From $45", note: "Full-size · Sold individually", color: C.pink, raw: RAW.pink, min: 1, step: 1 },
-  { id: "sheet", name: "Sheet Cakes", icon: Cake, price: "Starting at $110", note: "9×13 · Price varies by size & flavor", color: C.brown, raw: RAW.brown, min: 1, step: 1 },
+  { id: "sheet", name: "Sheet Cakes", icon: Cake, price: "Contact for quote", note: "9×13 · Price varies by size & flavor", color: C.brown, raw: RAW.brown, min: 1, step: 1 },
   { id: "brownies", name: "Brownies", icon: Cookie, price: "$3 each", note: "Fudgy chocolate · Min 1 dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12 },
 ];
 
@@ -95,8 +95,8 @@ const PRODUCT_IMAGES = {
     gallery: ["/images/cupcake-red-velvet-closeup.jpeg", "/images/cupcake-red-velvet-display.jpeg"],
   },
   mini: {
-    thumb: "/images/mini-cakes.jpg",
-    gallery: ["/images/mini-cakes.jpg"],
+    thumb: "/images/IMG_7947.jpeg",
+    gallery: ["/images/IMG_7947.jpeg", "/images/IMG_7946.jpeg"],
   },
   bundt: {
     thumb: "/images/bundt-glazed.jpeg",
