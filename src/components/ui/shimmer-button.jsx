@@ -27,6 +27,7 @@ const ShimmerButton = React.forwardRef((
           "--speed": shimmerDuration,
           "--cut": shimmerSize,
           "--bg": background,
+          color: "white",
         ...style,
         }
       }
