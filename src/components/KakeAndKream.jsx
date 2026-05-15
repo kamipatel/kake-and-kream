@@ -297,10 +297,10 @@ export default function KakeAndKream() {
                   return (
                     <div key={src} style={{
                       borderRadius: 14, overflow: "hidden",
-                      aspectRatio: isFirstOfOdd ? "16/9" : "4/3",
+                      background: "#FFF5F0",
                       gridColumn: isFirstOfOdd ? "1 / -1" : "auto",
                     }}>
-                      <img src={src} alt={`${prod.name} example ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                      <img src={src} alt={`${prod.name} example ${i + 1}`} style={{ width: "100%", display: "block", borderRadius: 14 }} />
                     </div>
                   );
                 })}
@@ -600,12 +600,12 @@ export default function KakeAndKream() {
                   {i === 0 && <BorderBeam size={200} duration={8} colorFrom="#FF69B4" colorTo="#FFD54F" borderWidth={2} />}
                   {imgs ? (
                     <Lens zoomFactor={1.4} lensSize={140}>
-                      <div style={{ width: "100%", aspectRatio: "4/3", overflow: "hidden", background: p.raw + "40" }}>
-                        <img src={imgs.thumb} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                      <div style={{ width: "100%", aspectRatio: "3/4", overflow: "hidden", background: "#FFF5F0" }}>
+                        <img src={imgs.thumb} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
                       </div>
                     </Lens>
                   ) : (
-                    <div style={{ width: "100%", aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center", background: p.raw + "40", color: p.color }}>
+                    <div style={{ width: "100%", aspectRatio: "3/4", display: "flex", alignItems: "center", justifyContent: "center", background: "#FFF5F0", color: p.color }}>
                       <PIcon size={48} strokeWidth={1.5} />
                     </div>
                   )}
@@ -890,7 +890,7 @@ function CartDrawer({ cart, drawer, setDrawer, onRemoveItem, cust, setCust, erro
                   if (Object.keys(errs).length) { setErrors(errs); return; }
                   setErrors({});
                   const order = cart.map((item, i) => `${i + 1}. ${item.type} — ${item.flavor} x ${item.qty}${item.filling ? ` (+ ${item.filling} filling)` : ""}${item.topping ? ` [topping: ${item.topping}]` : ""}${item.notes ? ` [${item.notes}]` : ""}`).join("\n");
-                  const payload = { firstName: cust.fn, lastName: cust.ln, email: cust.email, _replyto: cust.email, phone: cust.phone, pickupDate: cust.date, allergens: cust.allergy, notes: cust.notes, order };
+                  const payload = { _subject: `New order from ${cust.fn} ${cust.ln}`, firstName: cust.fn, lastName: cust.ln, email: cust.email, _replyto: cust.email, phone: cust.phone, pickupDate: cust.date, allergens: cust.allergy, notes: cust.notes, order };
                   setSubmitting(true);
                   try {
                     const res = await fetch("https://formspree.io/f/mgopbwvv", {
