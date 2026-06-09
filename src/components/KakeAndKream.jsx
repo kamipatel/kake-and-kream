@@ -6,6 +6,25 @@ import {
   Cake, CakeSlice, CircleDot, Cookie, ShoppingCart, Mail, PartyPopper,
   ChefHat, AlertTriangle, X, Plus, Minus, Check, ChevronDown, ChevronLeft,
 } from "lucide-react";
+import { Footer } from "@/components/layout/Footer";
+
+const InstagramIcon = ({ size = 24, ...props }) => (
+  <svg
+    viewBox="0 0 24 24"
+    width={size}
+    height={size}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+  </svg>
+);
 import { Marquee } from "@/components/ui/marquee";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
@@ -761,23 +780,59 @@ export default function KakeAndKream() {
       </div>
 
       {/* Footer */}
-      <footer style={{ position: "relative", padding: "60px 24px 40px", textAlign: "center", background: C.brown, color: C.cream, overflow: "hidden" }}>
-        <div style={{ position: "relative", zIndex: 1 }}>
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
-          <Image
-            src={logoFull}
-            alt="Kake N Kream"
-            width={240}
-            height={240}
-            sizes="90px"
-            style={{ width: 90, height: "auto", display: "block", borderRadius: "50%" }}
-          />
+      <Footer />
+
+      {/* Floating contact buttons (visible on scroll) */}
+      {scrolled && (
+        <div style={{ position: "fixed", bottom: (ACCEPTING_ORDERS && cart.length > 0) ? 90 : 20, right: 20, zIndex: 90, display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-end" }}>
+          <a
+            href="https://instagram.com/kakenkream"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="kk-btn"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              background: C.pink,
+              color: "white",
+              padding: "12px 20px",
+              borderRadius: 30,
+              fontFamily: F.d,
+              fontSize: 14,
+              fontWeight: 600,
+              textDecoration: "none",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+              transition: "all 250ms ease",
+            }}
+          >
+            <InstagramIcon size={18} />
+            <span>Chat on Instagram</span>
+          </a>
+          <a
+            href="mailto:hello@kakenkream.com"
+            className="kk-btn"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              background: "var(--color-brown)",
+              color: "white",
+              padding: "12px 20px",
+              borderRadius: 30,
+              fontFamily: F.d,
+              fontSize: 14,
+              fontWeight: 600,
+              textDecoration: "none",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+              transition: "all 250ms ease",
+            }}
+          >
+            <Mail size={18} />
+            <span>Quick Question?</span>
+          </a>
         </div>
-        <p style={{ fontFamily: F.a, fontSize: 16, color: C.cream, margin: "0 0 12px", fontWeight: 400, opacity: 0.85 }}>Handcrafted baked goods · St. Charles, MO</p>
-        <div style={{ fontSize: 13, color: C.cream, fontWeight: 400, opacity: 0.7 }}>&copy; {new Date().getFullYear()} Kake N Kream</div>
-        <div style={{ fontSize: 12, color: C.cream, marginTop: 10, fontWeight: 400, opacity: 0.55 }}>Built by <a href="https://foundry-red.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: C.pink, textDecoration: "none" }}>Foundry</a></div>
-        </div>
-      </footer>
+      )}
 
       {/* Floating cart */}
       {ACCEPTING_ORDERS && scrolled && cart.length > 0 && (

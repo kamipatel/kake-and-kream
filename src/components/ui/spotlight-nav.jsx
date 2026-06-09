@@ -5,6 +5,7 @@ import logoFull from "@/app/logo.png";
 import logoIcon from "@/app/icon.png";
 import { ShoppingCart, Menu, X } from "lucide-react";
 import { BorderBeam } from "@/components/ui/border-beam";
+import { usePathname, useRouter } from "next/navigation";
 
 const NavItem = ({
   label,
@@ -44,6 +45,8 @@ const MobileNavItem = ({ label, isActive, onClick, scrolled }) => (
 );
 
 export function SpotlightNav({ cart, onCartClick }) {
+  const pathname = usePathname();
+  const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -51,8 +54,11 @@ export function SpotlightNav({ cart, onCartClick }) {
   const navItems = [
     { label: "Menu", href: "#menu" },
     { label: "About", href: "#about" },
+    { label: "Custom Cakes", href: "/custom-cakes" },
     { label: "FAQ", href: "#faq" },
   ];
+
+  const isCustomCakes = pathname === "/custom-cakes";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -61,14 +67,23 @@ export function SpotlightNav({ cart, onCartClick }) {
   }, []);
 
   useEffect(() => {
-    const sectionIds = navItems.map((item) => item.href.slice(1));
+    if (isCustomCakes) {
+      setActiveIndex(2); // "Custom Cakes" is at index 2
+      return;
+    }
+
+    const sectionsToObserve = navItems.filter(item => item.href.startsWith("#"));
     const observers = [];
-    sectionIds.forEach((id, index) => {
+    sectionsToObserve.forEach((item) => {
+      const id = item.href.slice(1);
       const el = document.getElementById(id);
       if (!el) return;
       const observer = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting) setActiveIndex(index);
+          if (entry.isIntersecting) {
+            const idx = navItems.findIndex(n => n.href === item.href);
+            if (idx !== -1) setActiveIndex(idx);
+          }
         },
         { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
       );
@@ -76,13 +91,25 @@ export function SpotlightNav({ cart, onCartClick }) {
       observers.push(observer);
     });
     return () => observers.forEach((o) => o.disconnect());
-  }, []);
+  }, [isCustomCakes]);
 
   const handleClick = (index, href) => {
-    setActiveIndex(index);
     setMobileMenuOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (href.startsWith("#")) {
+      if (isCustomCakes) {
+        router.push("/" + href);
+      } else {
+        setActiveIndex(index);
+        const el = document.querySelector(href);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      setActiveIndex(index);
+      router.push(href);
+      if (isCustomCakes && href === "/custom-cakes") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
   };
 
   return (
@@ -114,7 +141,13 @@ export function SpotlightNav({ cart, onCartClick }) {
           {/* Logo */}
           <div
             className="flex items-center flex-shrink-0 cursor-pointer"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() => {
+              if (isCustomCakes) {
+                router.push("/");
+              } else {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
           >
             <Image
               src={logoIcon}
