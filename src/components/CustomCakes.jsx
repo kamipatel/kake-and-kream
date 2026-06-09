@@ -78,13 +78,18 @@ const F = {
   a: "var(--font-accent)",
 };
 
-// TODO: Re-categorize photos once client confirms which photo belongs to which category
+// All real photos from public/images to maximize visual impact
 const ALL_PHOTOS = [
   // Birthday Cakes
   { src: "/images/IMG_7865.jpeg", category: "Birthday Cakes", alt: "Special occasion birthday cake" },
   { src: "/images/IMG_7868.jpeg", category: "Birthday Cakes", alt: "Gorgeous birthday cake" },
   { src: "/images/IMG_0829.jpeg", category: "Birthday Cakes", alt: "Custom birthday cake design" },
   { src: "/images/IMG_9959.jpeg", category: "Birthday Cakes", alt: "Detailed birthday celebration cake" },
+  { src: "/images/2022-04-02_08-45-28_000 (2022-05-12T23_27_10.241).jpeg", category: "Birthday Cakes", alt: "Celebration birthday cake" },
+  { src: "/images/2022-04-02_08-46-18_000 (2022-05-12T23_27_03.198).jpeg", category: "Birthday Cakes", alt: "Festive celebration cake" },
+  { src: "/images/e2b93684-85b3-4a02-93de-ca2e5b769589.jpeg", category: "Birthday Cakes", alt: "Custom birthday cake with accents" },
+  { src: "/images/FullSizeRender.jpeg", category: "Birthday Cakes", alt: "Special tall celebration cake" },
+  { src: "/images/IMG_0113 4.jpeg", category: "Birthday Cakes", alt: "Decorated party cake" },
   
   // Kids Cakes
   { src: "/images/custom-pink-spiderman-cakes.jpeg", category: "Kids Cakes", alt: "Pink Spiderman cake" },
@@ -100,22 +105,36 @@ const ALL_PHOTOS = [
   { src: "/images/cake-mocha-bonbon.jpeg", category: "Vintage Cakes", alt: "Vintage mocha bonbon cake" },
   { src: "/images/cake-coconut-cherry.jpeg", category: "Vintage Cakes", alt: "Vintage coconut cherry cake" },
   { src: "/images/cake-almond-cherry.jpeg", category: "Vintage Cakes", alt: "Vintage almond cherry cake" },
+  { src: "/images/2022-02-26_16-06-06_160.jpeg", category: "Vintage Cakes", alt: "Retro piped vintage cake" },
+  { src: "/images/2022-04-01_12-08-16_032.jpeg", category: "Vintage Cakes", alt: "Elegant vintage lambeth cake" },
+  { src: "/images/DSC_0044.jpeg", category: "Vintage Cakes", alt: "Classic styled vintage cake" },
+  { src: "/images/IMG_1859.jpeg", category: "Vintage Cakes", alt: "Delicate piped details cake" },
+  { src: "/images/IMG_5368.jpeg", category: "Vintage Cakes", alt: "Ornate vintage buttercream cake" },
+  { src: "/images/bundt-glazed.jpeg", category: "Vintage Cakes", alt: "Perfectly glazed bundt cake" },
+  { src: "/images/mini-cakes.jpg", category: "Vintage Cakes", alt: "Assorted vintage mini cakes" },
 
   // Minimal / Luxury Cakes
   { src: "/images/IMG_6384.jpeg", category: "Minimal / Luxury Cakes", alt: "Luxury minimalist cake" },
   { src: "/images/IMG_6389.jpeg", category: "Minimal / Luxury Cakes", alt: "Elegant luxury cake" },
   { src: "/images/IMG_6914.jpeg", category: "Minimal / Luxury Cakes", alt: "Sleek minimal cake" },
   { src: "/images/IMG_6915.jpg", category: "Minimal / Luxury Cakes", alt: "Modern luxury cake" },
+  { src: "/images/IMG_7946.jpeg", category: "Minimal / Luxury Cakes", alt: "Sophisticated modern design" },
+  { src: "/images/IMG_7947.jpeg", category: "Minimal / Luxury Cakes", alt: "Chic luxury celebration cake" },
+  { src: "/images/cupcake-red-velvet-closeup.jpeg", category: "Minimal / Luxury Cakes", alt: "Artisanal red velvet cupcake" },
+  { src: "/images/cupcake-red-velvet-display.jpeg", category: "Minimal / Luxury Cakes", alt: "Premium cupcake arrangement" },
 
   // Theme Cakes
   { src: "/images/custom-ferrero-jack-daniels.jpeg", category: "Theme Cakes", alt: "Jack Daniels themed cake" },
   { src: "/images/custom-graduation-longhorns.jpeg", category: "Theme Cakes", alt: "Graduation Longhorns cake" },
   { src: "/images/custom-graduation-longhorns-2.jpeg", category: "Theme Cakes", alt: "Graduation themed cake" },
+  { src: "/images/2023-03-27_00-04-09_132.jpeg", category: "Theme Cakes", alt: "Specialty custom themed cake" },
+  { src: "/images/sheet-cake.jpg", category: "Theme Cakes", alt: "Custom themed sheet cake" },
 
   // Tier Cakes
   { src: "/images/hero-pink-tiered-cake.jpeg", category: "Tier Cakes", alt: "Elegant pink tiered cake" },
   { src: "/images/IMG_6918.jpeg", category: "Tier Cakes", alt: "Multi-tiered celebration cake" },
-  { src: "/images/IMG_6919.jpeg", category: "Tier Cakes", alt: "Stunning tiered wedding cake" }
+  { src: "/images/IMG_6919.jpeg", category: "Tier Cakes", alt: "Stunning tiered wedding cake" },
+  { src: "/images/hero-pink-drip-cake.jpeg", category: "Tier Cakes", alt: "Drip style tiered cake" }
 ];
 
 const CATEGORIES = [
