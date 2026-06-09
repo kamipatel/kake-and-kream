@@ -62,10 +62,10 @@ const C = {
   warm: "var(--color-surface-warm)",
   surfRose: "var(--color-surface-rose)",
   surfMint: "var(--color-surface-mint)",
-  surfRose: "var(--color-surface-rose)",
-  surfMint: "var(--color-surface-mint)",
   surfLav: "var(--color-surface-lavender)",
   secondary: "var(--color-secondary)",
+  border: "var(--color-border)",
+  muted: "var(--color-muted)",
 };
 
 /* Raw hex values — only used where CSS var + alpha concatenation is needed */

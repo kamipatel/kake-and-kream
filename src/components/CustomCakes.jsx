@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import logoFull from "@/app/logo.png";
 import logoIcon from "@/app/icon.png";
@@ -69,6 +69,7 @@ const C = {
   surfLav: "var(--color-surface-lavender)",
   secondary: "var(--color-secondary)",
   border: "var(--color-border)",
+  muted: "var(--color-muted)",
 };
 
 const F = {
@@ -204,7 +205,7 @@ export default function CustomCakes() {
       }
 
       // 2. Submit to Google Sheets (fire-and-forget, like homepage)
-      fetch("https://script.google.com/macros/s/AKfycbwoZyte94gO6UxjRGkOaTkuCD_AbrKD7lZjh3_OkfahLBG0cjFX36lTQ6TzFsLB5azM/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbwgCGQoPo3QXuLX3iRxzdDwBTz06L7xMtnHmBMXT2ciSGLNSTuYbBGQRk_beixXVLYS/exec", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -400,13 +401,13 @@ export default function CustomCakes() {
 
                 {/* Social links row */}
                 <div style={{ display: "flex", gap: 16, alignItems: "center", marginTop: 12 }}>
-                  <a href="https://instagram.com/kakenkream" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyItems: "center", width: 42, height: 42, borderRadius: "50%", background: C.white, border: `2px solid ${C.border}`, color: C.pink, transition: "all 0.2s" }} className="hover:scale-105 justify-center">
+                  <a href="https://instagram.com/kakenkream" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 42, height: 42, borderRadius: "50%", background: C.white, border: `2px solid ${C.border}`, color: C.pink, transition: "all 0.2s" }} className="hover:scale-105">
                     <InstagramIcon size={20} />
                   </a>
-                  <a href="https://facebook.com/kakenkream" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyItems: "center", width: 42, height: 42, borderRadius: "50%", background: C.white, border: `2px solid ${C.border}`, color: C.pink, transition: "all 0.2s" }} className="hover:scale-105 justify-center">
+                  <a href="https://facebook.com/kakenkream" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 42, height: 42, borderRadius: "50%", background: C.white, border: `2px solid ${C.border}`, color: C.pink, transition: "all 0.2s" }} className="hover:scale-105">
                     <FacebookIcon size={20} />
                   </a>
-                  <a href="https://www.kakenkream.com" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyItems: "center", width: 42, height: 42, borderRadius: "50%", background: C.white, border: `2px solid ${C.border}`, color: C.pink, transition: "all 0.2s" }} className="hover:scale-105 justify-center">
+                  <a href="https://www.kakenkream.com" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 42, height: 42, borderRadius: "50%", background: C.white, border: `2px solid ${C.border}`, color: C.pink, transition: "all 0.2s" }} className="hover:scale-105">
                     <Globe size={20} />
                   </a>
                 </div>
@@ -528,7 +529,7 @@ export default function CustomCakes() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                   {["Vanilla", "Chocolate", "Red Velvet", "Strawberry", "Funfetti"].map(flavor => (
                     <div key={flavor} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 17, fontWeight: 500 }}>
-                      <div style={{ width: 26, height: 26, borderRadius: "50%", background: "rgba(255,105,180,0.1)", display: "flex", alignItems: "center", justifyItems: "center", color: C.pink }} className="justify-center">
+                      <div style={{ width: 26, height: 26, borderRadius: "50%", background: "rgba(255,105,180,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: C.pink }}>
                         <Check size={16} strokeWidth={3} />
                       </div>
                       <span>{flavor}</span>
@@ -545,7 +546,7 @@ export default function CustomCakes() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                   {["Chocolate Ganache", "Oreo Cream", "Strawberry Compote", "Biscoff", "Cream Cheese Frosting"].map(filling => (
                     <div key={filling} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 17, fontWeight: 500 }}>
-                      <div style={{ width: 26, height: 26, borderRadius: "50%", background: "rgba(92,58,40,0.1)", display: "flex", alignItems: "center", justifyItems: "center", color: C.brown }} className="justify-center">
+                      <div style={{ width: 26, height: 26, borderRadius: "50%", background: "rgba(92,58,40,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: C.brown }}>
                         <Check size={16} strokeWidth={3} />
                       </div>
                       <span>{filling}</span>
@@ -583,7 +584,7 @@ export default function CustomCakes() {
             {[
               { size: "6-inch tall cake", desc: "3 layers, serves 10–12", price: "$75+" },
               { size: "8-inch tall cake", desc: "3 layers, serves 18–20", price: "$95+" },
-              { size: "Custom tiered cakes", desc: "For weddings and special events", price: "Quote on request" }
+              { size: "Custom tiered cakes", desc: "Events", price: "Quote on request" }
             ].map((item, idx) => (
               <BlurFade key={idx} inView delay={0.1 + idx * 0.05}>
                 <div style={{ display: "flex", flexDirection: "column", md: { flexDirection: "row" }, justifyContent: "space-between", alignItems: "center", padding: "24px 30px", borderRadius: 16, border: `2.5px solid ${C.border}`, background: C.white, gap: 16 }} className="flex-col md:flex-row text-center md:text-left">
@@ -632,7 +633,7 @@ export default function CustomCakes() {
             ].map((item, idx) => (
               <BlurFade key={idx} inView delay={0.1 + idx * 0.05}>
                 <div style={{ height: "100%", padding: "30px 24px", borderRadius: 16, border: `2.5px solid ${C.brown}`, background: C.white, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <div style={{ width: 44, height: 44, borderRadius: "50%", background: C.pink, color: C.white, fontFamily: F.d, fontSize: 20, fontWeight: 700, display: "flex", alignItems: "center", justifyItems: "center", marginBottom: 16 }} className="justify-center">
+                  <div style={{ width: 44, height: 44, borderRadius: "50%", background: C.pink, color: C.white, fontFamily: F.d, fontSize: 20, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}>
                     {item.step}
                   </div>
                   <p style={{ fontSize: 15, color: C.ink, margin: 0, lineHeight: 1.5, fontWeight: 500 }}>{item.text}</p>
@@ -665,7 +666,7 @@ export default function CustomCakes() {
                   "Cakes may contain allergens including dairy, eggs, wheat, and nuts"
                 ].map((info, idx) => (
                   <div key={idx} style={{ display: "flex", alignItems: "flex-start", gap: 12, fontSize: 16, fontWeight: 500, color: C.ink }}>
-                    <div style={{ minWidth: 20, height: 20, borderRadius: "50%", background: "rgba(255,105,180,0.12)", color: C.pink, display: "flex", alignItems: "center", justifyItems: "center", fontSize: 11, fontWeight: 700, marginTop: 2 }} className="justify-center">
+                    <div style={{ minWidth: 20, height: 20, borderRadius: "50%", background: "rgba(255,105,180,0.12)", color: C.pink, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, marginTop: 2 }}>
                       ✓
                     </div>
                     <span>{info}</span>
@@ -686,9 +687,9 @@ export default function CustomCakes() {
           
           <BlurFade inView delay={0.1}>
             <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>Policies</p>
-            <h2 style={{ fontFamily: F.d, fontSize: "clamp(30px, 6vw, 40px)", fontWeight: 700, textAlign: "center", margin: "0 0 12px", color: C.brown }}>KakenKream Policy</h2>
+            <h2 style={{ fontFamily: F.d, fontSize: "clamp(30px, 6vw, 40px)", fontWeight: 700, textAlign: "center", margin: "0 0 12px", color: C.brown }}>Kake N Kream Policy</h2>
             <p style={{ fontFamily: F.b, fontSize: 16, color: C.sub, textAlign: "center", marginBottom: 32, lineHeight: 1.6, fontWeight: 500 }}>
-              At KakenKream, every dessert is freshly made to order with care, attention to detail, and quality ingredients. To ensure smooth scheduling and consistent quality, please review our policy below.
+              At Kake N Kream, every dessert is freshly made to order with care, attention to detail, and quality ingredients. To ensure smooth scheduling and consistent quality, please review our policy below.
             </p>
             <div style={{ width: 50, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 36px" }} />
           </BlurFade>
@@ -744,7 +745,7 @@ export default function CustomCakes() {
           {submitted ? (
             <BlurFade>
               <div style={{ padding: "40px 30px", borderRadius: 18, border: `3px solid ${C.pink}`, background: C.white, textAlign: "center" }}>
-                <div style={{ width: 64, height: 64, borderRadius: "50%", background: "rgba(255,105,180,0.12)", color: C.pink, display: "flex", alignItems: "center", justifyItems: "center", margin: "0 auto 20px" }} className="justify-center">
+                <div style={{ width: 64, height: 64, borderRadius: "50%", background: "rgba(255,105,180,0.12)", color: C.pink, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
                   <Check size={32} strokeWidth={3} />
                 </div>
                 <h3 style={{ fontFamily: F.d, fontSize: 24, fontWeight: 700, color: C.brown, marginBottom: 8 }}>Thank you!</h3>
@@ -1047,7 +1048,7 @@ export default function CustomCakes() {
       <section id="promise" style={{ padding: "100px 24px", background: C.surfMint, textAlign: "center" }}>
         <div style={{ maxWidth: 700, margin: "0 auto" }}>
           <BlurFade inView delay={0.1}>
-            <div style={{ display: "inline-flex", width: 56, height: 56, borderRadius: "50%", background: "rgba(255,105,180,0.08)", color: C.pink, alignItems: "center", justifyItems: "center", marginBottom: 20 }} className="justify-center">
+            <div style={{ display: "inline-flex", width: 56, height: 56, borderRadius: "50%", background: "rgba(255,105,180,0.08)", color: C.pink, alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
               <Heart size={28} fill={C.pink} />
             </div>
             <h3 style={{ fontFamily: F.d, fontSize: 26, fontWeight: 700, color: C.brown, marginBottom: 16 }}>Our Promise</h3>
@@ -1055,7 +1056,7 @@ export default function CustomCakes() {
               &ldquo;Every cake is created with care, quality ingredients, and attention to detail. Our goal is to make your celebration feel special &mdash; not just with taste, but with a design that tells your story.&rdquo;
             </p>
             <p style={{ fontSize: 16, color: C.brown, fontWeight: 600, marginBottom: 12 }}>
-              Thank you for supporting KakenKream. Every dessert is handcrafted with care, creativity, and attention to detail. We truly appreciate your trust.
+              Thank you for supporting Kake N Kream. Every dessert is handcrafted with care, creativity, and attention to detail. We truly appreciate your trust.
             </p>
             <p style={{ fontSize: 14, color: C.muted, fontWeight: 500, fontStyle: "italic", margin: 0 }}>
               We will respond with availability and a custom quote.
@@ -1069,7 +1070,7 @@ export default function CustomCakes() {
 
       {/* Lightbox / Modal */}
       {lightboxImg && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 1000, display: "flex", alignItems: "center", justifyItems: "center", background: "rgba(0,0,0,0.85)", animation: "fadeIn 200ms ease" }} className="justify-center" onClick={() => setLightboxImg(null)}>
+        <div style={{ position: "fixed", inset: 0, zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.85)", animation: "fadeIn 200ms ease" }} onClick={() => setLightboxImg(null)}>
           <style>{`
             @keyframes fadeIn {
               from { opacity: 0; }
@@ -1079,8 +1080,8 @@ export default function CustomCakes() {
           <div style={{ position: "relative", maxWidth: "min(680px, 94vw)", maxHeight: "90vh", borderRadius: 16, overflow: "hidden", border: `3px solid ${C.white}`, background: C.white }} onClick={e => e.stopPropagation()}>
             <button
               onClick={() => setLightboxImg(null)}
-              style={{ position: "absolute", top: 16, right: 16, zIndex: 10, background: "rgba(0,0,0,0.5)", border: "none", width: 40, height: 40, borderRadius: "50%", cursor: "pointer", color: "white", display: "flex", alignItems: "center", justifyItems: "center" }}
-              className="justify-center hover:scale-105"
+              style={{ position: "absolute", top: 16, right: 16, zIndex: 10, background: "rgba(0,0,0,0.5)", border: "none", width: 40, height: 40, borderRadius: "50%", cursor: "pointer", color: "white", display: "flex", alignItems: "center", justifyContent: "center" }}
+              className="hover:scale-105"
             >
               <X size={20} />
             </button>
