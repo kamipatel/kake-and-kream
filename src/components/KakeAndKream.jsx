@@ -100,10 +100,10 @@ const BUNDTS = [
 
 const PRODUCTS = [
   { id: "cupcakes", name: "Cupcakes", icon: Cake, price: "$4.50–$5 each", note: "Filling +$0.50 · Min 1 dozen · One flavor per dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12 },
-  { id: "mini", name: "Mini Cakes", icon: CakeSlice, price: "Starting at $7 and up", note: "Min 2 dozen · One flavor per dozen", color: C.brown, raw: RAW.brown, min: 24, step: 12, subtitle: "Bite-sized treats, 2–3 inches each. Perfect for parties." },
+  { id: "mini", name: "Mini Cakes", icon: CakeSlice, price: "Starting at $7 and up", note: "Min 1 dozen · One flavor per dozen", color: C.brown, raw: RAW.brown, min: 12, step: 12, subtitle: "Bite-sized treats, 2–3 inches each. Perfect for parties." },
   { id: "bundt", name: "Bundt Cakes", icon: CircleDot, price: "From $45", note: "Full-size · Sold individually", color: C.pink, raw: RAW.pink, min: 1, step: 1 },
   { id: "sheet", name: "Sheet Cakes", icon: Cake, price: "Contact for quote", note: "9×13 · Price varies by size & flavor", color: C.brown, raw: RAW.brown, min: 1, step: 1 },
-  { id: "brownies", name: "Brownies", icon: Cookie, price: "$3 each", note: "Fudgy chocolate · Min 1 dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12 },
+  { id: "brownies", name: "Brownies", icon: Cookie, price: "$3.50 each", note: "Fudgy chocolate · Min 1 dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12 },
 ];
 
 const ICON_PROPS = { size: 28, strokeWidth: 2.5 };
@@ -126,8 +126,8 @@ const PRODUCT_IMAGES = {
     gallery: ["/images/sheet-cake.jpg"],
   },
   brownies: {
-    thumb: "/images/DSC_0044.jpeg",
-    gallery: ["/images/DSC_0044.jpeg"],
+    thumb: "/images/2023-03-27_00-04-09_132.jpeg",
+    gallery: ["/images/2023-03-27_00-04-09_132.jpeg"],
   },
 };
 
@@ -143,7 +143,7 @@ const ABOUT_GALLERY = [
 ];
 
 const MARQUEE_ITEMS = [
-  { text: "Pickup Fridays", color: "#FF69B4" },
+  { text: "Pickup Available", color: "#FF69B4" },
   { text: "St. Charles, MO", color: "#5C3A28" },
   { text: "2 Week Notice", color: "#5C3A28" },
   { text: "Made Fresh to Order", color: "#FF69B4" },
@@ -230,12 +230,12 @@ export default function KakeAndKream() {
   const prod = pid ? PRODUCTS.find(p => p.id === pid) : null;
 
   const faqs = [
-    { q: "Do you deliver?", a: "Pickup only — Fridays from our home in the St. Charles area." },
-    { q: "Minimum orders?", a: "Cupcakes & brownies: 1 dozen. Mini cakes: 2 dozen. Bundt & sheet: individual." },
+    { q: "Do you deliver?", a: "Pickup only — from our home in the St. Charles area." },
+    { q: "Minimum orders?", a: "Cupcakes, brownies, & mini cakes: 1 dozen. Bundt & sheet: individual." },
     { q: "Can I mix flavors?", a: "Each dozen is one flavor, but you can order multiple dozens in different flavors." },
 { q: "Payment?", a: "Full payment is required via Venmo/Zelle once the order is confirmed. Payment is non-refundable in case of cancellation." },
     { q: "Cancellation policy?", a: "Full payment is required once the order is confirmed. Payment is non-refundable in case of cancellation." },
-    { q: "How much notice?", a: "At least 2 weeks. Everything is baked fresh." },
+    { q: "How much notice?", a: "Brownies & Bundt Cakes: 3 days notice. Mini Cakes & Cupcakes: 4 days notice. Custom Celebration Cakes: 2 weeks notice." },
     { q: "Allergen-free?", a: "No — same equipment for all products. Please note any allergens in your order." },
   ];
 
@@ -403,7 +403,7 @@ export default function KakeAndKream() {
           {isBrown && (
             <div style={{ padding: "20px", borderRadius: 14, background: prod.raw + "50", marginBottom: 28, textAlign: "center", border: `2px solid ${prod.color}` }}>
               <span style={{ fontFamily: F.d, fontSize: 20, fontWeight: 600 }}>Fudgy Chocolate Brownies</span>
-              <span style={{ fontSize: 18, color: C.brown, fontWeight: 600, marginLeft: 12 }}>$3 each</span>
+              <span style={{ fontSize: 18, color: C.brown, fontWeight: 600, marginLeft: 12 }}>$3.50 each</span>
             </div>
           )}
 
@@ -620,7 +620,7 @@ export default function KakeAndKream() {
                   {imgs ? (
                     <Lens zoomFactor={1.4} lensSize={140}>
                       <div style={{ width: "100%", aspectRatio: "3/4", overflow: "hidden", background: "#FFF5F0" }}>
-                        <img src={imgs.thumb} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }} />
+                        <img src={imgs.thumb} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }} />
                       </div>
                     </Lens>
                   ) : (
@@ -662,7 +662,7 @@ export default function KakeAndKream() {
             {[
               { n: 1, t: "Build Your Cart", d: "Browse, pick flavors, add items.", icon: ShoppingCart, c: C.pink, rc: RAW.pink },
               { n: 2, t: "Submit and Confirm", d: "We'll email to confirm and share payment info. All payments are non-refundable.", icon: Mail, c: C.brown, rc: RAW.brown },
-              { n: 3, t: "Pickup Friday", d: "Pick up your fresh order!", icon: PartyPopper, c: C.brown, rc: RAW.brown },
+              { n: 3, t: "Pickup Order", d: "Pick up your fresh order!", icon: PartyPopper, c: C.brown, rc: RAW.brown },
             ].map((s, i) => {
               const SIcon = s.icon;
               return (
@@ -691,7 +691,7 @@ export default function KakeAndKream() {
         <div style={{ maxWidth: 800, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 20, textAlign: "center" }}>
           {[
             { label: "Made Fresh to Order" },
-            { label: "Pickup Fridays" },
+            { label: "Pickup Available" },
             { label: "St. Charles, MO" },
           ].map((stat, i) => (
             <BlurFade key={i} delay={0.1 + i * 0.1} inView>
@@ -916,7 +916,7 @@ function CartDrawer({ cart, drawer, setDrawer, onRemoveItem, cust, setCust, erro
                   <input type="tel" value={cust.phone} onChange={e => setCust(p => ({ ...p, phone: e.target.value }))} style={inp("phone")} placeholder="(636) 555-1234" />
                 </div>
                 <div>
-                  <label style={labelStyle}>Pickup Friday (min 2 weeks notice){reqStar}</label>
+                  <label style={labelStyle}>Pickup Date (see notice requirements){reqStar}</label>
                   <input type="date" value={cust.date} onChange={e => { setCust(p => ({ ...p, date: e.target.value })); setErrors(p => ({ ...p, date: undefined })); }} style={{ ...inp("date"), height: 52 }} />
                   {errMsg("date")}
                 </div>

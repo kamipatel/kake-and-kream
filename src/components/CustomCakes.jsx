@@ -96,10 +96,6 @@ const ALL_PHOTOS = [
   { src: "/images/cake-yellow-rainbow.jpeg", category: "Kids Cakes", alt: "Yellow rainbow kids cake" },
   { src: "/images/IMG_3462.jpeg", category: "Kids Cakes", alt: "Fun kids birthday cake" },
 
-  // Floral Cakes
-  { src: "/images/custom-basket-flower-cake.jpeg", category: "Floral Cakes", alt: "Floral basket cake" },
-  { src: "/images/cake-pink-rosette-table.jpeg", category: "Floral Cakes", alt: "Pink rosette table cake" },
-  { src: "/images/cake-lavender-rosette.jpeg", category: "Floral Cakes", alt: "Lavender rosette cake" },
 
   // Vintage Cakes
   { src: "/images/cake-mocha-bonbon.jpeg", category: "Vintage Cakes", alt: "Vintage mocha bonbon cake" },
@@ -124,7 +120,7 @@ const ALL_PHOTOS = [
   { src: "/images/cupcake-red-velvet-display.jpeg", category: "Minimal / Luxury Cakes", alt: "Premium cupcake arrangement" },
 
   // Theme Cakes
-  { src: "/images/custom-ferrero-jack-daniels.jpeg", category: "Theme Cakes", alt: "Jack Daniels themed cake" },
+  { src: "/images/2022-06-18_22-13-26_732.jpeg", category: "Theme Cakes", alt: "Jack Daniels themed cake" },
   { src: "/images/custom-graduation-longhorns.jpeg", category: "Theme Cakes", alt: "Graduation Longhorns cake" },
   { src: "/images/custom-graduation-longhorns-2.jpeg", category: "Theme Cakes", alt: "Graduation themed cake" },
   { src: "/images/2023-03-27_00-04-09_132.jpeg", category: "Theme Cakes", alt: "Specialty custom themed cake" },
@@ -137,18 +133,7 @@ const ALL_PHOTOS = [
   { src: "/images/hero-pink-drip-cake.jpeg", category: "Tier Cakes", alt: "Drip style tiered cake" }
 ];
 
-const CATEGORIES = [
-  "Birthday Cakes",
-  "Kids Cakes",
-  "Floral Cakes",
-  "Vintage Cakes",
-  "Minimal / Luxury Cakes",
-  "Theme Cakes",
-  "Tier Cakes",
-];
-
 export default function CustomCakes() {
-  const [activeCategory, setActiveCategory] = useState("Birthday Cakes");
   const [lightboxImg, setLightboxImg] = useState(null);
   const [scrolled, setScrolled] = useState(false);
   const [openPolicy, setOpenPolicy] = useState(null);
@@ -249,8 +234,6 @@ export default function CustomCakes() {
       setSubmitting(false);
     }
   };
-
-  const filteredPhotos = ALL_PHOTOS.filter(photo => photo.category === activeCategory);
 
   const policies = [
     {
@@ -473,39 +456,9 @@ export default function CustomCakes() {
             <div style={{ width: 50, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 36px" }} />
           </BlurFade>
 
-          {/* Category Filter Tabs */}
-          <BlurFade inView delay={0.15}>
-            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10, marginBottom: 40 }}>
-              {CATEGORIES.map(category => {
-                const isActive = activeCategory === category;
-                return (
-                  <button
-                    key={category}
-                    onClick={() => setActiveCategory(category)}
-                    style={{
-                      padding: "10px 20px",
-                      borderRadius: 20,
-                      border: `2px solid ${C.pink}`,
-                      background: isActive ? C.pink : C.white,
-                      color: isActive ? C.white : C.pink,
-                      fontFamily: F.d,
-                      fontSize: 15,
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      transition: "all 200ms ease",
-                    }}
-                    className="hover:scale-102"
-                  >
-                    {category}
-                  </button>
-                );
-              })}
-            </div>
-          </BlurFade>
-
           {/* Photos Grid */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 20 }}>
-            {filteredPhotos.map((photo, index) => (
+            {ALL_PHOTOS.map((photo, index) => (
               <BlurFade key={photo.src} delay={0.1 + index * 0.05} inView>
                 <div
                   className="gallery-card"
