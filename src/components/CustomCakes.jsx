@@ -452,7 +452,7 @@ export default function CustomCakes() {
           
           <BlurFade inView delay={0.1}>
             <p style={{ fontFamily: F.d, fontSize: 14, fontWeight: 600, color: C.pink, letterSpacing: 2, textTransform: "uppercase", textAlign: "center", marginBottom: 8 }}>Portfolio</p>
-            <h2 style={{ fontFamily: F.d, fontSize: "clamp(30px, 6vw, 42px)", fontWeight: 700, textAlign: "center", margin: "0 0 12px", color: C.brown }}>Our Cake Gallery</h2>
+            <h2 style={{ fontFamily: F.d, fontSize: "clamp(30px, 6vw, 42px)", fontWeight: 700, textAlign: "center", margin: "0 0 12px", color: C.brown }}>Our Work</h2>
             <div style={{ width: 50, height: 4, borderRadius: 2, background: C.pink, margin: "0 auto 36px" }} />
           </BlurFade>
 
