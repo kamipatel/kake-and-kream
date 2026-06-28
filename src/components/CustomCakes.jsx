@@ -92,7 +92,6 @@ const ALL_PHOTOS = [
   { src: "/images/IMG_0113 4.jpeg", category: "Birthday Cakes", alt: "Decorated party cake" },
   
   // Kids Cakes
-  { src: "/images/custom-pink-spiderman-cakes.jpeg", category: "Kids Cakes", alt: "Pink Spiderman cake" },
   { src: "/images/cake-yellow-rainbow.jpeg", category: "Kids Cakes", alt: "Yellow rainbow kids cake" },
   { src: "/images/IMG_3462.jpeg", category: "Kids Cakes", alt: "Fun kids birthday cake" },
 
@@ -103,11 +102,8 @@ const ALL_PHOTOS = [
   { src: "/images/cake-almond-cherry.jpeg", category: "Vintage Cakes", alt: "Vintage almond cherry cake" },
   { src: "/images/2022-02-26_16-06-06_160.jpeg", category: "Vintage Cakes", alt: "Retro piped vintage cake" },
   { src: "/images/2022-04-01_12-08-16_032.jpeg", category: "Vintage Cakes", alt: "Elegant vintage lambeth cake" },
-  { src: "/images/DSC_0044.jpeg", category: "Vintage Cakes", alt: "Classic styled vintage cake" },
   { src: "/images/IMG_1859.jpeg", category: "Vintage Cakes", alt: "Delicate piped details cake" },
   { src: "/images/IMG_5368.jpeg", category: "Vintage Cakes", alt: "Ornate vintage buttercream cake" },
-  { src: "/images/bundt-glazed.jpeg", category: "Vintage Cakes", alt: "Perfectly glazed bundt cake" },
-  { src: "/images/mini-cakes.jpg", category: "Vintage Cakes", alt: "Assorted vintage mini cakes" },
 
   // Minimal / Luxury Cakes
   { src: "/images/IMG_6384.jpeg", category: "Minimal / Luxury Cakes", alt: "Luxury minimalist cake" },
@@ -116,15 +112,12 @@ const ALL_PHOTOS = [
   { src: "/images/IMG_6915.jpg", category: "Minimal / Luxury Cakes", alt: "Modern luxury cake" },
   { src: "/images/IMG_7946.jpeg", category: "Minimal / Luxury Cakes", alt: "Sophisticated modern design" },
   { src: "/images/IMG_7947.jpeg", category: "Minimal / Luxury Cakes", alt: "Chic luxury celebration cake" },
-  { src: "/images/cupcake-red-velvet-closeup.jpeg", category: "Minimal / Luxury Cakes", alt: "Artisanal red velvet cupcake" },
-  { src: "/images/cupcake-red-velvet-display.jpeg", category: "Minimal / Luxury Cakes", alt: "Premium cupcake arrangement" },
 
   // Theme Cakes
   { src: "/images/2022-06-18_22-13-26_732.jpeg", category: "Theme Cakes", alt: "Jack Daniels themed cake" },
   { src: "/images/custom-graduation-longhorns.jpeg", category: "Theme Cakes", alt: "Graduation Longhorns cake" },
   { src: "/images/custom-graduation-longhorns-2.jpeg", category: "Theme Cakes", alt: "Graduation themed cake" },
   { src: "/images/2023-03-27_00-04-09_132.jpeg", category: "Theme Cakes", alt: "Specialty custom themed cake" },
-  { src: "/images/sheet-cake.jpg", category: "Theme Cakes", alt: "Custom themed sheet cake" },
 
   // Tier Cakes
   { src: "/images/hero-pink-tiered-cake.jpeg", category: "Tier Cakes", alt: "Elegant pink tiered cake" },

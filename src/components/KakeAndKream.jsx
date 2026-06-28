@@ -126,8 +126,8 @@ const PRODUCT_IMAGES = {
     gallery: ["/images/sheet-cake.jpg"],
   },
   brownies: {
-    thumb: "/images/2023-03-27_00-04-09_132.jpeg",
-    gallery: ["/images/2023-03-27_00-04-09_132.jpeg"],
+    thumb: "/images/DSC_0044.jpeg",
+    gallery: ["/images/DSC_0044.jpeg"],
   },
 };
 
@@ -145,7 +145,6 @@ const ABOUT_GALLERY = [
 const MARQUEE_ITEMS = [
   { text: "Pickup Available", color: "#FF69B4" },
   { text: "St. Charles, MO", color: "#5C3A28" },
-  { text: "2 Week Notice", color: "#5C3A28" },
   { text: "Made Fresh to Order", color: "#FF69B4" },
   { text: "Venmo / Zelle", color: "#5C3A28" },
   { text: "Home Baked with Love", color: "#FF69B4" },
@@ -235,7 +234,7 @@ export default function KakeAndKream() {
     { q: "Can I mix flavors?", a: "Each dozen is one flavor, but you can order multiple dozens in different flavors." },
 { q: "Payment?", a: "Full payment is required via Venmo/Zelle once the order is confirmed. Payment is non-refundable in case of cancellation." },
     { q: "Cancellation policy?", a: "Full payment is required once the order is confirmed. Payment is non-refundable in case of cancellation." },
-    { q: "How much notice?", a: "Brownies & Bundt Cakes: 3 days notice. Mini Cakes & Cupcakes: 4 days notice. Custom Celebration Cakes: 2 weeks notice." },
+    { q: "How much notice?", a: "Brownies & Bundt Cakes: 3 days notice. Mini Cakes & Cupcakes: 4 days notice." },
     { q: "Allergen-free?", a: "No — same equipment for all products. Please note any allergens in your order." },
   ];
 
@@ -539,9 +538,8 @@ export default function KakeAndKream() {
             <BlurFade delay={0.65}>
               <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-8">
                 {[
-                  { icon: "\uD83C\uDF82", text: "Made Fresh" },
-                  { icon: "\uD83D\uDCCD", text: "St. Charles, MO" },
-                  { icon: "\uD83D\uDD52", text: "Order 2 Weeks Ahead" },
+                  { icon: "🎂", text: "Made Fresh" },
+                  { icon: "📍", text: "St. Charles, MO" },
                 ].map((badge) => (
                   <span key={badge.text} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 14px", borderRadius: 20, background: "rgba(255,105,180,0.08)", color: C.sub, fontSize: 14, fontWeight: 500, fontFamily: F.a }}>
                     <span style={{ fontSize: 16 }}>{badge.icon}</span>
