@@ -86,25 +86,42 @@ const F = {
   a: "var(--font-accent)",
 };
 
-const CAKE_FLAVORS = ["Vanilla", "Chocolate", "Red Velvet", "Confetti", "Strawberry", "Biscoff"];
-const BUTTERCREAMS = ["Vanilla", "Chocolate", "Strawberry", "Caramel", "Coconut", "Cookies & Cream", "Mocha", "Cotton Candy", "Cream Cheese"];
-const TOPPINGS = ["None", "Sprinkles", "Chocolate Shavings/Curls", "Ganache", "Cherry", "Coconut Flakes", "Mini Marshmallows", "Oreo Cookies", "Caramel", "Strawberry Slice", "Cotton Candy Bites"];
-const FILLINGS = ["None", "Ganache", "Caramel", "Strawberry"];
+const SIGNATURE_FLAVORS = ["Chocolate", "Red Velvet", "Biscoff", "Cookies & Cream"];
+const toFlavors = (prefix, names, price) =>
+  names.map(name => ({ id: `${prefix}-${name.toLowerCase().replace(/[^a-z]+/g, "-")}`, name, price }));
 
-const BUNDTS = [
-  { id: "b-van", name: "Vanilla", desc: "Cinnamon & toasted walnut streusel, topped with glaze", price: 45, color: C.brown, raw: RAW.brown },
-  { id: "b-marble", name: "Marble", desc: "Ganache topping", price: 55, color: C.pink, raw: RAW.pink },
-  { id: "b-rv", name: "Red Velvet", desc: "Cream cheese glaze", price: 55, color: C.pink, raw: RAW.pink },
-  { id: "b-choc", name: "Chocolate", desc: "Ganache topping", price: 55, color: C.brown, raw: RAW.brown },
+const MINI_FLAVORS = [
+  ...toFlavors("m", SIGNATURE_FLAVORS, 7),
+  { id: "m-dubai", name: "Dubai Chocolate Inspired", price: 8 },
 ];
+const CUPCAKE_FLAVORS = toFlavors("c", SIGNATURE_FLAVORS, 4);
+const BROWNIE_FLAVORS = [
+  { id: "br-classic", name: "Classic Chocolate", price: 3.5 },
+  { id: "br-dubai", name: "Dubai Chocolate", price: 7 },
+];
+const SLICE_FLAVORS = [
+  { id: "s-coffee", name: "Cinnamon Sour Cream Coffee Cake", desc: "With cinnamon and crunchy walnuts", price: 5 },
+  { id: "s-lemon", name: "Lemon Pound Cake", desc: "Finished with a lemon glaze", price: 5 },
+];
+const BUNDTS = [
+  { id: "b-van", name: "Vanilla", desc: "Cinnamon & toasted walnut streusel, topped with glaze", price: 45 },
+  { id: "b-marble", name: "Marble", desc: "Ganache topping", price: 55 },
+  { id: "b-rv", name: "Red Velvet", desc: "Cream cheese glaze", price: 55 },
+  { id: "b-choc", name: "Chocolate", desc: "Ganache topping", price: 55 },
+];
+
+const CUSTOM_FLAVOR_NOTE = "Custom flavor requests welcome with advance notice, subject to availability.";
 
 const PRODUCTS = [
-  { id: "cupcakes", name: "Cupcakes", icon: Cake, price: "$4.50–$5 each", note: "Filling +$0.50 · Min 1 dozen · One flavor per dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12 },
-  { id: "mini", name: "Mini Cakes", icon: CakeSlice, price: "Starting at $7 and up", note: "Min 1 dozen · One flavor per dozen", color: C.brown, raw: RAW.brown, min: 12, step: 12, subtitle: "Bite-sized treats, 2–3 inches each. Perfect for parties." },
-  { id: "bundt", name: "Bundt Cakes", icon: CircleDot, price: "From $45", note: "Full-size · Sold individually", color: C.pink, raw: RAW.pink, min: 1, step: 1 },
+  { id: "mini", name: "Mini Cakes", icon: CakeSlice, price: "$7–$8 each", unit: "each", note: "Min 1 dozen · One flavor per dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12, subtitle: "Bite-sized treats, 2–3 inches each. Perfect for parties.", flavors: MINI_FLAVORS },
+  { id: "brownies", name: "Brownies", icon: Cookie, price: "$3.50–$7 each", unit: "each", note: "Min 1 dozen · One flavor per dozen", color: C.brown, raw: RAW.brown, min: 12, step: 12, flavors: BROWNIE_FLAVORS },
+  { id: "slices", name: "Cake Slices", icon: CakeSlice, price: "$5 per slice", unit: "per slice", note: "Min 1 dozen · One flavor per dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12, flavors: SLICE_FLAVORS },
+  { id: "cupcakes", name: "Cupcakes", icon: Cake, price: "$4 each", unit: "each", note: "Min 1 dozen · One flavor per dozen", color: C.brown, raw: RAW.brown, min: 12, step: 12, flavors: CUPCAKE_FLAVORS },
+  { id: "bundt", name: "Bundt Cakes", icon: CircleDot, price: "From $45", note: "Full-size · Sold individually", color: C.pink, raw: RAW.pink, min: 1, step: 1, flavors: BUNDTS },
   { id: "sheet", name: "Sheet Cakes", icon: Cake, price: "Contact for quote", note: "9×13 · Price varies by size & flavor", color: C.brown, raw: RAW.brown, min: 1, step: 1 },
-  { id: "brownies", name: "Brownies", icon: Cookie, price: "$3.50 each", note: "Fudgy chocolate · Min 1 dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12 },
 ];
+
+const formatPrice = (n) => (Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`);
 
 const ICON_PROPS = { size: 28, strokeWidth: 2.5 };
 
@@ -199,12 +216,8 @@ export default function KakeAndKream() {
   const [scrolled, setScrolled] = useState(false);
   const [view, setView] = useState("home");
   const [drawer, setDrawer] = useState(false);
-  const [selCake, setSelCake] = useState("");
-  const [selButtercream, setSelButtercream] = useState("");
-  const [selTopping, setSelTopping] = useState("None");
-  const [selFilling, setSelFilling] = useState("None");
+  const [selFlavor, setSelFlavor] = useState("");
   const [qty, setQtyVal] = useState(12);
-  const [selBundt, setSelBundt] = useState("");
   const [sheetNote, setSheetNote] = useState("");
   const [cust, setCust] = useState({ fn: "", ln: "", email: "", phone: "", date: "", allergy: "", notes: "" });
   const [openFaq, setOpenFaq] = useState(null);
@@ -216,12 +229,12 @@ export default function KakeAndKream() {
   useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, [view]);
   useEffect(() => { const t = setTimeout(() => setShowIntro(false), 2200); return () => clearTimeout(t); }, []);
 
-  const add = (item) => { setCart(p => [...p, { ...item, _id: Date.now() + Math.random() }]); setSelCake(""); setSelButtercream(""); setSelTopping("None"); setSelFilling("None"); setSelBundt(""); setSheetNote(""); };
+  const add = (item) => { setCart(p => [...p, { ...item, _id: Date.now() + Math.random() }]); setSelFlavor(""); setSheetNote(""); };
   const rm = (id) => setCart(p => p.filter(i => i._id !== id));
 
   const openProd = (id) => {
     const p = PRODUCTS.find(x => x.id === id);
-    setQtyVal(p.min); setSelCake(""); setSelButtercream(""); setSelTopping("None"); setSelFilling("None"); setSelBundt(""); setSheetNote("");
+    setQtyVal(p.min); setSelFlavor(""); setSheetNote("");
     setView("p:" + id);
   };
 
@@ -230,11 +243,11 @@ export default function KakeAndKream() {
 
   const faqs = [
     { q: "Do you deliver?", a: "Pickup only — from our home in the St. Charles area." },
-    { q: "Minimum orders?", a: "Cupcakes, brownies, & mini cakes: 1 dozen. Bundt & sheet: individual." },
+    { q: "Minimum orders?", a: "Mini cakes, cupcakes, brownies, & cake slices: 1 dozen. Bundt & sheet: individual." },
     { q: "Can I mix flavors?", a: "Each dozen is one flavor, but you can order multiple dozens in different flavors." },
 { q: "Payment?", a: "Full payment is required via Venmo/Zelle once the order is confirmed. Payment is non-refundable in case of cancellation." },
     { q: "Cancellation policy?", a: "Full payment is required once the order is confirmed. Payment is non-refundable in case of cancellation." },
-    { q: "How much notice?", a: "Brownies & Bundt Cakes: 3 days notice. Mini Cakes & Cupcakes: 4 days notice." },
+    { q: "How much notice?", a: "Brownies, Cake Slices & Bundt Cakes: 3 days notice. Mini Cakes & Cupcakes: 4 days notice." },
     { q: "Allergen-free?", a: "No — same equipment for all products. Please note any allergens in your order." },
   ];
 
@@ -256,24 +269,15 @@ export default function KakeAndKream() {
 
   // ─── Product Detail ───
   if (prod) {
-    const hasFl = pid === "cupcakes" || pid === "mini";
-    const isBundt = pid === "bundt";
+    const flavors = prod.flavors;
     const isSheet = pid === "sheet";
-    const isBrown = pid === "brownies";
-    const canAdd = hasFl ? (!!selCake && !!selButtercream) : isBundt ? !!selBundt : true;
+    const canAdd = flavors ? !!selFlavor : true;
     const Icon = prod.icon;
 
     const doAdd = () => {
-      if (hasFl && selCake && selButtercream) {
-        const flavorLabel = `${selCake} cake, ${selButtercream} buttercream`;
-        const fillingText = selFilling !== "None" ? selFilling : false;
-        const toppingText = selTopping !== "None" ? selTopping : false;
-        const desc = `${toppingText ? `Topping: ${toppingText}` : ""}${toppingText && fillingText ? ", " : ""}${fillingText ? `Filling: ${fillingText}` : ""}`;
-        add({ type: prod.name, flavor: flavorLabel, qty, filling: fillingText, desc, topping: toppingText });
-      }
-      else if (isBundt && selBundt) { const b = BUNDTS.find(o => o.id === selBundt); add({ type: "Bundt Cake", flavor: b.name, qty, price: b.price }); }
+      const f = flavors?.find(o => o.id === selFlavor);
+      if (f) { add({ type: prod.name, flavor: f.name, qty, price: f.price }); }
       else if (isSheet) { add({ type: "Sheet Cake", flavor: "9x13", qty: 1, notes: sheetNote, price: 110 }); }
-      else if (isBrown) { add({ type: "Brownies", flavor: "Fudgy Chocolate", qty }); }
     };
 
     return (
@@ -326,66 +330,32 @@ export default function KakeAndKream() {
             </div>
           )}
 
-          {/* Flavor Dropdowns */}
-          {hasFl && (
+          {/* Flavor picker */}
+          {flavors && (
             <div style={{ marginBottom: 24 }}>
-              <p style={{ fontFamily: F.d, fontSize: 22, fontWeight: 600, marginBottom: 16, color: C.ink }}>Customize Your Flavor</p>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-                {[
-                  { label: "Cake Flavor", value: selCake, onChange: setSelCake, options: CAKE_FLAVORS, required: true },
-                  { label: "Buttercream", value: selButtercream, onChange: setSelButtercream, options: BUTTERCREAMS, required: true },
-                  { label: "Topping (optional)", value: selTopping, onChange: setSelTopping, options: TOPPINGS, required: false },
-                  { label: "Filling (optional)", value: selFilling, onChange: setSelFilling, options: FILLINGS, required: false },
-                ].map(({ label, value, onChange, options, required }) => (
-                  <div key={label}>
-                    <label style={{ display: "block", fontFamily: F.d, fontSize: 15, fontWeight: 500, marginBottom: 8, color: C.sub }}>
-                      {label}{required && <span style={{ color: C.coral, marginLeft: 4 }}>*</span>}
-                    </label>
-                    <select
-                      value={value}
-                      onChange={e => onChange(e.target.value)}
-                      style={{
-                        width: "100%", padding: "14px 40px 14px 16px", borderRadius: 12,
-                        border: `2px solid ${value && value !== "None" ? prod.color : C.border}`,
-                        fontFamily: F.b, fontSize: 16, fontWeight: 400,
-                        color: value && value !== "None" ? C.ink : C.muted,
-                        background: value && value !== "None" ? prod.raw + "40" : C.white,
-                        cursor: "pointer", outline: "none",
-                        appearance: "none", WebkitAppearance: "none",
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235C5652' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
-                        backgroundRepeat: "no-repeat", backgroundPosition: "right 14px center",
-                        transition: "all 250ms ease",
-                      }}
-                    >
-                      {required ? <option value="">Choose...</option> : null}
-                      {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                    </select>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Bundt */}
-          {isBundt && (
-            <div style={{ marginBottom: 24 }}>
-              <p style={{ fontFamily: F.d, fontSize: 18, fontWeight: 600, marginBottom: 12 }}>Select a flavor</p>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                {BUNDTS.map(b => {
-                  const active = selBundt === b.id;
+              <p style={{ fontFamily: F.d, fontSize: 22, fontWeight: 600, marginBottom: 12, color: C.ink }}>Choose a flavor</p>
+              <div role="group" aria-label={`${prod.name} flavors`} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                {flavors.map(f => {
+                  const active = selFlavor === f.id;
                   return (
-                    <button key={b.id} onClick={() => setSelBundt(b.id)} style={{
+                    <button key={f.id} aria-pressed={active} onClick={() => setSelFlavor(f.id)} style={{
                       padding: "16px 14px", borderRadius: 12, textAlign: "center", cursor: "pointer",
-                      border: `2px solid ${active ? b.color : C.border}`, background: active ? b.raw + "45" : C.white,
+                      border: `2px solid ${active ? prod.color : C.border}`, background: active ? prod.raw + "45" : C.white,
                       transition: "all 250ms ease", outline: "none",
+                      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6,
                     }}>
-                      <div style={{ fontFamily: F.d, fontSize: 17, fontWeight: 600 }}>{b.name}</div>
-                      <div style={{ fontSize: 14, color: C.sub, margin: "6px 0 10px", fontWeight: 400 }}>{b.desc}</div>
-                      <div style={{ fontFamily: F.d, fontSize: 20, fontWeight: 600, color: C.brown }}>${b.price}</div>
+                      <div style={{ fontFamily: F.d, fontSize: 17, fontWeight: 600, color: C.ink }}>{f.name}</div>
+                      {f.desc && <div style={{ fontSize: 14, color: C.sub, fontWeight: 400 }}>{f.desc}</div>}
+                      <div style={{ fontFamily: F.d, fontSize: 20, fontWeight: 600, color: C.brown }}>
+                        {formatPrice(f.price)}{prod.unit && <span style={{ fontSize: 14, fontWeight: 500, color: C.sub }}> {prod.unit}</span>}
+                      </div>
                     </button>
                   );
                 })}
               </div>
+              <p style={{ fontSize: 14, color: C.sub, marginTop: 12, lineHeight: 1.5, fontWeight: 400 }}>
+                {CUSTOM_FLAVOR_NOTE} Add yours to the order notes at checkout.
+              </p>
             </div>
           )}
 
@@ -395,14 +365,6 @@ export default function KakeAndKream() {
               <p style={{ fontFamily: F.d, fontSize: 22, fontWeight: 600, marginBottom: 12 }}>Describe your order</p>
               <p style={{ fontSize: 16, color: C.ink, marginBottom: 12, fontWeight: 400 }}>Flavor, occasion, colors — we'll confirm details.</p>
               <textarea value={sheetNote} onChange={e => setSheetNote(e.target.value)} rows={3} placeholder="e.g. Chocolate with vanilla buttercream..." style={{ width: "100%", padding: "14px 18px", borderRadius: 12, border: "2px solid transparent", fontFamily: F.b, fontSize: 16, outline: "none", background: C.white, boxSizing: "border-box", fontWeight: 400, color: C.ink, transition: "border-color 250ms ease", cursor: "text", resize: "vertical" }} />
-            </div>
-          )}
-
-          {/* Brownies */}
-          {isBrown && (
-            <div style={{ padding: "20px", borderRadius: 14, background: prod.raw + "50", marginBottom: 28, textAlign: "center", border: `2px solid ${prod.color}` }}>
-              <span style={{ fontFamily: F.d, fontSize: 20, fontWeight: 600 }}>Fudgy Chocolate Brownies</span>
-              <span style={{ fontSize: 18, color: C.brown, fontWeight: 600, marginLeft: 12 }}>$3.50 each</span>
             </div>
           )}
 
@@ -423,7 +385,7 @@ export default function KakeAndKream() {
               transition: "all 250ms ease",
               boxShadow: canAdd ? `0 6px 20px ${prod.raw}40` : "none",
             }}>
-              {canAdd ? `Add ${qty / (prod.step >= 12 ? 12 : 1)} ${prod.step >= 12 ? (qty / 12 === 1 ? 'Dozen' : 'Dozens') : (qty === 1 ? 'Item' : 'Items')} to Cart` : "Please complete flavor selections"}
+              {canAdd ? `Add ${qty / (prod.step >= 12 ? 12 : 1)} ${prod.step >= 12 ? (qty / 12 === 1 ? 'Dozen' : 'Dozens') : (qty === 1 ? 'Item' : 'Items')} to Cart` : "Please choose a flavor"}
             </button>
           )}
 
@@ -643,6 +605,9 @@ export default function KakeAndKream() {
             );
           })}
         </div>
+        <p style={{ fontFamily: F.a, fontSize: 15, color: C.sub, textAlign: "center", margin: "32px auto 0", maxWidth: 520, lineHeight: 1.6, fontWeight: 400 }}>
+          Flavor availability may vary. {CUSTOM_FLAVOR_NOTE}
+        </p>
         </div>
       </section>
 
@@ -882,7 +847,7 @@ function CartDrawer({ cart, drawer, setDrawer, onRemoveItem, cust, setCust, erro
                 <div key={item._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0", borderBottom: i < cart.length - 1 ? `2px solid ${C.border}` : "none" }}>
                   <div>
                     <div style={{ fontWeight: 500, fontSize: 18 }}>{item.type}</div>
-                    <div style={{ fontSize: 16, color: C.sub, fontWeight: 400 }}>{item.flavor} x {item.qty}{item.filling ? ` + ${item.filling} filling` : ""}</div>
+                    <div style={{ fontSize: 16, color: C.sub, fontWeight: 400 }}>{item.flavor} x {item.qty}</div>
                     {item.notes && <div style={{ fontSize: 14, color: C.sub, fontStyle: "italic", fontWeight: 500 }}>{item.notes}</div>}
                   </div>
                   <button aria-label={`Remove ${item.type}`} onClick={() => onRemoveItem(item._id)} style={{ width: 44, height: 44, borderRadius: 12, border: `2px solid ${C.coral}`, background: C.white, cursor: "pointer", color: C.coral, display: "flex", alignItems: "center", justifyContent: "center", transition: "all 250ms ease" }}>
@@ -924,7 +889,7 @@ function CartDrawer({ cart, drawer, setDrawer, onRemoveItem, cust, setCust, erro
                 </div>
                 <div>
                   <label style={labelStyle}>Additional notes for Kalyani</label>
-                  <textarea rows={2} value={cust.notes} onChange={e => setCust(p => ({ ...p, notes: e.target.value }))} style={{ ...inp("notes"), resize: "vertical" }} placeholder="Special requests, decorations, etc." />
+                  <textarea rows={2} value={cust.notes} onChange={e => setCust(p => ({ ...p, notes: e.target.value }))} style={{ ...inp("notes"), resize: "vertical" }} placeholder="Custom flavor requests, decorations, etc." />
                 </div>
                 <div style={{ padding: "14px 16px", borderRadius: 14, background: RAW.yellow + "60", fontSize: 14, color: C.ink, lineHeight: 1.5, border: `2px solid ${C.yellow}`, fontWeight: 400, display: "flex", gap: 10, alignItems: "flex-start" }}>
                   <AlertTriangle size={18} strokeWidth={2.5} style={{ flexShrink: 0, marginTop: 2 }} />
@@ -942,7 +907,7 @@ function CartDrawer({ cart, drawer, setDrawer, onRemoveItem, cust, setCust, erro
                   if (!cust.date) errs.date = "Pickup date is required";
                   if (Object.keys(errs).length) { setErrors(errs); return; }
                   setErrors({});
-                  const order = cart.map((item, i) => `${i + 1}. ${item.type} — ${item.flavor} x ${item.qty}${item.filling ? ` (+ ${item.filling} filling)` : ""}${item.topping ? ` [topping: ${item.topping}]` : ""}${item.notes ? ` [${item.notes}]` : ""}`).join("\n");
+                  const order = cart.map((item, i) => `${i + 1}. ${item.type} — ${item.flavor} x ${item.qty}${item.notes ? ` [${item.notes}]` : ""}`).join("\n");
                   const payload = { _subject: `New order from ${cust.fn} ${cust.ln}`, firstName: cust.fn, lastName: cust.ln, email: cust.email, _replyto: cust.email, phone: cust.phone, pickupDate: cust.date, allergens: cust.allergy, notes: cust.notes, order };
                   setSubmitting(true);
                   try {
