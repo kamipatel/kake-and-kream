@@ -86,6 +86,9 @@ export function Footer() {
         <div style={{ fontSize: 12, color: "var(--color-cream)", marginTop: 8, fontWeight: 400, opacity: 0.55, fontFamily: "var(--font-body)" }}>
           Built by <a href="https://foundry-red.vercel.app" target="_blank" rel="noopener noreferrer" style={{ color: "var(--color-primary)", textDecoration: "none" }}>Foundry</a>
         </div>
+        <div style={{ fontSize: 13, color: "var(--color-cream)", marginTop: 8, fontWeight: 400, opacity: 0.7, fontFamily: "var(--font-body)" }}>
+          Thank you for supporting a local home bakery!
+        </div>
       </div>
     </footer>
   );

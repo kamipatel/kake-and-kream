@@ -96,8 +96,8 @@ const MINI_FLAVORS = [
 ];
 const CUPCAKE_FLAVORS = toFlavors("c", SIGNATURE_FLAVORS, 4);
 const BROWNIE_FLAVORS = [
-  { id: "br-classic", name: "Classic Chocolate", price: 3.5 },
-  { id: "br-dubai", name: "Dubai Chocolate", price: 7 },
+  { id: "br-classic", name: "Classic Chocolate Brownie", price: 3.5 },
+  { id: "br-dubai", name: "Dubai Chocolate Brownie", price: 7 },
 ];
 const SLICE_FLAVORS = [
   { id: "s-coffee", name: "Cinnamon Sour Cream Coffee Cake", desc: "With cinnamon and crunchy walnuts", price: 5 },
@@ -113,7 +113,7 @@ const BUNDTS = [
 const CUSTOM_FLAVOR_NOTE = "Custom flavor requests welcome with advance notice, subject to availability.";
 
 const PRODUCTS = [
-  { id: "mini", name: "Mini Cakes", icon: CakeSlice, price: "$7–$8 each", unit: "each", note: "Min 1 dozen · One flavor per dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12, subtitle: "Bite-sized treats, 2–3 inches each. Perfect for parties.", flavors: MINI_FLAVORS },
+  { id: "mini", name: "Signature Mini Cakes", icon: CakeSlice, price: "$7–$8 each", unit: "each", note: "Min 1 dozen · One flavor per dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12, subtitle: "Bite-sized treats, 2–3 inches each. Perfect for parties.", flavors: MINI_FLAVORS },
   { id: "brownies", name: "Brownies", icon: Cookie, price: "$3.50–$7 each", unit: "each", note: "Min 1 dozen · One flavor per dozen", color: C.brown, raw: RAW.brown, min: 12, step: 12, flavors: BROWNIE_FLAVORS },
   { id: "slices", name: "Cake Slices", icon: CakeSlice, price: "$5 per slice", unit: "per slice", note: "Min 1 dozen · One flavor per dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12, flavors: SLICE_FLAVORS },
   { id: "cupcakes", name: "Cupcakes", icon: Cake, price: "$4 each", unit: "each", note: "Min 1 dozen · One flavor per dozen", color: C.brown, raw: RAW.brown, min: 12, step: 12, flavors: CUPCAKE_FLAVORS },
