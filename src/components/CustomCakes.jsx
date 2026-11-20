@@ -233,7 +233,7 @@ export default function CustomCakes() {
       title: "Order Notice Requirements",
       content: (
         <ul style={{ listStyleType: "disc", paddingLeft: 20, margin: 0, lineHeight: 1.6 }}>
-          <li><strong>Brownies, Cake Slices & Bundt Cakes:</strong> 3 days notice</li>
+          <li><strong>Brownies & Bundt Cakes:</strong> 3 days notice</li>
           <li><strong>Cupcakes:</strong> 4 days notice</li>
           <li><strong>Mini Cakes:</strong> 4 days notice</li>
           <li><strong>Custom Celebration Cakes:</strong> 2 weeks (14 days) notice</li>
@@ -247,7 +247,7 @@ export default function CustomCakes() {
         <div style={{ lineHeight: 1.6 }}>
           <p style={{ marginBottom: 8 }}>Rush orders are accepted only if schedule allows, with an additional fee. A rush order is any order placed with less than the minimum notice listed above.</p>
           <ul style={{ listStyleType: "disc", paddingLeft: 20, margin: 0 }}>
-            <li><strong>Menu Items (Mini Cakes, Cupcakes, Brownies, Cake Slices, Bundt):</strong> Rush fee is 15% of order total (minimum $10–$15 depending on order size).</li>
+            <li><strong>Menu Items (Mini Cakes, Cupcakes, Brownies, Bundt):</strong> Rush fee is 15% of order total (minimum $10–$15 depending on order size).</li>
             <li><strong>Custom Celebration Cakes:</strong> Rush fee is 20–30% of order total.</li>
             <li>Availability depends on design complexity and schedule.</li>
           </ul>

@@ -3,10 +3,11 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import logoFull from "@/app/logo.png";
 import {
-  Cake, CakeSlice, CircleDot, Cookie, ShoppingCart, Mail, PartyPopper,
+  ShoppingCart, Mail, PartyPopper,
   ChefHat, AlertTriangle, X, Plus, Minus, Check, ChevronDown, ChevronLeft,
 } from "lucide-react";
 import { Footer } from "@/components/layout/Footer";
+import { PRODUCTS, PRODUCT_IMAGES, CUSTOM_FLAVOR_NOTE, formatPrice } from "@/data/menu";
 
 const InstagramIcon = ({ size = 24, ...props }) => (
   <svg
@@ -86,67 +87,7 @@ const F = {
   a: "var(--font-accent)",
 };
 
-const SIGNATURE_FLAVORS = ["Chocolate", "Red Velvet", "Biscoff", "Cookies & Cream"];
-const toFlavors = (prefix, names, price) =>
-  names.map(name => ({ id: `${prefix}-${name.toLowerCase().replace(/[^a-z]+/g, "-")}`, name, price }));
-
-const MINI_FLAVORS = [
-  ...toFlavors("m", SIGNATURE_FLAVORS, 7),
-  { id: "m-dubai", name: "Dubai Chocolate Inspired", price: 8 },
-];
-const CUPCAKE_FLAVORS = toFlavors("c", SIGNATURE_FLAVORS, 4);
-const BROWNIE_FLAVORS = [
-  { id: "br-classic", name: "Classic Chocolate Brownie", price: 3.5 },
-  { id: "br-dubai", name: "Dubai Chocolate Brownie", price: 7 },
-];
-const SLICE_FLAVORS = [
-  { id: "s-coffee", name: "Cinnamon Sour Cream Coffee Cake", desc: "With cinnamon and crunchy walnuts", price: 5 },
-  { id: "s-lemon", name: "Lemon Pound Cake", desc: "Finished with a lemon glaze", price: 5 },
-];
-const BUNDTS = [
-  { id: "b-van", name: "Vanilla", desc: "Cinnamon & toasted walnut streusel, topped with glaze", price: 45 },
-  { id: "b-marble", name: "Marble", desc: "Ganache topping", price: 55 },
-  { id: "b-rv", name: "Red Velvet", desc: "Cream cheese glaze", price: 55 },
-  { id: "b-choc", name: "Chocolate", desc: "Ganache topping", price: 55 },
-];
-
-const CUSTOM_FLAVOR_NOTE = "Custom flavor requests welcome with advance notice, subject to availability.";
-
-const PRODUCTS = [
-  { id: "mini", name: "Signature Mini Cakes", icon: CakeSlice, price: "$7–$8 each", unit: "each", note: "Min 1 dozen · One flavor per dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12, subtitle: "Bite-sized treats, 2–3 inches each. Perfect for parties.", flavors: MINI_FLAVORS },
-  { id: "brownies", name: "Brownies", icon: Cookie, price: "$3.50–$7 each", unit: "each", note: "Min 1 dozen · One flavor per dozen", color: C.brown, raw: RAW.brown, min: 12, step: 12, flavors: BROWNIE_FLAVORS },
-  { id: "slices", name: "Cake Slices", icon: CakeSlice, price: "$5 per slice", unit: "per slice", note: "Min 1 dozen · One flavor per dozen", color: C.pink, raw: RAW.pink, min: 12, step: 12, flavors: SLICE_FLAVORS },
-  { id: "cupcakes", name: "Cupcakes", icon: Cake, price: "$4 each", unit: "each", note: "Min 1 dozen · One flavor per dozen", color: C.brown, raw: RAW.brown, min: 12, step: 12, flavors: CUPCAKE_FLAVORS },
-  { id: "bundt", name: "Bundt Cakes", icon: CircleDot, price: "From $45", note: "Full-size · Sold individually", color: C.pink, raw: RAW.pink, min: 1, step: 1, flavors: BUNDTS },
-  { id: "sheet", name: "Sheet Cakes", icon: Cake, price: "Contact for quote", note: "9×13 · Price varies by size & flavor", color: C.brown, raw: RAW.brown, min: 1, step: 1 },
-];
-
-const formatPrice = (n) => (Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`);
-
 const ICON_PROPS = { size: 28, strokeWidth: 2.5 };
-
-const PRODUCT_IMAGES = {
-  cupcakes: {
-    thumb: "/images/cupcake-red-velvet-closeup.jpeg",
-    gallery: ["/images/cupcake-red-velvet-closeup.jpeg", "/images/cupcake-red-velvet-display.jpeg"],
-  },
-  mini: {
-    thumb: "/images/IMG_7947.jpeg",
-    gallery: ["/images/IMG_7947.jpeg", "/images/IMG_7946.jpeg"],
-  },
-  bundt: {
-    thumb: "/images/bundt-glazed.jpeg",
-    gallery: ["/images/bundt-glazed.jpeg"],
-  },
-  sheet: {
-    thumb: "/images/sheet-cake.jpg",
-    gallery: ["/images/sheet-cake.jpg"],
-  },
-  brownies: {
-    thumb: "/images/DSC_0044.jpeg",
-    gallery: ["/images/DSC_0044.jpeg"],
-  },
-};
 
 const ABOUT_GALLERY = [
   "/images/IMG_0829.jpeg",
@@ -243,11 +184,11 @@ export default function KakeAndKream() {
 
   const faqs = [
     { q: "Do you deliver?", a: "Pickup only — from our home in the St. Charles area." },
-    { q: "Minimum orders?", a: "Mini cakes, cupcakes, brownies, & cake slices: 1 dozen. Bundt & sheet: individual." },
+    { q: "Minimum orders?", a: "Mini cakes, cupcakes & brownies: 1 dozen. Bundt & sheet: individual." },
     { q: "Can I mix flavors?", a: "Each dozen is one flavor, but you can order multiple dozens in different flavors." },
 { q: "Payment?", a: "Full payment is required via Venmo/Zelle once the order is confirmed. Payment is non-refundable in case of cancellation." },
     { q: "Cancellation policy?", a: "Full payment is required once the order is confirmed. Payment is non-refundable in case of cancellation." },
-    { q: "How much notice?", a: "Brownies, Cake Slices & Bundt Cakes: 3 days notice. Mini Cakes & Cupcakes: 4 days notice." },
+    { q: "How much notice?", a: "Brownies & Bundt Cakes: 3 days notice. Mini Cakes & Cupcakes: 4 days notice." },
     { q: "Allergen-free?", a: "No — same equipment for all products. Please note any allergens in your order." },
   ];
 

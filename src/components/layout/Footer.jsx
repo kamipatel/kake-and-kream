@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import logoFull from "@/app/logo.png";
-import { Mail, Globe } from "lucide-react";
+import { Mail, Globe, Briefcase } from "lucide-react";
 
 const InstagramIcon = ({ size = 24, ...props }) => (
   <svg
@@ -60,6 +61,10 @@ export function Footer() {
 
         {/* Contact & Social Links */}
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 20, marginBottom: 24, fontFamily: "var(--font-body)", fontSize: 15 }}>
+          <Link href="/office-events" style={{ display: "flex", alignItems: "center", gap: 6, color: "var(--color-cream)", textDecoration: "none", opacity: 0.9, transition: "opacity 0.2s" }} className="hover:opacity-100">
+            <Briefcase size={18} strokeWidth={2} style={{ color: "var(--color-primary)" }} />
+            <span>Office Events</span>
+          </Link>
           <a href="https://instagram.com/kakenkream" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: 6, color: "var(--color-cream)", textDecoration: "none", opacity: 0.9, transition: "opacity 0.2s" }} className="hover:opacity-100">
             <InstagramIcon size={18} style={{ color: "var(--color-primary)" }} />
             <span>@kakenkream</span>

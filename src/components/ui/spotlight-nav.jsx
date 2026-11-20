@@ -15,7 +15,7 @@ const NavItem = ({
 }) => {
   return (
     <button
-      className={`relative px-6 py-2.5 mx-1.5 transition-all duration-300 text-[18px] font-semibold rounded-xl
+      className={`relative px-4 xl:px-6 py-2.5 mx-1.5 whitespace-nowrap transition-all duration-300 text-[18px] font-semibold rounded-xl
         ${isActive
           ? scrolled
             ? "text-[#FF69B4] bg-white/10"
@@ -55,10 +55,17 @@ export function SpotlightNav({ cart, onCartClick }) {
     { label: "Menu", href: "#menu" },
     { label: "About", href: "#about" },
     { label: "Custom Cakes", href: "/custom-cakes" },
+    { label: "Office Events", href: "/office-events" },
     { label: "FAQ", href: "#faq" },
   ];
 
-  const isCustomCakes = pathname === "/custom-cakes";
+  // Any route other than "/" is a standalone page (Custom Cakes, Office Events):
+  // hash links route back to the homepage section instead of scrolling in place.
+  const isSubPage = pathname !== "/";
+  const pageIndex = navItems.findIndex(item => item.href === pathname);
+  // On standalone pages the highlight comes straight from the route, so the
+  // correct item is active on first paint (and nothing on unknown routes).
+  const currentIndex = isSubPage ? pageIndex : activeIndex;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -67,10 +74,7 @@ export function SpotlightNav({ cart, onCartClick }) {
   }, []);
 
   useEffect(() => {
-    if (isCustomCakes) {
-      setActiveIndex(2); // "Custom Cakes" is at index 2
-      return;
-    }
+    if (isSubPage) return;
 
     const sectionsToObserve = navItems.filter(item => item.href.startsWith("#"));
     const observers = [];
@@ -91,12 +95,12 @@ export function SpotlightNav({ cart, onCartClick }) {
       observers.push(observer);
     });
     return () => observers.forEach((o) => o.disconnect());
-  }, [isCustomCakes]);
+  }, [isSubPage]);
 
   const handleClick = (index, href) => {
     setMobileMenuOpen(false);
     if (href.startsWith("#")) {
-      if (isCustomCakes) {
+      if (isSubPage) {
         router.push("/" + href);
       } else {
         setActiveIndex(index);
@@ -106,7 +110,7 @@ export function SpotlightNav({ cart, onCartClick }) {
     } else {
       setActiveIndex(index);
       router.push(href);
-      if (isCustomCakes && href === "/custom-cakes") {
+      if (pathname === href) {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
     }
@@ -142,7 +146,7 @@ export function SpotlightNav({ cart, onCartClick }) {
           <div
             className="flex items-center flex-shrink-0 cursor-pointer"
             onClick={() => {
-              if (isCustomCakes) {
+              if (isSubPage) {
                 router.push("/");
               } else {
                 window.scrollTo({ top: 0, behavior: "smooth" });
@@ -167,12 +171,12 @@ export function SpotlightNav({ cart, onCartClick }) {
           </div>
 
           {/* Desktop nav links — centered */}
-          <div className="hidden md:flex items-center absolute left-1/2 -translate-x-1/2">
+          <div className="hidden lg:flex items-center absolute left-1/2 -translate-x-1/2">
             {navItems.map((item, index) => (
               <NavItem
                 key={item.label}
                 label={item.label}
-                isActive={activeIndex === index}
+                isActive={currentIndex === index}
                 onClick={() => handleClick(index, item.href)}
                 scrolled={scrolled}
               />
@@ -191,9 +195,10 @@ export function SpotlightNav({ cart, onCartClick }) {
               </span>
             </button>
 
-            {/* Hamburger — mobile only */}
+            {/* Hamburger — mobile & tablet (desktop links need >= lg to fit five items) */}
             <button
-              className="md:hidden p-2 rounded-lg transition-colors duration-200"
+              aria-label="Open menu"
+              className="lg:hidden p-2 rounded-lg transition-colors duration-200"
               onClick={() => setMobileMenuOpen(true)}
             >
               <Menu
@@ -233,7 +238,7 @@ export function SpotlightNav({ cart, onCartClick }) {
                 <MobileNavItem
                   key={item.label}
                   label={item.label}
-                  isActive={activeIndex === index}
+                  isActive={currentIndex === index}
                   onClick={() => handleClick(index, item.href)}
                   scrolled={true}
                 />
