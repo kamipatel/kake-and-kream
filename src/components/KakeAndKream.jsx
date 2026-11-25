@@ -128,7 +128,7 @@ function Reveal({ children, d = 0, style = {}, variant = "up" }) {
 
 function Qty({ value, onChange, min, step }) {
   const isDoz = step >= 12;
-  const displayVal = isDoz ? `${value / 12} Dozen${value / 12 > 1 ? "s" : ""}` : value;
+  const displayVal = isDoz ? `${value / 12} Dozen` : value;
 
   return (
     <div style={{ display: "inline-flex", alignItems: "center", borderRadius: 16, border: `2px solid ${C.pink}`, background: C.white, overflow: "hidden" }}>
@@ -323,7 +323,7 @@ export default function KakeAndKream() {
               transition: "all 250ms ease",
               boxShadow: canAdd ? `0 6px 20px ${prod.raw}40` : "none",
             }}>
-              {canAdd ? `Add ${qty / (prod.step >= 12 ? 12 : 1)} ${prod.step >= 12 ? (qty / 12 === 1 ? 'Dozen' : 'Dozens') : (qty === 1 ? 'Item' : 'Items')} to Cart` : "Please choose a flavor"}
+              {canAdd ? `Add ${qty / (prod.step >= 12 ? 12 : 1)} ${prod.step >= 12 ? 'Dozen' : (qty === 1 ? 'Item' : 'Items')} to Cart` : "Please choose a flavor"}
             </button>
           )}
 
