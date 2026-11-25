@@ -8,6 +8,7 @@ import {
   X, Calendar, Users, DollarSign, Clock, HelpCircle, FileText, Heart
 } from "lucide-react";
 import { SpotlightNav } from "@/components/ui/spotlight-nav";
+import { useCart } from "@/components/cart/CartContext";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { Particles } from "@/components/ui/particles";
@@ -127,6 +128,7 @@ const ALL_PHOTOS = [
 ];
 
 export default function CustomCakes() {
+  const { cart, openDrawer } = useCart();
   const [lightboxImg, setLightboxImg] = useState(null);
   const [scrolled, setScrolled] = useState(false);
   const [openPolicy, setOpenPolicy] = useState(null);
@@ -347,7 +349,7 @@ export default function CustomCakes() {
       `}</style>
 
       {/* Nav */}
-      <SpotlightNav cart={[]} onCartClick={() => {}} />
+      <SpotlightNav cart={cart} onCartClick={openDrawer} />
 
       {/* 1. Hero Section */}
       <section style={{ width: "100vw", minHeight: "90vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "140px 24px 70px", background: C.bg, position: "relative", overflow: "hidden" }}>
