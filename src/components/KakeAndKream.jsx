@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import OptImg from "@/components/ui/OptImg";
 import Image from "next/image";
 import logoFull from "@/app/logo.png";
 import {
@@ -260,7 +261,7 @@ export default function KakeAndKream() {
                       background: "#FFF5F0",
                       gridColumn: isFirstOfOdd ? "1 / -1" : "auto",
                     }}>
-                      <img src={src} alt={`${prod.name} example ${i + 1}`} style={{ width: "100%", display: "block", borderRadius: 14 }} />
+                      <OptImg src={src} sizes="(max-width: 700px) 50vw, 330px" alt={`${prod.name} example ${i + 1}`} style={{ width: "100%", display: "block", borderRadius: 14 }} />
                     </div>
                   );
                 })}
@@ -519,7 +520,7 @@ export default function KakeAndKream() {
                   {imgs ? (
                     <Lens zoomFactor={1.4} lensSize={140}>
                       <div style={{ width: "100%", aspectRatio: "3/4", overflow: "hidden", background: "#FFF5F0" }}>
-                        <img src={imgs.thumb} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }} />
+                        <OptImg src={imgs.thumb} sizes="(max-width: 768px) 70vw, 400px" alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }} />
                       </div>
                     </Lens>
                   ) : (
@@ -628,7 +629,7 @@ export default function KakeAndKream() {
                 <div style={{
                   borderRadius: 16, overflow: "hidden", aspectRatio: "1", boxShadow: "0 4px 16px rgba(0,0,0,0.06)"
                 }}>
-                  <img src={src} alt={`Cake example ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                  <OptImg src={src} sizes="(max-width: 768px) 50vw, 400px" alt={`Cake example ${i + 1}`} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                 </div>
               </BlurFade>
             ))}
