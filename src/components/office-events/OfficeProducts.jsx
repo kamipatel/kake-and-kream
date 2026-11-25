@@ -1,5 +1,6 @@
 "use client";
 import { BlurFade } from "@/components/ui/blur-fade";
+import OptImg from "@/components/ui/OptImg";
 import { SectionHeader } from "@/components/office-events/SectionHeader";
 import { PRODUCTS, PRODUCT_IMAGES, CUSTOM_FLAVOR_NOTE, formatPrice } from "@/data/menu";
 import { C, F } from "@/lib/theme";
@@ -34,7 +35,7 @@ function ProductCard({ product }) {
     <article style={{ height: "100%", borderRadius: 16, border: `3px solid ${product.color}`, background: C.white, overflow: "hidden", display: "flex", flexDirection: "column", boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
       {photo && (
         <div style={{ width: "100%", aspectRatio: "4/3", overflow: "hidden", background: "#FFF5F0" }}>
-          <img src={photo} alt={product.name} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }} />
+          <OptImg src={photo} sizes="(max-width: 768px) 85vw, 420px" alt={product.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }} />
         </div>
       )}
       <div style={{ padding: "20px 24px 24px", display: "flex", flexDirection: "column", flex: 1 }}>
