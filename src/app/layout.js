@@ -1,5 +1,6 @@
 import { Fredoka, Nunito } from "next/font/google";
 import "./globals.css";
+import { CartProvider } from "@/components/cart/CartContext";
 
 const fredoka = Fredoka({
   subsets: ["latin"],
@@ -36,7 +37,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${fredoka.variable} ${nunito.variable}`}>
-      <body>{children}</body>
+      <body>
+        <CartProvider>{children}</CartProvider>
+      </body>
     </html>
   );
 }
