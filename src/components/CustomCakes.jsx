@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import OptImg from "@/components/ui/OptImg";
 import Image from "next/image";
 import logoFull from "@/app/logo.png";
 import logoIcon from "@/app/icon.png";
@@ -461,8 +462,9 @@ export default function CustomCakes() {
                   onClick={() => setLightboxImg(photo)}
                 >
                   <div style={{ width: "100%", aspectRatio: "3/4", overflow: "hidden", position: "relative" }}>
-                    <img
+                    <OptImg
                       src={photo.src}
+                      sizes="(max-width: 768px) 85vw, 420px"
                       alt={photo.alt}
                       style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                     />
@@ -1052,8 +1054,10 @@ export default function CustomCakes() {
             >
               <X size={20} />
             </button>
-            <img
+            <OptImg
               src={lightboxImg.src}
+              sizes="(max-width: 900px) 100vw, 900px"
+              loading="eager"
               alt={lightboxImg.alt}
               style={{ width: "100%", maxHeight: "80vh", objectFit: "contain", display: "block" }}
             />
