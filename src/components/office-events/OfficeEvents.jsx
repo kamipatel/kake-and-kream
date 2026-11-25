@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { Briefcase, Presentation, Cake, Gift, Coffee, Package, Clock, MapPin } from "lucide-react";
 import { SpotlightNav } from "@/components/ui/spotlight-nav";
+import { useCart } from "@/components/cart/CartContext";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 import { Particles } from "@/components/ui/particles";
@@ -187,10 +188,11 @@ function PageStyles() {
 }
 
 export default function OfficeEvents() {
+  const { cart, openDrawer } = useCart();
   return (
     <div style={{ fontFamily: F.b, color: C.ink, background: C.bg, overflowX: "hidden", minHeight: "100vh" }}>
       <PageStyles />
-      <SpotlightNav cart={[]} onCartClick={() => {}} />
+      <SpotlightNav cart={cart} onCartClick={openDrawer} />
       <Hero />
       <AnimatedDivider variant="wave" />
       <Occasions />
