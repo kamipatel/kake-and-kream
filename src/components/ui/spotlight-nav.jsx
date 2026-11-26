@@ -226,6 +226,7 @@ export function SpotlightNav({ cart, onCartClick }) {
             <div className="flex justify-end p-6">
               <button
                 onClick={() => setMobileMenuOpen(false)}
+                aria-label="Close menu"
                 className="p-2 rounded-lg text-[#FFFAF7]/70 hover:text-[#FFFAF7] transition-colors"
               >
                 <X className="w-6 h-6" strokeWidth={2} />
