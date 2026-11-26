@@ -132,6 +132,14 @@ export default function CustomCakes() {
   const { cart, openDrawer } = useCart();
   const [lightboxImg, setLightboxImg] = useState(null);
   const [scrolled, setScrolled] = useState(false);
+  const [formInView, setFormInView] = useState(false);
+  useEffect(() => {
+    const el = document.getElementById("inquiry-form");
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([e]) => setFormInView(e.isIntersecting), { threshold: 0 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   const [openPolicy, setOpenPolicy] = useState(null);
   const [openFaq, setOpenFaq] = useState(null);
 
@@ -236,9 +244,9 @@ export default function CustomCakes() {
       title: "Order Notice Requirements",
       content: (
         <ul style={{ listStyleType: "disc", paddingLeft: 20, margin: 0, lineHeight: 1.6 }}>
-          <li><strong>Brownies & Bundt Cakes:</strong> 3 days notice</li>
-          <li><strong>Cupcakes:</strong> 4 days notice</li>
-          <li><strong>Mini Cakes:</strong> 4 days notice</li>
+          <li><strong>Brownies & Bundt Cakes:</strong> 3 days' notice</li>
+          <li><strong>Cupcakes:</strong> 4 days' notice</li>
+          <li><strong>Mini Cakes:</strong> 4 days' notice</li>
           <li><strong>Custom Celebration Cakes:</strong> 2 weeks (14 days) notice</li>
           <li style={{ marginTop: 8 }}>Orders are accepted on a first-come, first-served basis and are confirmed only after payment is received.</li>
         </ul>
@@ -325,6 +333,18 @@ export default function CustomCakes() {
       
       {/* Styles Injection for transitions and classes */}
       <style>{`
+        section[id] { scroll-margin-top: 120px; }
+        .cc-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .cc-row2 > div { min-width: 0; }
+        .cc-row2 input, .cc-row2 select { min-width: 0; max-width: 100%; box-sizing: border-box; }
+        .kk-fab-wrap { transition: opacity 0.2s; }
+        body:has(input:focus, textarea:focus, select:focus) .kk-fab-wrap { opacity: 0; pointer-events: none; }
+        @media (max-width: 520px) {
+          .cc-row2 { grid-template-columns: 1fr; }
+          .kk-fab-wrap { right: 6px !important; }
+          .kk-fab-wrap a { padding: 12px !important; }
+          .kk-fab-wrap a span { display: none; }
+        }
         .cc-hover-btn {
           transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -399,13 +419,13 @@ export default function CustomCakes() {
 
                 {/* Social links row */}
                 <div style={{ display: "flex", gap: 16, alignItems: "center", marginTop: 12 }}>
-                  <a href="https://instagram.com/kakenkream" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 42, height: 42, borderRadius: "50%", background: C.white, border: `2px solid ${C.border}`, color: C.pink, transition: "all 0.2s" }} className="hover:scale-105">
+                  <a href="https://instagram.com/kakenkream" aria-label="Kake N Kream on Instagram" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 42, height: 42, borderRadius: "50%", background: C.white, border: `2px solid ${C.border}`, color: C.pink, transition: "all 0.2s" }} className="hover:scale-105">
                     <InstagramIcon size={20} />
                   </a>
-                  <a href="https://facebook.com/kakenkream" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 42, height: 42, borderRadius: "50%", background: C.white, border: `2px solid ${C.border}`, color: C.pink, transition: "all 0.2s" }} className="hover:scale-105">
+                  <a href="https://facebook.com/kakenkream" aria-label="Kake N Kream on Facebook" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 42, height: 42, borderRadius: "50%", background: C.white, border: `2px solid ${C.border}`, color: C.pink, transition: "all 0.2s" }} className="hover:scale-105">
                     <FacebookIcon size={20} />
                   </a>
-                  <a href="https://www.kakenkream.com" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 42, height: 42, borderRadius: "50%", background: C.white, border: `2px solid ${C.border}`, color: C.pink, transition: "all 0.2s" }} className="hover:scale-105">
+                  <a href="https://www.kakenkream.com" aria-label="Kake N Kream website" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 42, height: 42, borderRadius: "50%", background: C.white, border: `2px solid ${C.border}`, color: C.pink, transition: "all 0.2s" }} className="hover:scale-105">
                     <Globe size={20} />
                   </a>
                 </div>
@@ -748,8 +768,8 @@ export default function CustomCakes() {
 
                 {/* Name */}
                 <div>
-                  <label style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Name <span style={{ color: C.coral }}>*</span></label>
-                  <input
+                  <label htmlFor="cc-field-1" style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Name <span style={{ color: C.coral }}>*</span></label>
+                  <input id="cc-field-1"
                     type="text"
                     required
                     value={name}
@@ -763,8 +783,8 @@ export default function CustomCakes() {
 
                 {/* Email */}
                 <div>
-                  <label style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Email <span style={{ color: C.coral }}>*</span></label>
-                  <input
+                  <label htmlFor="cc-field-2" style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Email <span style={{ color: C.coral }}>*</span></label>
+                  <input id="cc-field-2"
                     type="email"
                     required
                     value={email}
@@ -778,8 +798,8 @@ export default function CustomCakes() {
 
                 {/* Phone */}
                 <div>
-                  <label style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Phone <span style={{ fontSize: 12, opacity: 0.7 }}>(optional)</span></label>
-                  <input
+                  <label htmlFor="cc-field-3" style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Phone <span style={{ fontSize: 12, opacity: 0.7 }}>(optional)</span></label>
+                  <input id="cc-field-3"
                     type="tel"
                     value={phone}
                     onChange={e => setPhone(e.target.value)}
@@ -790,10 +810,10 @@ export default function CustomCakes() {
                 </div>
 
                 {/* Event Date & Servings */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                <div className="cc-row2">
                   <div>
-                    <label style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Event Date <span style={{ color: C.coral }}>*</span></label>
-                    <input
+                    <label htmlFor="cc-field-4" style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Event Date <span style={{ color: C.coral }}>*</span></label>
+                    <input id="cc-field-4"
                       type="date"
                       required
                       value={eventDate}
@@ -804,8 +824,8 @@ export default function CustomCakes() {
                     {errors.eventDate && <p style={{ color: C.coral, fontSize: 13, marginTop: 4, fontWeight: 500 }}>{errors.eventDate}</p>}
                   </div>
                   <div>
-                    <label style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Servings <span style={{ color: C.coral }}>*</span></label>
-                    <input
+                    <label htmlFor="cc-field-5" style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Servings <span style={{ color: C.coral }}>*</span></label>
+                    <input id="cc-field-5"
                       type="number"
                       required
                       min="1"
@@ -821,8 +841,8 @@ export default function CustomCakes() {
 
                 {/* Theme / Colors */}
                 <div>
-                  <label style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Theme / Colors <span style={{ fontSize: 12, opacity: 0.7 }}>(optional)</span></label>
-                  <input
+                  <label htmlFor="cc-field-6" style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Theme / Colors <span style={{ fontSize: 12, opacity: 0.7 }}>(optional)</span></label>
+                  <input id="cc-field-6"
                     type="text"
                     value={themeColors}
                     onChange={e => setThemeColors(e.target.value)}
@@ -833,10 +853,10 @@ export default function CustomCakes() {
                 </div>
 
                 {/* Flavor & Filling Dropdowns */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                <div className="cc-row2">
                   <div>
-                    <label style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Cake Flavor</label>
-                    <select
+                    <label htmlFor="cc-field-7" style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Cake Flavor</label>
+                    <select id="cc-field-7"
                       value={cakeFlavor}
                       onChange={e => setCakeFlavor(e.target.value)}
                       style={{
@@ -852,8 +872,8 @@ export default function CustomCakes() {
                     </select>
                   </div>
                   <div>
-                    <label style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Filling</label>
-                    <select
+                    <label htmlFor="cc-field-8" style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Filling</label>
+                    <select id="cc-field-8"
                       value={filling}
                       onChange={e => setFilling(e.target.value)}
                       style={{
@@ -872,8 +892,8 @@ export default function CustomCakes() {
 
                 {/* Budget */}
                 <div>
-                  <label style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Budget <span style={{ fontSize: 12, opacity: 0.7 }}>(optional)</span></label>
-                  <input
+                  <label htmlFor="cc-field-9" style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Budget <span style={{ fontSize: 12, opacity: 0.7 }}>(optional)</span></label>
+                  <input id="cc-field-9"
                     type="text"
                     value={budget}
                     onChange={e => setBudget(e.target.value)}
@@ -885,8 +905,8 @@ export default function CustomCakes() {
 
                 {/* Additional Details */}
                 <div>
-                  <label style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Additional Details <span style={{ fontSize: 12, opacity: 0.7 }}>(optional)</span></label>
-                  <textarea
+                  <label htmlFor="cc-field-10" style={{ display: "block", fontSize: 14, fontWeight: 600, color: C.sub, marginBottom: 6 }}>Additional Details <span style={{ fontSize: 12, opacity: 0.7 }}>(optional)</span></label>
+                  <textarea id="cc-field-10"
                     rows={4}
                     value={details}
                     onChange={e => setDetails(e.target.value)}
@@ -1069,10 +1089,11 @@ export default function CustomCakes() {
       )}
 
       {/* 12. Quick Contact Buttons (visible on scroll) */}
-      {scrolled && (
-        <div style={{ position: "fixed", bottom: 20, right: 20, zIndex: 90, display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-end" }}>
+      {scrolled && !formInView && (
+        <div className="kk-fab-wrap" style={{ position: "fixed", bottom: 20, right: 20, zIndex: 90, display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-end" }}>
           <a
             href="https://instagram.com/kakenkream"
+            aria-label="Chat on Instagram"
             target="_blank"
             rel="noopener noreferrer"
             className="kk-btn"
@@ -1097,6 +1118,7 @@ export default function CustomCakes() {
           </a>
           <a
             href="mailto:hello@kakenkream.com"
+            aria-label="Quick question? Email us"
             className="kk-btn"
             style={{
               display: "flex",
