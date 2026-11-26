@@ -186,7 +186,7 @@ export default function KakeAndKream() {
     { q: "Can I mix flavors?", a: "Each dozen is one flavor, but you can order multiple dozens in different flavors." },
 { q: "Payment?", a: "Full payment is required via Venmo/Zelle once the order is confirmed. Payment is non-refundable in case of cancellation." },
     { q: "Cancellation policy?", a: "Full payment is required once the order is confirmed. Payment is non-refundable in case of cancellation." },
-    { q: "How much notice?", a: "Brownies & Bundt Cakes: 3 days notice. Mini Cakes & Cupcakes: 4 days notice." },
+    { q: "How much notice?", a: "Brownies & Bundt Cakes: 3 days' notice. Mini Cakes & Cupcakes: 4 days' notice." },
     { q: "Allergen-free?", a: "No — same equipment for all products. Please note any allergens in your order." },
   ];
 
@@ -690,6 +690,7 @@ export default function KakeAndKream() {
         <div className="kk-float" style={{ position: "fixed", bottom: (ACCEPTING_ORDERS && cart.length > 0) ? 90 : 20, right: 20, zIndex: 90, display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-end" }}>
           <a
             href="https://instagram.com/kakenkream"
+            aria-label="Chat on Instagram"
             target="_blank"
             rel="noopener noreferrer"
             className="kk-btn"
@@ -714,6 +715,7 @@ export default function KakeAndKream() {
           </a>
           <a
             href="mailto:hello@kakenkream.com"
+            aria-label="Quick question? Email us"
             className="kk-btn"
             style={{
               display: "flex",
@@ -765,6 +767,12 @@ function CartBtn({ cart, onClick }) {
 function Styles() {
   return (
     <style>{`
+      section[id] { scroll-margin-top: 120px; }
+      @media (max-width: 520px) {
+        .kk-float { right: 6px !important; }
+        .kk-float a { padding: 12px !important; }
+        .kk-float a span { display: none; }
+      }
       .kk-card { box-shadow: 0 2px 12px rgba(0,0,0,0.06); transition: all 300ms cubic-bezier(0.22,1,0.36,1) !important; }
       .kk-card:hover { border-color: rgba(92,58,40,0.15) !important; transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,0,0,0.08); }
       .kk-card:hover img { transform: scale(1.02); }
